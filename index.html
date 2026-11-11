@@ -58,6 +58,53 @@ button{cursor:pointer}
 .fbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
 .fbtn .n[hidden]{display:none}
 .fbtn .n{background:var(--brand);color:#fff;border-radius:999px;min-width:20px;height:20px;display:inline-grid;place-items:center;font-size:.76rem;padding:0 5px}
+.hist{position:relative}
+.hist-bars{height:56px;padding:0 9px}
+.hist-bars svg{display:block;width:100%;height:56px}
+.hist-slider{position:relative;height:22px;margin:2px 9px 0}
+.hist-rail{position:absolute;left:0;right:0;top:9px;height:4px;border-radius:2px;background:#d6dde3}
+.hist-track{position:absolute;top:9px;height:4px;border-radius:2px;background:var(--brand)}
+.hist-slider input{position:absolute;left:-9px;width:calc(100% + 18px);top:0;margin:0;height:22px;background:none;pointer-events:none;-webkit-appearance:none;appearance:none}
+.hist-slider input::-webkit-slider-runnable-track{background:none;height:22px}
+.hist-slider input::-moz-range-track{background:none;height:22px}
+.hist-slider input::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:18px;height:18px;margin-top:2px;border-radius:50%;background:#fff;border:2.5px solid var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:grab}
+.hist-slider input::-moz-range-thumb{pointer-events:auto;width:13px;height:13px;border-radius:50%;background:#fff;border:2.5px solid var(--brand);box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:grab}
+.hist-slider input:focus-visible::-webkit-slider-thumb{outline:3px solid var(--accent);outline-offset:2px}
+.hist-slider input:focus-visible::-moz-range-thumb{outline:3px solid var(--accent);outline-offset:2px}
+.hist-read{margin-top:8px;font-size:.84rem;color:var(--muted)}
+.mcombo{position:relative}
+.mc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.mc-chips:empty{display:none}
+.mc-chip{display:inline-flex;align-items:center;gap:4px;background:var(--tint);border:1px solid var(--brand);color:var(--brand-ink);border-radius:999px;padding:2px 4px 2px 10px;font-size:.8rem;font-weight:600}
+.mc-chip button{display:inline-grid;place-items:center;width:20px;height:20px;border:0;border-radius:50%;background:none;color:inherit}
+.mc-chip button:hover{background:rgba(27,63,149,.15)}
+.mc-chip svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.8}
+.mc-field{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.mc-field:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px rgba(1,159,196,.25)}
+.mc-field input{flex:1;min-width:0;border:0;background:none;padding:9px 10px;font-size:.9rem;outline:none}
+.mc-toggle{border:0;background:none;padding:0 10px;height:36px;color:var(--muted)}
+.mc-toggle svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8}
+.mc-list{list-style:none;margin:6px 0 0;padding:4px;border:1px solid var(--line);border-radius:10px;background:#fff;max-height:230px;overflow:auto}
+.mc-opt{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;font-size:.88rem;cursor:pointer}
+.mc-opt:hover,.mc-opt.act{background:var(--soft)}
+.mc-opt.act{outline:2px solid var(--accent);outline-offset:-2px}
+.mc-opt .mc-lab{flex:1}
+.mc-opt .n{color:var(--muted);font-size:.8rem}
+.mc-check{flex:none;width:16px;height:16px;border:1.5px solid #9aa8b3;border-radius:4px;background:#fff;position:relative}
+.mc-opt[aria-selected="true"] .mc-check{background:var(--brand);border-color:var(--brand)}
+.mc-opt[aria-selected="true"] .mc-check::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.mc-none{padding:8px;color:var(--muted);font-size:.86rem}
+.habcard{position:absolute;z-index:940;left:412px;bottom:78px;padding:10px 12px;max-width:400px}
+.habcard[hidden]{display:none}
+.hc-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:.84rem}
+.hc-seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
+.hc-seg button{border:0;background:#fff;padding:3px 11px;font-size:.76rem;font-weight:600;color:var(--muted)}
+.hc-seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.hc-leg{display:flex;flex-wrap:wrap;gap:5px 14px}
+.hc-leg .lg{display:inline-flex;align-items:center;gap:6px;font-size:.8rem}
+.hc-note{margin-top:7px;font-size:.74rem;color:var(--muted)}
+.hsw{display:inline-block;width:20px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.3);flex:none;vertical-align:-2px}
+.ws-label{background:none;border:0;box-shadow:none;color:#1d2b36;font-weight:700;font-size:.74rem;letter-spacing:.01em;text-align:center;white-space:nowrap;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff,0 0 5px #fff;pointer-events:none}
 .placebox{margin-top:8px}
 .placebtn{width:100%;display:flex;align-items:center;gap:8px;border:1.5px dashed var(--brand);background:var(--tint);border-radius:10px;padding:7px 10px;font-weight:600;color:var(--brand-ink);text-align:left;font-size:.86rem;transition:background .15s}
 .placebtn:hover{background:var(--tint2)}
@@ -181,6 +228,9 @@ body.has-detail .tierkey{display:none}
 .of{font-size:.82rem;color:var(--muted)}
 .scorecard .meta{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .tag{display:inline-flex;align-items:center;gap:7px;padding:3px 12px 3px 9px;background:#fff;border-radius:999px;font-size:.84rem;font-weight:600;box-shadow:0 0 0 1px var(--line)}
+.ntag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#efe2b4;color:#5e4700;font-size:.68rem;font-weight:700;vertical-align:middle;letter-spacing:.01em}
+.infobox{background:#eef3f8;border:1px solid #b9cbe0;border-radius:10px;padding:8px 12px;font-size:.86rem;margin:12px 0 0;color:#1f3558}
+.ps-nat{margin:2pt 0 0;font-size:8.5pt;font-weight:600;color:#5e4700}
 .warnbox{background:#fff1e3;border:1px solid #f0b27a;border-radius:10px;padding:8px 12px;font-size:.86rem;margin:12px 0 0;color:#6b3300}
 .why{margin:12px 0 0;color:var(--muted);font-size:.9rem}
 .glance{margin:12px 0 4px;color:var(--ink);font-size:.95rem}
@@ -206,9 +256,12 @@ body.has-detail .tierkey{display:none}
 .btn:hover{background:var(--soft)}
 details.dd{border-top:1px solid var(--line)}
 details.dd:last-of-type{border-bottom:1px solid var(--line)}
-details.dd > summary{padding:12px 2px;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between}
+details.dd > summary{padding:12px 2px;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+.fsum{margin-left:auto;margin-right:-2px;min-width:0;max-width:62%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:2px 10px;border-radius:999px;background:var(--tint);color:var(--brand-ink);font-size:.76rem;font-weight:600}
+.fsum[hidden]{display:none}
+details.dd[open] > summary .fsum{display:none}
 details.dd > summary::-webkit-details-marker{display:none}
-details.dd > summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s;margin-right:4px}
+details.dd > summary::after{content:"";flex:none;margin-left:auto;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s;margin-right:4px}
 details.dd[open] > summary::after{transform:rotate(-135deg)}
 .conn{list-style:none;margin:0 0 10px;padding:0}
 .conn button{text-align:left;background:none;border:0;padding:8px 8px;margin:0 -8px;width:calc(100% + 16px);display:grid;grid-template-columns:1fr auto;gap:0 10px;border-radius:10px}
@@ -238,13 +291,44 @@ table.kv{border-collapse:collapse;width:100%;font-size:.9rem;margin-bottom:8px}
 .stab td{font-weight:600}
 .stab .r{text-align:right;padding-right:0}
 .dmiss{margin-top:16px}
+.mn{min-width:0}
+.mrow.on{background:#eef5fb;border-radius:6px}
+.rulefly{position:fixed;z-index:1250;width:350px;max-height:calc(100vh - 90px);overflow:auto;padding:0;border:1.5px solid var(--brand)}
+.rf-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:12px 12px 8px 14px}
+.rf-head h3{margin:0;font-size:1rem;color:var(--brand-ink)}
+.rf-sub{margin-top:2px;font-size:.8rem;color:var(--muted)}
+.rf-close{flex:none;display:grid;place-items:center;width:28px;height:28px;border:0;border-radius:50%;background:none;color:var(--muted)}
+.rf-close:hover{background:var(--soft)}
+.rf-close svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8}
+.rf-body{padding:0 14px 14px;font-size:.84rem}
+.rf-body p{margin:0 0 8px}
+.rf-body p:last-child{margin-bottom:0}
+.ibtn{display:inline-grid;place-items:center;width:18px;height:18px;padding:0;border:1.5px solid var(--brand);border-radius:50%;background:#fff;color:var(--brand);font:italic 700 .72rem/1 Georgia,"Times New Roman",serif;cursor:pointer;flex:none}
+.ibtn:hover{background:var(--tint)}
+.ibtn[aria-expanded="true"]{background:var(--brand);color:#fff}
+.ibtn-demo{cursor:default;vertical-align:-3px}
+.rulecard{margin:2px 0 8px;padding:10px 12px;border-radius:10px;background:#f3f7fb;border:1px solid #d3dfec;font-size:.84rem;color:var(--ink)}
+.rulecard p{margin:0 0 8px}
+.rulecard p:last-child{margin-bottom:0}
+.rtab{width:100%;border-collapse:collapse;margin:2px 0 8px;font-size:.82rem}
+.rtab th,.rtab td{padding:4px 6px;text-align:left;border-top:1px solid #dbe5ef;font-weight:400}
+.rtab tbody th{font-weight:400}
+.rtab thead th{font-size:.74rem;color:var(--muted);font-weight:600;border-top:0}
+.rtab td{white-space:nowrap}
+.rtab tr.cur th,.rtab tr.cur td,.rtab td.cur{background:#dff0f7;font-weight:700;color:var(--brand-ink)}
+.rtab .here,.rnone .here{color:var(--brand);font-weight:700;font-size:.74rem}
+.rtab td.here{text-align:right}
+.rmx td{text-align:center}
+.rnone.cur{background:#dff0f7;border-radius:6px;padding:3px 6px;color:var(--brand-ink)}
+.rnote{color:var(--muted);font-size:.78rem}
 .bd{margin-top:2px}
-.bdtotal{border-top:0;padding-top:0;font-size:1rem}
+.bdtotal{border-top:0;padding-top:0;font-size:1rem;display:flex !important}
+.bdhint{margin:2px 0 4px;font-size:.8rem;color:var(--muted)}
 .bdtotal .v{font-size:1.1rem;color:var(--brand-ink)}
 .why .linkbtn{display:block;margin-top:4px;padding:0;font-size:inherit}
-.bd h4{display:flex;justify-content:space-between;margin:14px 0 2px;font-size:.8rem;color:var(--ink)}
+.bd h4{display:flex;justify-content:space-between;margin:14px 0 2px;padding-right:30px;font-size:.8rem;color:var(--ink)}
 .bd h4 span{color:var(--muted);font-weight:600}
-.mrow{display:grid;grid-template-columns:1fr auto 54px;gap:10px;align-items:baseline;padding:5px 0;border-top:1px solid var(--line);font-size:.84rem}
+.mrow{display:grid;grid-template-columns:1fr auto 54px 22px;gap:8px;align-items:center;padding:5px 0;border-top:1px solid var(--line);font-size:.84rem}
 .mrow .mr{color:var(--muted);text-align:right;font-size:.8rem}
 .mrow .mp{text-align:right;font-weight:600}
 .dlrow{display:flex;align-items:center;gap:8px;margin:14px 0 4px;padding-top:12px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
@@ -382,7 +466,7 @@ dialog td.num,dialog th.num{text-align:right}
 .ps-head p{margin:2pt 0 0;color:#444;font-size:10.5pt}
 .ps-score{text-align:right;white-space:nowrap}
 .ps-score .big{font-size:30pt;line-height:1;font-weight:700;color:var(--brand)}
-.ps-map{width:7.5in;height:2.1in;border:1pt solid #888;position:relative;background:#e8eef0}
+.ps-map{width:7.5in;height:1.85in;border:1pt solid #888;position:relative;background:#e8eef0}
 .ps-legend{display:flex;flex-wrap:wrap;gap:4pt 14pt;margin:4pt 0 6pt;font-size:8.5pt;color:#333}
 .ps-legend span{display:inline-flex;align-items:center;gap:5pt}
 .ps-cols{display:grid;grid-template-columns:1fr 1fr;gap:6pt 18pt;margin-bottom:6pt}
@@ -398,7 +482,7 @@ dialog td.num,dialog th.num{text-align:right}
 .ps-cats .bar{height:7pt;background:#dde4e8;border-radius:4pt;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .ps-cats .bar i{display:block;height:100%;background:var(--brand);-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .ps-cats .v{text-align:right}
-.ps-det{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:4pt 14pt;font-size:8.2pt;line-height:1.25}
+.ps-det{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:4pt 14pt;font-size:8pt;line-height:1.2}
 .ps-col h3{margin:0 0 2pt;font-size:8.5pt;color:var(--brand-ink)}
 .ps-col > div{display:flex;justify-content:space-between;gap:6pt;padding:1pt 0;border-bottom:.5pt solid #ddd}
 .ps-col > div.long{display:block}
@@ -437,6 +521,7 @@ dialog td.num,dialog th.num{text-align:right}
   .grab span{position:absolute;left:50%;top:9px;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:#b8c4cc}
   .grab:hover span,.grab:focus-visible span{background:var(--brand)}
   .tour{left:8px;right:8px;top:60px;bottom:auto;width:auto}
+  .habcard{left:8px;right:auto;bottom:calc(var(--map-pad,48%) + 10px);max-width:calc(100% - 78px)}
   .brand p{display:none}
   .pills{top:8px;right:8px;left:8px}
   .pbtn.opt{display:none}
@@ -504,15 +589,20 @@ dialog td.num,dialog th.num{text-align:right}
     <div class="sheet" id="filters" role="dialog" aria-label="Filters" hidden>
       <div class="sheet-head"><h2>Filters</h2><button type="button" class="linkbtn" id="sheetReset">Reset all</button></div>
       <div class="sheet-body">
-        <details class="dd fg" open><summary>Priority tier</summary><div class="fgb" id="tierBox"></div></details>
-        <details class="dd fg"><summary>Total score</summary><div class="fgb">
-          <div class="row2">
-            <input id="smin" type="number" inputmode="numeric" placeholder="Min" aria-label="Minimum score">
-            <span>to</span>
-            <input id="smax" type="number" inputmode="numeric" placeholder="Max" aria-label="Maximum score">
+        <details class="dd fg" open><summary><span class="ft">Priority tier</span><span class="fsum" data-fsum="tier" hidden></span></summary><div class="fgb" id="tierBox"></div></details>
+        <details class="dd fg"><summary><span class="ft">Total score</span><span class="fsum" data-fsum="score" hidden></span></summary><div class="fgb">
+          <div class="hist" id="scoreHist">
+            <div class="hist-bars"><svg id="histSvg" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+            <div class="hist-slider"><div class="hist-rail"></div><div class="hist-track" id="histTrack"></div>
+              <input id="smin" type="range" min="0" max="100" step="1" value="0" aria-label="Minimum score">
+              <input id="smax" type="range" min="0" max="100" step="1" value="100" aria-label="Maximum score"></div>
+            <div class="hist-read" id="histRead" aria-live="polite"></div>
           </div></div></details>
-        <details class="dd fg"><summary>Ownership</summary><div class="fgb" id="ownerBox"></div></details>
-        <details class="dd fg" id="surveyGroup"><summary>Last surveyed</summary><div class="fgb">
+        <details class="dd fg" id="passGroup"><summary><span class="ft">Passability</span><span class="fsum" data-fsum="pass" hidden></span></summary><div class="fgb">
+          <div id="passBox"></div>
+          <div class="note">Unknown has no passability rating. Not applicable (N/A) means the table gives none. Modeled as 33% means the model assumed a value, as it did for natural barriers.</div></div></details>
+        <details class="dd fg"><summary><span class="ft">Ownership</span><span class="fsum" data-fsum="own" hidden></span></summary><div class="fgb" id="ownerBox"></div></details>
+        <details class="dd fg" id="surveyGroup"><summary><span class="ft">Last surveyed</span><span class="fsum" data-fsum="survey" hidden></span></summary><div class="fgb">
           <label class="lbl" for="sPreset">Surveyed</label>
           <select id="sPreset">
             <option value="">Any time</option>
@@ -526,19 +616,24 @@ dialog td.num,dialog th.num{text-align:right}
             <div class="grow"><label class="lbl" for="sFrom">From</label><input id="sFrom" type="date"></div>
             <div class="grow"><label class="lbl" for="sTo">To</label><input id="sTo" type="date"></div>
           </div></div></details>
-        <details class="dd fg" id="potGroup"><summary>Potential species</summary><div class="fgb">
+        <details class="dd fg" id="potGroup"><summary><span class="ft">Potential species</span><span class="fsum" data-fsum="pot" hidden></span></summary><div class="fgb">
           <div class="note" style="margin-top:0">Barriers with any selected species.</div><div id="potBox"></div></div></details>
-        <details class="dd fg"><summary>Fish use recorded</summary><div class="fgb">
+        <details class="dd fg"><summary><span class="ft">Fish use recorded</span><span class="fsum" data-fsum="use" hidden></span></summary><div class="fgb">
           <div class="note" style="margin-top:0">From SWIFD. Barriers with any selected species.</div><div id="useBox"></div></div></details>
-        <details class="dd fg" id="fillGroup" hidden><summary>Road fill</summary><div class="fgb">
+        <details class="dd fg" id="fillGroup" hidden><summary><span class="ft">Road fill</span><span class="fsum" data-fsum="fill" hidden></span></summary><div class="fgb">
           <div class="row2">
             <input id="fMin" type="number" inputmode="decimal" step="any" placeholder="Min" aria-label="Minimum road fill">
             <span>to</span>
             <input id="fMax" type="number" inputmode="decimal" step="any" placeholder="Max" aria-label="Maximum road fill">
           </div>
           <div class="note" id="fillNote"></div></div></details>
-        <details class="dd fg"><summary>Feature type</summary><div class="fgb">
-          <select id="ftype" aria-label="Feature type"><option value="">All feature types</option></select></div></details>
+        <details class="dd fg" id="ftGroup"><summary><span class="ft">Feature type</span><span class="fsum" data-fsum="ftype" hidden></span></summary><div class="fgb">
+          <div class="mcombo" id="ftCombo">
+            <div class="mc-chips" id="ftChips"></div>
+            <div class="mc-field"><input id="ftInput" type="text" role="combobox" aria-expanded="false" aria-controls="ftList" aria-autocomplete="list" aria-label="Feature types. Type to search and pick one or more." placeholder="All feature types" autocomplete="off"><button type="button" class="mc-toggle" id="ftToggle" tabindex="-1" aria-label="Show or hide the feature type list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg></button></div>
+            <ul class="mc-list" id="ftList" role="listbox" aria-multiselectable="true" aria-label="Feature types" hidden></ul>
+          </div>
+          <div class="note">Combined types such as Culvert, Fishway count under each part.</div></div></details>
       </div>
       <div class="sheet-foot"><button type="button" class="primary" id="sheetDone">Show barriers</button></div>
     </div>
@@ -576,12 +671,23 @@ dialog td.num,dialog th.num{text-align:right}
       <label class="chk"><input type="checkbox" id="lyrStreams" checked><span>Streams</span></label>
       <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
       <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
+      <label class="chk" id="wsLayerBox" hidden><input type="checkbox" id="lyrWs"><span>Watersheds</span></label>
+      <label class="chk" id="habLayerBox" hidden><input type="checkbox" id="lyrHab"><span>Habitat strategy reaches</span></label>
     </div>
     <div class="sec"><h3>Display</h3>
       <label class="chk"><input type="checkbox" id="hcChk"><span>High contrast</span></label>
     </div>
   </div>
 
+  <div class="habcard card" id="habCard" hidden>
+    <div class="hc-top"><b>Reach priority</b>
+      <div class="hc-seg" role="group" aria-label="Color reaches by">
+        <button type="button" data-by="rest" aria-pressed="true">Restoration</button>
+        <button type="button" data-by="cons" aria-pressed="false">Conservation</button>
+      </div></div>
+    <div class="hc-leg" id="habLegend"></div>
+    <div class="hc-note">Click a reach for details.</div>
+  </div>
   <div class="banner" id="banner" hidden></div>
   <div class="measure" id="measure" hidden role="group" aria-label="Measure distance">
     <div class="mmodes" role="group" aria-label="Measure mode">
@@ -592,6 +698,10 @@ dialog td.num,dialog th.num{text-align:right}
     <div class="mact"><button type="button" class="btn" id="mUndo">Undo</button><button type="button" class="btn" id="mClear">Clear</button></div>
   </div>
   <div class="status" id="status" role="status" hidden></div>
+  <aside class="rulefly card" id="ruleFly" role="dialog" aria-labelledby="rfTitle" hidden>
+    <div class="rf-head"><div><h3 id="rfTitle"></h3><div class="rf-sub" id="rfSub"></div></div><button type="button" class="rf-close" id="rfClose" aria-label="Close the scoring explanation"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10"/></svg></button></div>
+    <div class="rf-body" id="rfBody"></div>
+  </aside>
   <section class="tour card" id="tour" hidden role="region" aria-label="Quick tour">
     <div class="tour-top"><span id="tourStep">1 of 3</span><button type="button" class="linkbtn" id="tourSkip">Skip tour</button></div>
     <h2 id="tourTitle" tabindex="-1"></h2>
@@ -630,6 +740,8 @@ var CONFIG = {
   dataUrl: "barriers.geojson",
   streamsUrl: "streams.geojson",   // split stream lines with topology, from export_webapp_data.py
   basinUrl: "basin.geojson",       // optional
+  habitatUrl: "habitat.geojson",   // optional: reach polygons with restoration and conservation priority
+  watershedsUrl: "watersheds.geojson", // optional: watershed polygons
   demoUrl: "demo_barriers.geojson",
   demoStreamsUrl: "demo_streams.geojson",
   center: [47.2, -123.0], zoom: 10, maxScore: 135,
@@ -732,13 +844,15 @@ function buildModel(fc){
     if (p.id === null || p.id === undefined) return;
     if (!p.su) p.su = [];
     if (!p.sd) p.sd = [];
+    var pp = parsePass(p.pass_pct, p.pass_note); p.pass_pct = pp.pct; p.pass_note = pp.note;
     var ms = parseDate(p.survey_date);
     p.survey_date = ms === null ? null : isoOf(ms);
     var snap = typeof p.snap_status === "string" ? p.snap_status : null;
     p.snap_status = snap === null ? null : (SNAP_LABELS[snap] || snap);
     var rf = typeof p.road_fill === "string" ? parseFloat(p.road_fill) : p.road_fill;
     items.push({ p:p, id:String(p.id), ll:[f.geometry.coordinates[1], f.geometry.coordinates[0]],
-      survey:ms, pot:splitSpecies(p.pot_species), fill:isNum(rf) ? rf : null, snap:snap });
+      survey:ms, pot:splitSpecies(p.pot_species), fill:isNum(rf) ? rf : null, snap:snap,
+      natural:/natural/i.test(typeof p.ftype === "string" ? p.ftype : ""), types:typeTokens(p.ftype) });
   });
   items.sort(function(a, b){
     var ta = isNum(a.p.total) ? a.p.total : -1, tb = isNum(b.p.total) ? b.p.total : -1;
@@ -858,8 +972,38 @@ function connected(net, it){
 function hasNet(it){ return it.p.su.length + it.p.sd.length > 0; }
 
 /* filters */
+function parsePass(raw, note){
+  var n = typeof note === "string" ? note : null;
+  if (isNum(raw)) return { pct:raw, note:n === "assumed" ? "assumed" : null };
+  if (typeof raw === "string"){
+    var s0 = raw.trim(), u = s0.toUpperCase();
+    if (u === "N/A" || u === "NA") return { pct:null, note:"na" };
+    if (u === "UNKNOWN") return { pct:null, note:"unknown" };
+    var m = /^(\d+(?:\.\d+)?)\s*%?\s*(?:\((.*)\))?$/.exec(s0);
+    if (m) return { pct:Number(m[1]), note:m[2] && /unknown/i.test(m[2]) ? "assumed" : null };
+    if (s0) return { pct:null, note:"unknown" };
+  }
+  return { pct:null, note:(n === "na" || n === "unknown") ? n : null };
+}
+function typeTokens(v){
+  if (typeof v !== "string" || !v.trim()) return ["Not recorded"];
+  var seen = {}, out = [];
+  v.split(/[,;]/).forEach(function(x){ x = x.trim(); if (x && !seen[x]){ seen[x] = true; out.push(x); } });
+  return out.length ? out : ["Not recorded"];
+}
+var PASS_OPTIONS = [["total", "Total barrier (0% passable)"], ["partial", "Partial barrier (1 to 99% passable)"], ["assumed", "Unknown, modeled as 33% passable"], ["unknown", "Unknown"], ["na", "Not applicable (N/A)"], ["none", "Not a barrier (100% passable)"]];
+var PASS_SHORT = { total:"Total", partial:"Partial", none:"Not a barrier", unknown:"Unknown", assumed:"Unknown, modeled as 33%", na:"N/A" };
+function passKey(v){ if (!isNum(v)) return "unknown"; if (v <= 0) return "total"; if (v >= 100) return "none"; return "partial"; }
+// what a barrier's passability is, as one of: total, partial, none, assumed, unknown, na
+function passKeyP(p){
+  if (p.pass_note === "na") return "na";
+  if (!isNum(p.pass_pct)) return "unknown";
+  if (p.pass_note === "assumed") return "assumed";
+  return passKey(p.pass_pct);
+}
+var NO_WS = "Not in a mapped watershed";
 function defaultFilters(){
-  return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftype:"", use:{},
+  return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftypes:{}, pass:{}, ws:{}, rest:{}, cons:{}, use:{},
            pot:{}, sPreset:"", sFrom:null, sTo:null, fMin:null, fMax:null };
 }
 function onKeys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
@@ -870,7 +1014,15 @@ function activeChips(st){
     var onT = TIERS.filter(function(t){ return st.tiers[t.key]; }).map(function(t){ return t.label; });
     c.push({ key:"tier", label:"Tier: " + (onT.length ? onT.join(", ") : "none") });
   }
-  if (st.min !== null || st.max !== null) c.push({ key:"score", label:"Score " + (st.min !== null ? st.min : "any") + " to " + (st.max !== null ? st.max : "any") });
+  if (st.min !== null || st.max !== null) c.push({ key:"score", label:"Score " + (st.max === null ? st.min + " or more" : (st.min === null ? "up to " + st.max : st.min + " to " + st.max)) });
+  var pa = PASS_OPTIONS.map(function(o){ return o[0]; }).filter(function(k){ return st.pass[k]; });
+  if (pa.length) c.push({ key:"pass", label:"Passability: " + pa.map(function(k){ return PASS_SHORT[k] || k; }).join(", ") });
+  var wk = onKeys(st.ws);
+  if (wk.length) c.push({ key:"ws", label:"Watershed: " + (wk.length <= 2 ? wk.join(" or ") : wk.length + " watersheds") });
+  [["rest", "Restoration priority"], ["cons", "Conservation priority"]].forEach(function(h){
+    var hk = onKeys(st[h[0]]);
+    if (hk.length) c.push({ key:h[0], label:h[1] + ": " + hk.map(function(k){ return habDisp[h[0]][k] || k; }).join(", ") });
+  });
   var offO = onKeys(st.ownersOff);
   if (offO.length) c.push({ key:"own", label:"Ownership: not " + (offO.length <= 2 ? offO.join(" or ") : offO.length + " types") });
   var presets = { "2":"last 2 years", "5":"last 5 years", "10":"last 10 years", older10:"more than 10 years ago", none:"no survey date" };
@@ -880,15 +1032,16 @@ function activeChips(st){
   if (pk.length) c.push({ key:"pot", label:"Potential species: " + pk.map(function(k){ return k.charAt(0).toUpperCase() + k.slice(1); }).join(", ") });
   var uk = onKeys(st.use);
   if (uk.length) c.push({ key:"use", label:"Fish use: " + uk.map(function(k){ return k.charAt(0).toUpperCase() + k.slice(1); }).join(", ") });
-  if (st.fMin !== null || st.fMax !== null) c.push({ key:"fill", label:"Road fill " + (st.fMin !== null ? st.fMin : "any") + " to " + (st.fMax !== null ? st.fMax : "any") + " " + CONFIG.roadFillUnit });
-  if (st.ftype) c.push({ key:"ftype", label:"Type: " + st.ftype });
+  if (st.fMin !== null || st.fMax !== null) c.push({ key:"fill", label:"Road fill " + (st.fMax === null ? st.fMin + " " + CONFIG.roadFillUnit + " or more" : (st.fMin === null ? "up to " + st.fMax + " " + CONFIG.roadFillUnit : st.fMin + " to " + st.fMax + " " + CONFIG.roadFillUnit)) });
+  var fk = onKeys(st.ftypes);
+  if (fk.length) c.push({ key:"ftype", label:"Type: " + (fk.length <= 2 ? fk.join(" or ") : fk.length + " types") });
   return c;
 }
 function activeFilterCount(st){ return activeChips(st).length; }
 function applyFilters(items, st, now){
   now = now || Date.now();
   var yr = 365.25 * 864e5;
-  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use);
+  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use), ftKeys = onKeys(st.ftypes), paKeys = onKeys(st.pass), rsKeys = onKeys(st.rest), cnKeys = onKeys(st.cons), wsKeys = onKeys(st.ws);
   var q = st.q.trim().toLowerCase();
   return items.filter(function(it){
     var p = it.p;
@@ -896,7 +1049,11 @@ function applyFilters(items, st, now){
     if (st.min !== null && !(isNum(p.total) && p.total >= st.min)) return false;
     if (st.max !== null && !(isNum(p.total) && p.total <= st.max)) return false;
     if (p.owner !== null && st.ownersOff[p.owner]) return false;
-    if (st.ftype && p.ftype !== st.ftype) return false;
+    if (ftKeys.length && !(it.types || typeTokens(p.ftype)).some(function(t){ return st.ftypes[t]; })) return false;
+    if (paKeys.length && !st.pass[passKeyP(p)]) return false;
+    if (wsKeys.length && !st.ws[p.watershed || NO_WS]) return false;
+    if (rsKeys.length && !(it.reach && st.rest[lvKey(it.reach.rest)])) return false;
+    if (cnKeys.length && !(it.reach && st.cons[lvKey(it.reach.prot)])) return false;
     if (useKeys.length && !useKeys.some(function(k){ return isNum(p["use_" + k]) && p["use_" + k] > 0; })) return false;
     if (potKeys.length && !it.pot.some(function(x){ return potKeys.indexOf(x.toLowerCase()) !== -1; })) return false;
     if (st.sPreset === "none"){ if (it.survey !== null) return false; }
@@ -938,7 +1095,11 @@ function encodeState(st, extra){
   if (st.min !== null) p.set("smin", String(st.min));
   if (st.max !== null) p.set("smax", String(st.max));
   var own = onKeys(st.ownersOff); if (own.length) p.set("own", own.join("|"));
-  if (st.ftype) p.set("ft", st.ftype);
+  var fkk = onKeys(st.ftypes); if (fkk.length) p.set("ft", fkk.join("|"));
+  var pak = onKeys(st.pass); if (pak.length) p.set("pa", pak.join(","));
+  var wsk = onKeys(st.ws); if (wsk.length) p.set("ws", wsk.join("|"));
+  var rpk = onKeys(st.rest); if (rpk.length) p.set("rp", rpk.join("|"));
+  var cpk = onKeys(st.cons); if (cpk.length) p.set("cp", cpk.join("|"));
   var uk = onKeys(st.use); if (uk.length) p.set("use", uk.join(","));
   var pk = onKeys(st.pot); if (pk.length) p.set("pot", pk.join(","));
   if (st.sPreset) p.set("sp", st.sPreset);
@@ -959,7 +1120,11 @@ function decodeState(str){
   (p.get("t") || "").split(",").forEach(function(k){ if (k && st.tiers.hasOwnProperty(k)) st.tiers[k] = false; });
   st.min = num("smin"); st.max = num("smax");
   (p.get("own") || "").split("|").forEach(function(k){ if (k) st.ownersOff[k] = true; });
-  st.ftype = p.get("ft") || "";
+  (p.get("ft") || "").split(/[|,]/).forEach(function(k){ k = k.trim(); if (k) st.ftypes[k] = true; });
+  (p.get("ws") || "").split("|").forEach(function(k){ if (k) st.ws[k] = true; });
+  (p.get("rp") || "").split("|").forEach(function(k){ if (k) st.rest[k.toLowerCase()] = true; });
+  (p.get("cp") || "").split("|").forEach(function(k){ if (k) st.cons[k.toLowerCase()] = true; });
+  (p.get("pa") || "").split(",").forEach(function(k){ if (/^(total|partial|none|unknown|assumed|na)$/.test(k)) st.pass[k] = true; });
   (p.get("use") || "").split(",").forEach(function(k){ if (k) st.use[k] = true; });
   (p.get("pot") || "").split(",").forEach(function(k){ if (k) st.pot[k] = true; });
   var sp = p.get("sp"); if (sp && /^(2|5|10|older10|none)$/.test(sp)) st.sPreset = sp;
@@ -1013,7 +1178,7 @@ function csvOf(list){
   function q(v){ v = (v === null || v === undefined) ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
   var lines = [labels.map(q).join(",")];
   list.forEach(function(it){
-    lines.push(keys.map(function(k){ return k === "id" ? q(it.id) : (k === "rank" ? q(it.rank) : (k === "pass_class" ? q(passClass(it.p.pass_pct)) : q(it.p[k]))); }).join(","));
+    lines.push(keys.map(function(k){ return k === "id" ? q(it.id) : (k === "rank" ? q(it.rank) : (k === "pass_class" ? q(passClassP(it.p)) : q(it.p[k]))); }).join(","));
   });
   return lines.join("\r\n");
 }
@@ -1026,14 +1191,35 @@ function passClass(v){
 }
 // the space inside the brackets cannot break, so a narrow column wraps before the "(" and never splits "0%" from "Passable"
 function passText(v){ return isNum(v) ? passClass(v) + " (" + v + "%\u00a0Passable)" : "Passability unknown"; }
+function passTextP(p){
+  var k = passKeyP(p);
+  if (k === "na") return "Not applicable";
+  if (k === "unknown") return "Unknown passability";
+  if (k === "assumed") return "Unknown, modeled as " + p.pass_pct + "%\u00a0passable";
+  return passText(p.pass_pct);
+}
+function passClassP(p){
+  var k = passKeyP(p);
+  if (k === "na") return "Not applicable";
+  if (k === "unknown") return "Unknown";
+  if (k === "assumed") return "Unknown, modeled as " + p.pass_pct + "%";
+  return passClass(p.pass_pct);
+}
+function passShortP(p){
+  var k = passKeyP(p);
+  if (k === "na") return "N/A";
+  if (k === "unknown") return "Unknown";
+  if (k === "assumed") return "Unknown (" + p.pass_pct + "%)";
+  return passShort(p.pass_pct);
+}
 function passShort(v){ return isNum(v) ? (v <= 0 ? "Total" : (v >= 100 ? "Not a barrier" : "Partial")) + " (" + v + "%)" : "n/a"; }
 function fieldVal(f, p){
-  if (f[0] === "pass_pct") return isNum(p.pass_pct) ? passText(p.pass_pct) : null;
+  if (f[0] === "pass_pct") return (isNum(p.pass_pct) || p.pass_note) ? passTextP(p) : null;
   return fmt(p[f[0]], f[2]);
 }
 function distText(d, dir){ return d === undefined ? "" : (d < 0.1 ? Math.round(d * 5280).toLocaleString() + " ft " : d.toFixed(1) + " mi ") + dir; }
 function connRow(b, d, dir){
-  var pass = passText(b.p.pass_pct);
+  var pass = passTextP(b.p);
   return '<li><button type="button" data-id="' + esc(b.id) + '"><span><b>' + esc(b.id) + '</b><br><span class="s">' +
     esc(b.p.ftype || "Barrier") + ", " + esc(pass) + '</span></span><span class="s" style="text-align:right">' + esc(distText(d, dir)) + "<br>Rank " + b.rank + "</span></button></li>";
 }
@@ -1056,8 +1242,8 @@ function tchip(id, kind, label, checked){
 function limCell(lim, dir){
   if (!lim) return '<span class="nodata">None known</span>';
   var d = dir === "dn" ? "downstream" : "upstream";
-  return '<button type="button" class="limbtn" data-limit="' + dir + '" aria-label="Zoom to the stretch to ' + d + " barrier " + esc(lim.b.id) + ", " + esc(passText(lim.b.p.pass_pct)) + ", " + esc(distText(lim.d, d)) + '"><b>' +
-    esc(lim.b.id) + '</b><span class="s">' + esc(passText(lim.b.p.pass_pct)) + '</span><span class="s">' + esc(distText(lim.d, "").trim()) + "</span></button>";
+  return '<button type="button" class="limbtn" data-limit="' + dir + '" aria-label="Zoom to the stretch to ' + d + " barrier " + esc(lim.b.id) + ", " + esc(passTextP(lim.b.p)) + ", " + esc(distText(lim.d, d)) + '"><b>' +
+    esc(lim.b.id) + '</b><span class="s">' + esc(passTextP(lim.b.p)) + '</span><span class="s">' + esc(distText(lim.d, "").trim()) + "</span></button>";
 }
 function shortName(c){ return c.short.charAt(0).toUpperCase() + c.short.slice(1); }
 function scoreCardHtml(it){
@@ -1074,11 +1260,16 @@ function overviewHtml(it, conn){
   var p = it.p, h = scoreCardHtml(it), missing = [];
   var why = whySentence(p);
   h += '<p class="why">' + (why ? esc(why) + " " : "") + '<button type="button" class="linkbtn" data-go="score">See how the score adds up</button></p>';
+  if (it.natural) h += '<p class="infobox"><b>Natural barrier.</b> This is a natural feature, not a human made structure, so it may not be a project candidate. It is ranked for the upstream habitat it blocks.</p>';
   if (it.snap === "poc_nearest") h += '<p class="warnbox"><b>Location not checked.</b> This barrier was placed on the nearest stream line without review. Its upstream and downstream results may be wrong.</p>';
   if (conn) h += '<div class="glance2"><button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("ups") + ' Upstream</span><b>' + miles(conn.upMi) + '</b><span class="s">' + plural(conn.upBarriers.length, "other barrier", "other barriers") + "</span></button>" +
     '<button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("dns") + ' Downstream</span><b>' + miles(conn.dnMi) + '</b><span class="s">' + plural(conn.dnBarriers.length, "barrier", "barriers") + "</span></button></div>";
-  var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS);
+  var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS) + (p.watershed ? detailRows(p, ["watershed"], [], OV_LABELS) : "");
   if (site) h += '<section class="dsec"><h4>Site</h4>' + site + "</section>";
+  if (it.reach){
+    var hb = detailRows(p, ["reach_name", "rest_pri", "cons_pri", "hab_bin", "reach_pop"], [], OV_LABELS);
+    if (hb) h += '<section class="dsec"><h4>Habitat strategy</h4>' + hb + '<p class="rnote">From the WRIA 14 freshwater prioritization tool, by reach.</p></section>';
+  }
   var sp = detailRows(p, ["pot_species", "species"], missing, null) + speciesTableHtml(p);
   if (sp) h += '<section class="dsec"><h4>Species</h4>' + sp + "</section>";
   if (missing.length) h += '<p class="note dmiss"><b>Not available:</b> ' + esc(missing.join(", ")) + ".</p>";
@@ -1126,7 +1317,7 @@ function speciesTableHtml(p){
   return '<table class="stab"><thead><tr><th scope="col">Species</th><th scope="col">Fish use (SWIFD)</th><th scope="col" class="r">Upstream habitat</th></tr></thead><tbody>' +
     rows.map(function(r){ return "<tr><th scope=\"row\">" + r.name + "</th><td>" + r.use + '</td><td class="r">' + r.hab + "</td></tr>"; }).join("") + "</tbody></table>";
 }
-var OV_LABELS = { owner:"Ownership", ftype:"Feature type", survey_date:"Last surveyed", snap_status:"Location check", pass_pct:"Passability", road_fill:"Road fill (ft)" };
+var OV_LABELS = { watershed:"Watershed", reach_name:"Reach", reach_ws:"Watershed", rest_pri:"Restoration priority", cons_pri:"Conservation priority", hab_bin:"Existing habitat", reach_pop:"Salmon populations", owner:"Ownership", ftype:"Feature type", survey_date:"Last surveyed", snap_status:"Location check", pass_pct:"Passability", road_fill:"Road fill (ft)" };
 function detailRows(p, keys, missing, labels){
   return keys.map(function(k){
     var f = fieldByKey(k), v = fieldVal(f, p), label = (labels && labels[k]) || f[1];
@@ -1136,12 +1327,18 @@ function detailRows(p, keys, missing, labels){
 }
 function minPassText(count, v){
   if (count === 0) return "No barriers";
-  return isNum(v) ? passText(v) : null;
+  if (isNum(v)) return passText(v);
+  if (typeof v === "string" && v.trim()){
+    var q = parsePass(v, null);
+    return q.note === "assumed" ? "Unknown, modeled as " + q.pct + "%\u00a0passable" : (q.pct !== null ? passText(q.pct) : "Unknown");
+  }
+  return null;
 }
 /* the Score tab: every measure with the value behind it, then the two model values that have no score of their own */
 function scoreTabHtml(it){
-  var p = it.p, missing = [], h = '<p class="note" style="margin-top:0">Each barrier is scored on ' + MEASURES.length + " measures worth " + CONFIG.maxScore + " points. The value behind each score is shown beside it.</p>";
+  var p = it.p, missing = [], h = "";
   h += '<div class="drow bdtotal"><span class="k">Total score</span><span class="v">' + (isNum(p.total) ? p.total : "No score") + " / " + CONFIG.maxScore + "</span></div>";
+  h += '<p class="bdhint">Select <span class="ibtn ibtn-demo" aria-hidden="true">i</span> to see how a measure is scored.</p>';
   h += breakdownHtml(p);
   var extra = [["Lowest passability downstream, from the model run", minPassText(p.ds_count, p.ds_minpass)], ["Lowest passability upstream, from the model run", minPassText(p.us_count, p.us_minpass)]]
     .filter(function(x){ return x[1] !== null; });
@@ -1149,7 +1346,7 @@ function scoreTabHtml(it){
   return h;
 }
 function footHtml(reportUrl){
-  return '<button type="button" class="btn main" id="printBtn">Print summary</button><button type="button" class="btn" id="copyBtn2">Copy link</button>' +
+  return '<button type="button" class="btn main" id="printBtn">Print summary</button>' +
     (reportUrl ? '<a class="btn" id="rptLink" href="' + esc(reportUrl) + '" target="_blank" rel="noopener" title="Open the WDFW fish passage report for this site (PDF, new tab)" aria-label="WDFW report for this site, opens a PDF in a new tab">WDFW report</a>' : "");
 }
 function tabPanel(id, hidden, inner){
@@ -1168,10 +1365,10 @@ function detailHtml(it, conn, hasNetwork, reportUrl, o){
 
 function psLim(lim){
   if (!lim) return '<span style="color:#777">None known</span>';
-  return "<b>" + esc(lim.b.id) + "</b><br>" + esc(passText(lim.b.p.pass_pct)) + "<br>" + esc(distText(lim.d, "").trim());
+  return "<b>" + esc(lim.b.id) + "</b><br>" + esc(passTextP(lim.b.p)) + "<br>" + esc(distText(lim.d, "").trim());
 }
 // shorter labels so each line of the printed details stays on one line
-var PS_LABELS = { owner:"Ownership", pass_pct:"Passability", n_species:"Species benefitting", us_dist:"Upstream stream (mi)", us_dist_0pass:"Upstream to 0% passable (mi)",
+var PS_LABELS = { reach_name:"Reach", rest_pri:"Restoration priority", cons_pri:"Conservation priority", owner:"Ownership", pass_pct:"Passability", n_species:"Species benefitting", us_dist:"Upstream stream (mi)", us_dist_0pass:"Upstream to 0% passable (mi)",
   road_density:"Road density (mi/sq mi)", wq_303d:"303d listing", temp:"Stream temp, Aug mean (C)", temp_2040:"Future (2040) temp (C)", canopy:"Canopy cover (%)",
   flood_pct:"Future flood change (%)", flow_pct:"Future low flow change (%)" };
 function psRows(p, keys){
@@ -1184,16 +1381,16 @@ function psDetails(p){
   var sp = speciesRows(p);
   var table = sp.length ? '<table class="ps-sp"><thead><tr><th>Species</th><th>Fish use</th><th class="r">Habitat</th></tr></thead><tbody>' +
     sp.map(function(r){ return "<tr><td>" + r.name + "</td><td>" + r.use + '</td><td class="r">' + r.hab + "</td></tr>"; }).join("") + "</tbody></table>" : "";
-  return '<div class="ps-det"><div class="ps-col"><h3>Site</h3>' + psRows(p, ["trib", "owner", "ftype", "survey_date", "snap_status", "pass_pct", "road_fill"]) + "</div>" +
+  return '<div class="ps-det"><div class="ps-col"><h3>Site</h3>' + psRows(p, ["trib", "owner", "ftype", "survey_date", "snap_status", "pass_pct", "road_fill", "reach_name", "rest_pri", "cons_pri"]) + "</div>" +
     '<div class="ps-col"><h3>Species</h3>' + psRows(p, ["pot_species", "species"]) + table + "</div>" +
     '<div class="ps-col"><h3>Habitat and conditions</h3>' + psRows(p, ["n_species", "us_dist", "us_dist_0pass", "road_density", "wq_303d", "temp", "temp_2040", "canopy", "flood_pct", "flow_pct"]) + "</div></div>";
 }
 function psList(list, dmap, dir){
   if (!list.length) return '<p style="margin:2pt 0;color:#666;font-size:9pt">None.</p>';
-  var cap = 4;
+  var cap = 3;
   var h = '<table class="ps-list"><thead><tr><th>Barrier</th><th>Type</th><th class="r">Passability</th><th class="r">Distance</th></tr></thead><tbody>';
   list.slice(0, cap).forEach(function(b){
-    h += "<tr><td><b>" + esc(b.id) + "</b></td><td>" + esc(b.p.ftype || "") + '</td><td class="r">' + passShort(b.p.pass_pct) + '</td><td class="r">' + esc(distText(dmap[b.id], "").trim()) + "</td></tr>";
+    h += "<tr><td><b>" + esc(b.id) + "</b></td><td>" + esc(b.p.ftype || "") + '</td><td class="r">' + passShortP(b.p) + '</td><td class="r">' + esc(distText(dmap[b.id], "").trim()) + "</td></tr>";
   });
   h += "</tbody></table>";
   if (list.length > cap) h += '<p style="margin:2pt 0;color:#666;font-size:8pt">Nearest ' + cap + " of " + list.length + " shown.</p>";
@@ -1206,7 +1403,8 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
   if (demo) h += '<div class="ps-demo">Demo data: barrier and stream locations are placeholders.</div>';
   else if (meta && meta.draft) h += '<div class="ps-demo">Draft results: some barrier locations have not been checked.' + (it.snap === "poc_nearest" ? " This barrier was placed on the nearest stream line without review." : "") + "</div>";
   h += '<div class="ps-head"><div><img class="ps-logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group" onerror="this.style.display=\'none\'">' +
-       "<h1>Barrier " + esc(it.id) + "</h1><p>" + esc(sub) + "</p></div>" +
+       "<h1>Barrier " + esc(it.id) + "</h1><p>" + esc(sub) + "</p>" +
+       (it.natural ? '<p class="ps-nat">Natural barrier. It may not be a project candidate.</p>' : "") + "</div>" +
        '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + "</div><div>of " + CONFIG.maxScore + " points</div><div><b>Rank " + it.rank + " of " + it.n +
        '</b></div><div><span class="swatch" style="display:inline-block;vertical-align:-1pt;background:' + it.tier.color + '"></span> ' + esc(it.tier.label) + "</div></div></div>";
   h += '<div class="ps-map" id="psMap"></div>';
@@ -1266,6 +1464,29 @@ function placePopupHtml(name, near, filtered){
 
 /* how a score adds up: every measure with the value behind it */
 function rawNum(v, unit, d){ return isNum(v) ? (d === undefined ? String(v) : v.toFixed(d)) + (unit || "") : "No data"; }
+/* how each measure is scored. These rules were checked against every barrier in the August 2026 table. */
+function bandRows(list, getV){
+  return list.map(function(b){ return { label:b[0], pts:b[1], hit:function(p){ return b[2](getV(p), p); } }; });
+}
+function habBands(getV){
+  var t = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 7], rows = [["None", 0, function(v){ return isNum(v) && v <= 0; }]], lo = 0;
+  t.forEach(function(hi, i){
+    var l = lo, h = hi;
+    rows.push([(l === 0 ? "Under " + h : l + " to under " + h) + " miles", i + 1, function(v){ return isNum(v) && v > 0 && v >= l && v < h; }]);
+    lo = hi;
+  });
+  rows.push(["7 miles or more", 10, function(v){ return isNum(v) && v >= 7; }]);
+  return bandRows(rows, getV);
+}
+function minCat(v){
+  if (isNum(v)) return v <= 0 ? 0 : (v <= 50 ? 33 : 67);
+  if (typeof v === "string"){ var m = /^(\d+(?:\.\d+)?)/.exec(v.trim()); if (m) return minCat(Number(m[1])); }
+  return "unk";
+}
+function noData(pts){ return ["No data", pts, function(v){ return !isNum(v); }]; }
+var HAB_NOTE = "Habitat miles come from the stream network upstream of the barrier.";
+var SWIFD_NOTE = "SWIFD is the Statewide Washington Integrated Fish Distribution, the state's fish distribution layer.";
+var MIDDLE_NOTE = "A barrier with no value in the data gets 3 points, the middle score.";
 var MEASURES = [
   { g:"Habitat quantity gain", name:"Upstream habitat", key:"s_habtot", max:10, raw:function(p){ return rawNum(p.us_dist, " mi", 2); } },
   { g:"Habitat quantity gain", name:"Upstream habitat to 0% passable", key:"s_hab0", max:10, raw:function(p){ return rawNum(p.us_dist_0pass, " mi", 2); } },
@@ -1273,14 +1494,14 @@ var MEASURES = [
   { g:"Species benefit", name:"Coho habitat", key:"s_coho", max:10, raw:function(p){ return rawNum(p.hab_coho, " mi", 2); } },
   { g:"Species benefit", name:"Steelhead habitat", key:"s_steelhead", max:10, raw:function(p){ return rawNum(p.hab_steelhead, " mi", 2); } },
   { g:"Species benefit", name:"Chum habitat", key:"s_chum", max:10, raw:function(p){ return rawNum(p.hab_chum, " mi", 2); } },
-  { g:"Species benefit", name:"Cutthroat presence", key:"s_cutthroat", max:5, raw:function(p){ return rawNum(p.hab_cutthroat, " mi", 2); } },
+  { g:"Species benefit", name:"Cutthroat presence", key:"s_cutthroat", max:5, raw:function(p){ return isNum(p.use_cutthroat) ? (p.use_cutthroat > 0 ? "Recorded" : "Not recorded") : "No data"; } },
   { g:"Species benefit", name:"Number of species", key:"s_species", max:5, raw:function(p){ return rawNum(p.n_species); } },
-  { g:"Barrier metrics", name:"Barrier passability", key:"s_pass", max:15, raw:function(p){ return isNum(p.pass_pct) ? passText(p.pass_pct) : "No data"; } },
+  { g:"Barrier metrics", name:"Barrier passability", key:"s_pass", max:15, raw:function(p){ return (isNum(p.pass_pct) || p.pass_note) ? passShortP(p) : "No data"; } },
   { g:"Barrier metrics", name:"Downstream barriers", key:"s_ds", max:5, raw:function(p){ return isNum(p.ds_count) ? plural(p.ds_count, "barrier", "barriers") : "No data"; } },
   { g:"Barrier metrics", name:"Upstream barriers", key:"s_us", max:5, raw:function(p){ return isNum(p.us_count) ? plural(p.us_count, "barrier", "barriers") : "No data"; } },
   { g:"Barrier metrics", name:"No downstream barriers", key:"s_nods", max:5, raw:function(p){ return isNum(p.ds_count) ? (p.ds_count === 0 ? "Yes" : "No") : "No data"; } },
   { g:"Water quality", name:"Road density", key:"s_road", max:5, raw:function(p){ return rawNum(p.road_density, " mi/sq mi", 2); } },
-  { g:"Water quality", name:"303d listing", key:"s_wq", max:5, raw:function(p){ return p.wq_303d ? p.wq_303d : "No listing"; } },
+  { g:"Water quality", name:"303d listing", key:"s_wq", max:5, raw:function(p){ return p.wq_303d ? "Listed" : "Not listed"; } },
   { g:"Water quality", name:"Canopy cover", key:"s_canopy", max:5, raw:function(p){ return rawNum(p.canopy, "%", 0); } },
   { g:"Water quality", name:"Stream temperature", key:"s_temp", max:5, raw:function(p){ return rawNum(p.temp, " C", 1); } },
   { g:"Future conditions", name:"Future stream temperature", key:"s_ftemp", max:5, raw:function(p){ return rawNum(p.temp_2040, " C", 1); } },
@@ -1296,6 +1517,64 @@ function applyMaxPoints(mp){
   CATEGORIES.forEach(function(c){ c.max = MEASURES.filter(function(m){ return m.g === c.name; }).reduce(function(t, m){ return t + m.max; }, 0); });
   CONFIG.maxScore = CATEGORIES.reduce(function(t, c){ return t + c.max; }, 0);
 }
+var RULES = {
+  s_habtot:{ desc:"Stream miles upstream of the barrier, counting every connected stream. More habitat scores higher.", bands:habBands(function(p){ return p.us_dist; }), note:HAB_NOTE },
+  s_hab0:{ desc:"Stream miles upstream of the barrier until the next total barrier (0% passable). It shows how much habitat this barrier would open before the next blockage.", bands:habBands(function(p){ return p.us_dist_0pass; }), note:HAB_NOTE },
+  s_chinook:{ desc:"Miles of upstream stream where SWIFD records Chinook use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_chinook; }), note:SWIFD_NOTE },
+  s_coho:{ desc:"Miles of upstream stream where SWIFD records coho use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_coho; }), note:SWIFD_NOTE },
+  s_steelhead:{ desc:"Miles of upstream stream where SWIFD records steelhead use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_steelhead; }), note:SWIFD_NOTE },
+  s_chum:{ desc:"Miles of upstream stream where SWIFD records chum use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_chum; }), note:SWIFD_NOTE },
+  s_cutthroat:{ desc:"Two points where SWIFD records cutthroat use on the barrier's stream, none where it does not.", bands:bandRows([["Cutthroat use recorded", 2, function(v){ return isNum(v) && v > 0; }], ["No cutthroat use recorded", 0, function(v){ return isNum(v) && v <= 0; }]], function(p){ return p.use_cutthroat; }), note:SWIFD_NOTE },
+  s_species:{ desc:"One point for each species that would benefit, up to five. Species are counted from SWIFD.", bands:bandRows([0, 1, 2, 3, 4, 5].map(function(n){ return [n === 1 ? "1 species" : n + " species", n, function(v){ return isNum(v) && v === n; }]; }), function(p){ return p.n_species; }) },
+  s_pass:{ desc:"How much of the fish that reach the barrier it blocks, from the WDFW passability rating. The less passable it is, the more points fixing it earns.",
+    bands:[{ label:"0% passable, a total barrier", pts:15, hit:function(p){ return passKeyP(p) === "total"; } },
+           { label:"33% passable", pts:10, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct <= 50; } },
+           { label:"Unknown, modeled as 33% passable", pts:10, hit:function(p){ return passKeyP(p) === "assumed"; } },
+           { label:"67% passable", pts:5, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct > 50; } },
+           { label:"Unknown", pts:5, hit:function(p){ return passKeyP(p) === "unknown"; } },
+           { label:"Not applicable (N/A)", pts:0, hit:function(p){ return passKeyP(p) === "na"; } }],
+    note:"In this run, natural barriers were modeled as 33% passable and scored 10 points." },
+  s_ds:{ desc:"Barriers between this barrier and the sea. Fewer, and more passable, downstream barriers score higher, because fish can reach this one. The count and the worst passability among them set the score.",
+    matrix:{ count:"ds_count", min:"ds_minpass", none:["No downstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
+      rows:[["Worst is 0% passable", 0, [0, 0, 0]], ["Worst is 33% passable", 33, [3, 1, 0]], ["Worst is 67% passable", 67, [4, 3, 1]], ["Worst is unknown", "unk", [0, 0, 0]]] } },
+  s_us:{ desc:"Other barriers upstream of this one. Fewer, and more passable, upstream barriers score higher, because the habitat behind this barrier stays open. The count and the worst passability among them set the score.",
+    matrix:{ count:"us_count", min:"us_minpass", none:["No upstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
+      rows:[["Worst is 0% passable", 0, [1, 1, 1]], ["Worst is 33% passable", 33, [3, 2, 2]], ["Worst is 67% passable", 67, [3, 2, 2]], ["Worst is unknown", "unk", [1, 1, 1]]] } },
+  s_nods:{ desc:"Five points when no other barrier lies downstream, so fish reach this barrier freely.", bands:bandRows([["No barriers downstream", 5, function(v){ return v === 0; }], ["One or more barriers downstream", 0, function(v){ return isNum(v) && v > 0; }]], function(p){ return p.ds_count; }) },
+  s_road:{ desc:"Road miles per square mile of land draining to the stream. Fewer roads score higher.", bands:bandRows([["Under 3 mi per sq mi", 5, function(v){ return isNum(v) && v < 3; }], ["3 to under 4", 4, function(v){ return isNum(v) && v >= 3 && v < 4; }], ["4 to under 5", 3, function(v){ return isNum(v) && v >= 4 && v < 5; }], ["5 to under 6", 2, function(v){ return isNum(v) && v >= 5 && v < 6; }], ["6 or more", 1, function(v){ return isNum(v) && v >= 6; }], noData(3)], function(p){ return p.road_density; }), note:MIDDLE_NOTE },
+  s_wq:{ desc:"Five points when the stream is not on Ecology's 303(d) list of impaired waters, one point when it is.", extra:function(p){ return p.wq_303d ? "Listed for: " + p.wq_303d : ""; }, bands:bandRows([["Not listed", 5, function(v){ return !v; }], ["Listed", 1, function(v){ return !!v; }]], function(p){ return p.wq_303d; }) },
+  s_canopy:{ desc:"Share of streamside tree canopy cover, from NorWeST modeled stream data. More canopy scores higher.", bands:bandRows([["Under 20%", 1, function(v){ return isNum(v) && v < 20; }], ["20 to under 40%", 2, function(v){ return isNum(v) && v >= 20 && v < 40; }], ["40 to under 60%", 3, function(v){ return isNum(v) && v >= 40 && v < 60; }], ["60 to under 80%", 4, function(v){ return isNum(v) && v >= 60 && v < 80; }], ["80% or more", 5, function(v){ return isNum(v) && v >= 80; }], noData(3)], function(p){ return p.canopy; }), note:"The bands are read from this run's results. " + MIDDLE_NOTE },
+  s_temp:{ desc:"Modeled mean August stream temperature, from NorWeST. Cooler streams score higher.", bands:bandRows([["Under 12 C", 5, function(v){ return isNum(v) && v < 12; }], ["12 to under 14 C", 4, function(v){ return isNum(v) && v >= 12 && v < 14; }], ["14 to under 17 C", 3, function(v){ return isNum(v) && v >= 14 && v < 17; }], ["17 to under 21 C", 2, function(v){ return isNum(v) && v >= 17 && v < 21; }], ["21 to under 26.1 C", 1, function(v){ return isNum(v) && v >= 21 && v < 26.1; }], ["26.1 C or more", 0, function(v){ return isNum(v) && v >= 26.1; }], noData(3)], function(p){ return p.temp; }), note:MIDDLE_NOTE },
+  s_ftemp:{ desc:"Projected mean August stream temperature in 2040. Cooler streams score higher. Same bands as stream temperature.", bands:bandRows([["Under 12 C", 5, function(v){ return isNum(v) && v < 12; }], ["12 to under 14 C", 4, function(v){ return isNum(v) && v >= 12 && v < 14; }], ["14 to under 17 C", 3, function(v){ return isNum(v) && v >= 14 && v < 17; }], ["17 to under 21 C", 2, function(v){ return isNum(v) && v >= 17 && v < 21; }], ["21 to under 26.1 C", 1, function(v){ return isNum(v) && v >= 21 && v < 26.1; }], ["26.1 C or more", 0, function(v){ return isNum(v) && v >= 26.1; }], noData(3)], function(p){ return p.temp_2040; }), note:MIDDLE_NOTE },
+  s_flood:{ desc:"Projected percent change in flood events. A smaller increase scores higher.", bands:bandRows([["Under 10% change", 5, function(v){ return isNum(v) && v < 10; }], ["10 to under 25%", 3, function(v){ return isNum(v) && v >= 10 && v < 25; }], ["25% or more", 1, function(v){ return isNum(v) && v >= 25; }], noData(3)], function(p){ return p.flood_pct; }), note:MIDDLE_NOTE },
+  s_flow:{ desc:"Projected percent change in summer low flow. A smaller change scores higher.", bands:bandRows([["Under 10% change", 5, function(v){ return isNum(v) && v < 10; }], ["10 to under 25%", 3, function(v){ return isNum(v) && v >= 10 && v < 25; }], ["25% or more", 1, function(v){ return isNum(v) && v >= 25; }], noData(3)], function(p){ return p.flow_pct; }), note:MIDDLE_NOTE }
+};
+function ptsText(n){ return n === 1 ? "1 point" : n + " points"; }
+function ruleCardHtml(m, p){
+  var r = RULES[m.key];
+  if (!r) return "";
+  var h = "<p>" + esc(r.desc) + "</p>";
+  if (r.bands){
+    h += '<table class="rtab"><caption class="sr">Points by value for ' + esc(m.name) + '</caption><tbody>' + r.bands.map(function(b){
+      var cur = b.hit(p);
+      return "<tr" + (cur ? ' class="cur" aria-current="true"' : "") + '><th scope="row">' + esc(b.label) + "</th><td>" + ptsText(b.pts) + '</td><td class="here">' + (cur ? "This barrier" : "") + "</td></tr>";
+    }).join("") + "</tbody></table>";
+  } else if (r.matrix){
+    var mx = r.matrix, count = p[mx.count], cat = minCat(p[mx.min]), none = count === 0;
+    var col = isNum(count) && count > 0 ? Math.min(count, 3) - 1 : -1;
+    h += '<table class="rtab rmx"><caption class="sr">Points by number of barriers and worst passability for ' + esc(m.name) + '</caption><thead><tr><th scope="col"></th>' + mx.cols.map(function(c){ return '<th scope="col">' + esc(c) + "</th>"; }).join("") + "</tr></thead><tbody>" +
+      mx.rows.map(function(row){
+        return '<tr><th scope="row">' + esc(row[0]) + "</th>" + row[2].map(function(v, ci){
+          var cur = !none && col === ci && cat === row[1];
+          return "<td" + (cur ? ' class="cur" aria-current="true"' : "") + ">" + v + (cur ? ' <span class="here">This barrier</span>' : "") + "</td>";
+        }).join("") + "</tr>";
+      }).join("") + "</tbody></table>" +
+      '<p class="rnone' + (none ? " cur" : "") + '"><b>' + esc(mx.none[0]) + ":</b> " + ptsText(mx.none[1]) + (none ? ' <span class="here">This barrier</span>' : "") + "</p>";
+  }
+  if (r.extra){ var xt = r.extra(p); if (xt) h += "<p><b>" + esc(xt) + "</b></p>"; }
+  if (r.note) h += '<p class="rnote">' + esc(r.note) + "</p>";
+  return '<div class="rulecard" id="rule-' + m.key + '" hidden>' + h + "</div>";
+}
 function breakdownHtml(p){
   var h = '<div class="bd">';
   CATEGORIES.forEach(function(c){
@@ -1303,7 +1582,9 @@ function breakdownHtml(p){
     h += "<h4>" + esc(c.name) + "<span>" + catScore(p, c) + " / " + c.max + "</span></h4>";
     rows.forEach(function(m){
       var pts = isNum(p[m.key]) ? p[m.key] : 0;
-      h += '<div class="mrow"><span>' + esc(m.name) + '</span><span class="mr">' + esc(m.raw(p)) + '</span><span class="mp">' + pts + " / " + m.max + "</span></div>";
+      var card = ruleCardHtml(m, p);
+      h += '<div class="mrow"><span class="mn">' + esc(m.name) + '</span><span class="mr">' + esc(m.raw(p)) + '</span><span class="mp">' + pts + " / " + m.max + "</span>" +
+        (card ? '<button type="button" class="ibtn" data-rule="' + m.key + '" aria-expanded="false" aria-controls="rule-' + m.key + '" aria-label="How ' + esc(m.name) + ' is scored" title="How this is scored">i</button>' : "<span></span>") + "</div>" + card;
     });
   });
   return h + "</div>";
@@ -1324,7 +1605,7 @@ function networkCsv(it, conn){
   var lines = [head.join(",")];
   netRows(it, conn).forEach(function(r){
     var b = r.b, p = b.p;
-    lines.push([r.role, b.id, r3(r.d), b.rank, isNum(p.total) ? p.total : "", b.tier.label, isNum(p.pass_pct) ? p.pass_pct : "", passClass(p.pass_pct), p.ftype || "", p.stream || "", p.trib || "", r.lim ? "yes" : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
+    lines.push([r.role, b.id, r3(r.d), b.rank, isNum(p.total) ? p.total : "", b.tier.label, isNum(p.pass_pct) ? p.pass_pct : "", passClassP(p), p.ftype || "", p.stream || "", p.trib || "", r.lim ? "yes" : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
   });
   return lines.join("\r\n");
 }
@@ -1332,7 +1613,7 @@ function networkGeoJson(it, conn, net, meta){
   var feats = netRows(it, conn).map(function(r){
     var b = r.b, p = b.p;
     return { type:"Feature", properties:{ role:r.role, id:b.id, distance_mi:r3(r.d), rank:b.rank, total_score:isNum(p.total) ? p.total : null, tier:b.tier.label,
-      passability_pct:isNum(p.pass_pct) ? p.pass_pct : null, passability_class:passClass(p.pass_pct), feature_type:p.ftype || null, stream:p.stream || null,
+      passability_pct:isNum(p.pass_pct) ? p.pass_pct : null, passability_class:passClassP(p), feature_type:p.ftype || null, stream:p.stream || null,
       tributary:p.trib || null, lowest_passability:r.lim }, geometry:{ type:"Point", coordinates:[b.ll[1], b.ll[0]] } };
   });
   function lines(set){
@@ -1351,7 +1632,7 @@ function networkGeoJson(it, conn, net, meta){
 var API = { CONFIG:CONFIG, TIERS:TIERS, CATEGORIES:CATEGORIES, FIELDS:FIELDS, buildModel:buildModel, buildNet:buildNet, connected:connected,
   walk:walk, activeChips:activeChips, activeFilterCount:activeFilterCount, parseDate:parseDate, defaultFilters:defaultFilters,
   applyFilters:applyFilters, orderItems:orderItems, encodeState:encodeState, decodeState:decodeState, whySentence:whySentence,
-  passText:passText, passClass:passClass, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
+  passText:passText, passClass:passClass, typeTokens:typeTokens, passKey:passKey, passKeyP:passKeyP, passTextP:passTextP, parsePass:parsePass, RULES:RULES, ruleCardHtml:ruleCardHtml, reachAt:reachAt, watershedAt:watershedAt, finishGeo:finishGeo, geoClick:geoClick, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
 if (typeof window !== "undefined") window.__barrierApp = API;
 if (typeof L === "undefined") return;
 
@@ -1378,6 +1659,8 @@ setBase("gray");
 L.control.scale({ position:"bottomleft", maxWidth:110, imperial:true, metric:true }).addTo(map);
 
 map.createPane("hi").style.zIndex = 440;
+map.createPane("watersheds").style.zIndex = 392;
+map.createPane("habitat").style.zIndex = 395;
 map.createPane("barriers").style.zIndex = 460;
 map.createPane("ring").style.zIndex = 470;
 var canvas = L.canvas({ pane:"barriers", padding:0.5, tolerance:6 });
@@ -1648,7 +1931,8 @@ map.on("click", function(e){
       var d = pt.distanceTo(map.latLngToContainerPoint(it.ll));
       if (d < bd){ bd = d; best = it; }
     });
-    if (best) selectItem(best, { from:"map", zoom:false });
+    if (best){ map.closePopup(); selectItem(best, { from:"map", zoom:false }); }
+    else geoClick(e.latlng);
     return;
   }
   if (mMode === "stream") streamClick(e.latlng);
@@ -1718,7 +2002,7 @@ function nameMarker(m, text){
 }
 function connMarker(b, up){
   var d = conn ? (up ? conn.upDist[b.id] : conn.dnDist[b.id]) : undefined;
-  var pass = passText(b.p.pass_pct);
+  var pass = passTextP(b.p);
   var sub = (up ? "Upstream" : "Downstream") + ", " + pass + (d !== undefined ? ", " + distText(d, "").trim() : "");
   var m = L.marker(b.ll, { icon:triIcon(b.tier.color, up ? "#0088ad" : "#6a1f8f", up), keyboard:true, riseOnHover:true });
   m.bindTooltip(tipHtml(b.id, sub), { direction:"top", offset:[0, -8] });
@@ -1807,8 +2091,8 @@ function limitMarkers(){
     var lim = x[0];
     if (!lim) return;
     var m = L.marker(lim.b.ll, { icon:limitIcon(lim.b.tier.color, x[2], x[1]), keyboard:true, zIndexOffset:500 });
-    m.bindTooltip(tipHtml(lim.b.id, x[3].charAt(0).toUpperCase() + x[3].slice(1) + ": " + passText(lim.b.p.pass_pct) + ", " + distText(lim.d, "").trim()), { direction:"top", offset:[0, -14] });
-    nameMarker(m, "Lowest passability barrier " + x[3] + ", " + lim.b.id + ", " + passText(lim.b.p.pass_pct) + ", " + distText(lim.d, x[3]) + ". Activate to open it.");
+    m.bindTooltip(tipHtml(lim.b.id, x[3].charAt(0).toUpperCase() + x[3].slice(1) + ": " + passTextP(lim.b.p) + ", " + distText(lim.d, "").trim()), { direction:"top", offset:[0, -14] });
+    nameMarker(m, "Lowest passability barrier " + x[3] + ", " + lim.b.id + ", " + passTextP(lim.b.p) + ", " + distText(lim.d, x[3]) + ". Activate to open it.");
     m.on("click", function(e){ L.DomEvent.stop(e); selectItem(lim.b, { zoom:false, from:"map" }); });
     limitLayer.addLayer(m);
   });
@@ -2064,6 +2348,7 @@ API.preparePrint = preparePrint;
 function setTab(name){
   if (["overview", "score", "network"].indexOf(name) < 0) name = "overview";
   detailTab = name;
+  if (name !== "score" && typeof closeFly === "function") closeFly();
   document.querySelectorAll("#dTabs .tab").forEach(function(b){
     var cur = b.dataset.tab === name;
     b.setAttribute("aria-selected", String(cur)); b.tabIndex = cur ? 0 : -1;
@@ -2094,7 +2379,6 @@ $("dBody").addEventListener("change", function(ev){
 });
 $("dFoot").addEventListener("click", function(ev){
   if (ev.target.closest("#printBtn")) printSelected();
-  else if (ev.target.closest("#copyBtn2")) copyLink();
 });
 var hintShown = false;
 function selectItem(it, opt){
@@ -2113,6 +2397,7 @@ function selectItem(it, opt){
   $("dBody").innerHTML = detailHtml(it, conn, net ? (hasNet(it) ? true : null) : false, rUrl, { tab:detailTab, ov:ov, dir:listDir });
   $("dFoot").innerHTML = footHtml(rUrl);
   setTab(detailTab);
+  syncFly();
   $("dBody").scrollTop = 0;
   var wasHidden = $("detail").hidden;
   $("detail").hidden = false;
@@ -2133,13 +2418,14 @@ function selectItem(it, opt){
   var msg = "Barrier " + it.id + ", score " + (isNum(it.p.total) ? it.p.total : "not available") + ", rank " + it.rank + ", " + it.tier.label + ".";
   if (conn){
     msg += " " + miles(conn.upMi) + " upstream, " + plural(conn.upBarriers.length, "barrier", "barriers") + " upstream, " + plural(conn.dnBarriers.length, "barrier", "barriers") + " downstream.";
-    if (conn.dnLimit) msg += " Lowest passability downstream: barrier " + conn.dnLimit.b.id + ", " + passText(conn.dnLimit.b.p.pass_pct) + ", " + distText(conn.dnLimit.d, "along the stream") + ".";
-    if (conn.upLimit) msg += " Lowest passability upstream: barrier " + conn.upLimit.b.id + ", " + passText(conn.upLimit.b.p.pass_pct) + ", " + distText(conn.upLimit.d, "along the stream") + ".";
+    if (conn.dnLimit) msg += " Lowest passability downstream: barrier " + conn.dnLimit.b.id + ", " + passTextP(conn.dnLimit.b.p) + ", " + distText(conn.dnLimit.d, "along the stream") + ".";
+    if (conn.upLimit) msg += " Lowest passability upstream: barrier " + conn.upLimit.b.id + ", " + passTextP(conn.upLimit.b.p) + ", " + distText(conn.upLimit.d, "along the stream") + ".";
   }
   say(msg);
   if (opt.from === "map") $("dTitle").focus({ preventScroll:true });
 }
 function clearSelection(){
+  closeFly();
   selected = null; conn = null;
   $("detail").hidden = true;
   document.body.classList.remove("has-detail");
@@ -2154,6 +2440,14 @@ $("dPrev").addEventListener("click", function(){ step(-1); });
 $("dNext").addEventListener("click", function(){ step(1); });
 $("dBody").addEventListener("click", function(ev){
   if (ev.target.closest("#fitSel")){ fitSelected(); return; }
+  var ib = ev.target.closest("button[data-rule]");
+  if (ib){
+    if (flyMode()){ if (flyKey === ib.dataset.rule) closeFly(); else openFly(ib.dataset.rule, ib); return; }
+    var card = document.getElementById("rule-" + ib.dataset.rule), open = ib.getAttribute("aria-expanded") !== "true";
+    ib.setAttribute("aria-expanded", String(open));
+    if (card) card.hidden = !open;
+    return;
+  }
   var dl = ev.target.closest("button[data-dl]");
   if (dl && selected && conn && net){
     var base = "wria14_barrier_" + safeName(selected.id) + "_network";
@@ -2215,7 +2509,7 @@ function drawList(){
     var sub = [it.p.stream || "Unnamed", it.p.trib ? "tributary to " + it.p.trib : ""].filter(Boolean).join(", ");
     if (listMode === "newest" || listMode === "oldest") sub = (it.p.survey_date ? "Surveyed " + it.p.survey_date : "No survey date") + ". " + sub;
     li.innerHTML = '<button type="button" class="item" data-id="' + esc(it.id) + '"' + (selected && selected.id === it.id ? ' aria-current="true"' : "") + ">" +
-      '<span class="rk"><span class="sr">Rank </span>' + it.rank + '</span><span class="nm">' + esc(it.id) + "</span>" +
+      '<span class="rk"><span class="sr">Rank </span>' + it.rank + '</span><span class="nm">' + esc(it.id) + (it.natural ? ' <span class="ntag">Natural<span class="sr"> barrier</span></span>' : "") + "</span>" +
       '<span class="sc" style="background:' + scoreBg(it) + '"><span class="swatch" style="background:' + it.tier.color + '" title="' + esc(it.tier.label) + '"></span><span class="sr">' + esc(it.tier.label) + ", score </span>" + (isNum(it.p.total) ? it.p.total : "n/a") + "</span>" +
       '<span class="sub">' + esc(sub) + "</span></button>";
     frag.appendChild(li);
@@ -2249,7 +2543,7 @@ function drawTable(){
   var body = "<tbody>" + rows.map(function(it){
     return "<tr>" + TABLE_COLS.map(function(c, ci){
       var v = cellValue(it, c[0]);
-      var txt = v === null ? "" : esc(c[0] === "pass_pct" ? passText(v) : v);
+      var txt = c[0] === "pass_pct" ? esc(passTextP(it.p)) : (v === null ? "" : esc(v));
       return "<td" + (c[2] ? ' class="num"' : "") + ">" + (ci === 1 ? '<button type="button" data-id="' + esc(it.id) + '">' + txt + "</button>" : txt) + "</td>";
     }).join("") + "</tr>";
   }).join("") + "</tbody>";
@@ -2297,11 +2591,18 @@ function refresh(){
   var nf = activeFilterCount(st);
   $("fCount").hidden = !nf; $("fCount").textContent = nf;
   $("sheetDone").textContent = n === 1 ? "Show 1 barrier" : "Show " + n + " barriers";
-  drawChips(); drawMarkers(); drawList(); updateStepper();
+  drawChips(); updateGroupSummaries(); drawMarkers(); drawList(); updateStepper();
   if (!$("drawer").hidden) drawTable();
   writeHash();
 }
 function refreshSoon(){ clearTimeout(refreshTimer); refreshTimer = setTimeout(refresh, 120); }
+var FG_MAP = { tier:"tier", score:"score", pass:"pass", own:"own", survey:"survey", dates:"survey", pot:"pot", use:"use", fill:"fill", ftype:"ftype", ws:"ws", rest:"hab", cons:"hab" };
+function chipValue(c){ return c.label.replace(/^[^:]*:\s*/, "").replace(/^(Score|Road fill|Surveyed)\s+/, ""); }
+function updateGroupSummaries(){
+  var by = {};
+  activeChips(st).forEach(function(c){ var g = FG_MAP[c.key]; if (g) (by[g] = by[g] || []).push(chipValue(c)); });
+  document.querySelectorAll("#filters .fsum").forEach(function(el){ var v = by[el.dataset.fsum]; el.textContent = v ? v.join("; ") : ""; el.hidden = !v; });
+}
 function drawChips(){
   var box = $("chips"), chips = activeChips(st);
   box.innerHTML = "";
@@ -2326,7 +2627,11 @@ function clearFilter(key){
   else if (key === "pot") st.pot = {};
   else if (key === "use") st.use = {};
   else if (key === "fill"){ st.fMin = null; st.fMax = null; }
-  else if (key === "ftype") st.ftype = "";
+  else if (key === "ftype") st.ftypes = {};
+  else if (key === "pass") st.pass = {};
+  else if (key === "ws") st.ws = {};
+  else if (key === "rest") st.rest = {};
+  else if (key === "cons") st.cons = {};
   syncUi(); refresh();
 }
 $("chips").addEventListener("click", function(ev){
@@ -2337,7 +2642,11 @@ function syncUi(){
   $("q").value = st.q;
   updatePlaceBox();
   $("smin").value = st.min === null ? "" : st.min; $("smax").value = st.max === null ? "" : st.max;
-  $("ftype").value = st.ftype;
+  renderFtChips(); renderFtList(); syncHist();
+  document.querySelectorAll("#passBox input").forEach(function(i){ i.checked = !!st.pass[i.dataset.key]; });
+  document.querySelectorAll("#wsBox input").forEach(function(i){ i.checked = !!st.ws[i.dataset.key]; });
+  document.querySelectorAll("#restBox input").forEach(function(i){ i.checked = !!st.rest[i.dataset.key]; });
+  document.querySelectorAll("#consBox input").forEach(function(i){ i.checked = !!st.cons[i.dataset.key]; });
   $("sPreset").value = st.sPreset;
   $("sFrom").value = st.sFrom === null ? "" : isoOf(st.sFrom); $("sTo").value = st.sTo === null ? "" : isoOf(st.sTo);
   $("fMin").value = st.fMin === null ? "" : st.fMin; $("fMax").value = st.fMax === null ? "" : st.fMax;
@@ -2363,11 +2672,12 @@ function buildFilterUi(){
   Object.keys(counts).sort(function(a, b){ return counts[b] - counts[a]; }).forEach(function(o){
     chkRow($("ownerBox"), o, "<span>" + esc(o) + "</span>", counts[o], true, function(){ st.ownersOff[o] = !this.checked; refresh(); });
   });
-  var ft = {};
-  items.forEach(function(it){ if (it.p.ftype) ft[it.p.ftype] = (ft[it.p.ftype] || 0) + 1; });
-  Object.keys(ft).sort(function(a, b){ return ft[b] - ft[a]; }).forEach(function(f){
-    var op = document.createElement("option"); op.value = f; op.textContent = f + " (" + ft[f] + ")"; $("ftype").appendChild(op);
+  var pcount = { total:0, partial:0, none:0, unknown:0, assumed:0, na:0 };
+  items.forEach(function(it){ pcount[passKeyP(it.p)]++; });
+  PASS_OPTIONS.filter(function(o){ return pcount[o[0]] > 0; }).forEach(function(o){
+    chkRow($("passBox"), o[0], "<span>" + esc(o[1]) + "</span>", pcount[o[0]], false, function(){ st.pass[o[0]] = this.checked; refresh(); });
   });
+  buildFtCombo(); buildHist();
   ["chinook","coho","steelhead","chum","cutthroat"].forEach(function(s){
     chkRow($("useBox"), s, "<span>" + s.charAt(0).toUpperCase() + s.slice(1) + "</span>", null, false, function(){ st.use[s] = this.checked; refresh(); });
   });
@@ -2384,9 +2694,113 @@ function buildFilterUi(){
   if (withFill.length) $("fillNote").textContent = withFill.length + " of " + items.length + " barriers have road fill data. Barriers without it are hidden while this filter is set.";
 }
 $("q").addEventListener("input", function(){ st.q = this.value; updatePlaceBox(); refreshSoon(); });
-$("smin").addEventListener("input", function(){ st.min = this.value === "" ? null : Number(this.value); refreshSoon(); });
-$("smax").addEventListener("input", function(){ st.max = this.value === "" ? null : Number(this.value); refreshSoon(); });
-$("ftype").addEventListener("change", function(){ st.ftype = this.value; refresh(); });
+/* total score: a histogram with a range slider */
+var histDomain = { min:0, max:100 };
+function buildHist(){
+  var t = items.filter(function(it){ return isNum(it.p.total); }).map(function(it){ return it.p.total; });
+  $("scoreHist").parentNode.parentNode.hidden = !t.length;
+  if (!t.length) return;
+  histDomain = { min:Math.floor(Math.min.apply(null, t)), max:Math.ceil(Math.max.apply(null, t)) };
+  if (histDomain.max <= histDomain.min) histDomain.max = histDomain.min + 1;
+  ["smin", "smax"].forEach(function(id){ $(id).min = histDomain.min; $(id).max = histDomain.max; });
+  syncHist();
+}
+function histBins(){
+  var d = histDomain, bw = 3, nb = Math.ceil((d.max - d.min + 1) / bw), bins = [];
+  for (var i = 0; i < nb; i++) bins.push(0);
+  items.forEach(function(it){ if (isNum(it.p.total)) bins[Math.min(nb - 1, Math.floor((it.p.total - d.min) / bw))]++; });
+  return { bins:bins, bw:bw };
+}
+function syncHist(){
+  var d = histDomain, lo = st.min === null ? d.min : Math.max(d.min, st.min), hi = st.max === null ? d.max : Math.min(d.max, st.max);
+  $("smin").value = lo; $("smax").value = hi;
+  $("smin").setAttribute("aria-valuetext", "Minimum score " + lo); $("smax").setAttribute("aria-valuetext", "Maximum score " + hi);
+  var hb = histBins(), mx = Math.max.apply(null, hb.bins) || 1, W = 300, H = 56, w = W / hb.bins.length, svg = "";
+  hb.bins.forEach(function(c, i){
+    var h = c ? Math.max(2, Math.round(c / mx * (H - 4))) : 0, b0 = d.min + i * hb.bw, b1 = b0 + hb.bw - 1, inside = b1 >= lo && b0 <= hi;
+    if (h) svg += '<rect x="' + (i * w + 0.5).toFixed(1) + '" y="' + (H - h) + '" width="' + (w - 1).toFixed(1) + '" height="' + h + '" rx="1.5" style="fill:' + (inside ? "var(--brand)" : "#cbd5dc") + '"></rect>';
+  });
+  $("histSvg").innerHTML = svg;
+  var span = d.max - d.min || 1;
+  $("histTrack").style.left = ((lo - d.min) / span * 100) + "%"; $("histTrack").style.right = ((d.max - hi) / span * 100) + "%";
+  var n = items.filter(function(it){ return isNum(it.p.total) && it.p.total >= lo && it.p.total <= hi; }).length;
+  $("histRead").textContent = "Score " + lo + " to " + hi + ": " + n + " of " + items.length + " barriers";
+}
+function histInput(which){
+  var d = histDomain, a = Number($("smin").value), b = Number($("smax").value);
+  if (a > b){ if (which === "min"){ a = b; $("smin").value = a; } else { b = a; $("smax").value = b; } }
+  st.min = a <= d.min ? null : a; st.max = b >= d.max ? null : b;
+  syncHist(); refreshSoon();
+}
+$("smin").addEventListener("input", function(){ histInput("min"); });
+$("smax").addEventListener("input", function(){ histInput("max"); });
+
+/* feature type: a combo box where several types can be picked */
+var ftOpts = [], ftActive = -1;
+function buildFtCombo(){
+  var c = {};
+  items.forEach(function(it){ it.types.forEach(function(t){ c[t] = (c[t] || 0) + 1; }); });
+  ftOpts = Object.keys(c).sort(function(a, b){ return c[b] - c[a] || a.localeCompare(b); }).map(function(k){ return { key:k, count:c[k] }; });
+  renderFtList(); renderFtChips();
+}
+function ftShown(){
+  var q = $("ftInput").value.trim().toLowerCase();
+  return ftOpts.filter(function(o){ return !q || o.key.toLowerCase().indexOf(q) !== -1; });
+}
+function renderFtList(){
+  var ul = $("ftList"), shown = ftShown();
+  ul.innerHTML = "";
+  if (ftActive >= shown.length) ftActive = shown.length - 1;
+  shown.forEach(function(o, i){
+    var li = document.createElement("li");
+    li.id = "ftopt-" + i; li.className = "mc-opt" + (i === ftActive ? " act" : ""); li.setAttribute("role", "option");
+    li.setAttribute("aria-selected", String(!!st.ftypes[o.key])); li.dataset.key = o.key;
+    li.innerHTML = '<span class="mc-check" aria-hidden="true"></span><span class="mc-lab">' + esc(o.key) + '</span><span class="n">' + o.count + "</span>";
+    ul.appendChild(li);
+  });
+  if (!shown.length){ var none = document.createElement("li"); none.className = "mc-none"; none.setAttribute("role", "presentation"); none.textContent = "No matching feature type"; ul.appendChild(none); }
+  if (ftActive >= 0 && !$("ftList").hidden) $("ftInput").setAttribute("aria-activedescendant", "ftopt-" + ftActive); else $("ftInput").removeAttribute("aria-activedescendant");
+}
+function renderFtChips(){
+  var box = $("ftChips"); box.innerHTML = "";
+  onKeys(st.ftypes).forEach(function(k){
+    var el = document.createElement("span"); el.className = "mc-chip";
+    el.innerHTML = "<span>" + esc(k) + '</span><button type="button" data-rm="' + esc(k) + '" aria-label="Remove ' + esc(k) + '"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10"/></svg></button>';
+    box.appendChild(el);
+  });
+}
+function openFt(open){
+  $("ftList").hidden = !open; $("ftInput").setAttribute("aria-expanded", String(open));
+  if (!open){ ftActive = -1; $("ftInput").removeAttribute("aria-activedescendant"); } else renderFtList();
+}
+function toggleFt(key){
+  if (st.ftypes[key]) delete st.ftypes[key]; else st.ftypes[key] = true;
+  renderFtList(); renderFtChips(); refresh();
+}
+$("ftInput").addEventListener("focus", function(){ openFt(true); });
+$("ftInput").addEventListener("click", function(){ openFt(true); });
+$("ftInput").addEventListener("input", function(){ ftActive = 0; openFt(true); });
+$("ftToggle").addEventListener("click", function(){ if ($("ftList").hidden){ $("ftInput").focus(); openFt(true); } else openFt(false); });
+$("ftList").addEventListener("mousedown", function(e){ e.preventDefault(); });
+$("ftList").addEventListener("click", function(ev){ var li = ev.target.closest("li[data-key]"); if (li) toggleFt(li.dataset.key); });
+$("ftChips").addEventListener("click", function(ev){ var b = ev.target.closest("button[data-rm]"); if (b){ delete st.ftypes[b.dataset.rm]; renderFtList(); renderFtChips(); refresh(); } });
+$("ftInput").addEventListener("keydown", function(e){
+  var shown = ftShown();
+  if (e.key === "ArrowDown" || e.key === "ArrowUp"){
+    e.preventDefault();
+    if ($("ftList").hidden) openFt(true);
+    ftActive = shown.length ? (e.key === "ArrowDown" ? (ftActive + 1) % shown.length : (ftActive <= 0 ? shown.length - 1 : ftActive - 1)) : -1;
+    renderFtList();
+    var el = $("ftopt-" + ftActive); if (el && el.scrollIntoView) el.scrollIntoView({ block:"nearest" });
+  } else if (e.key === "Enter"){
+    if (!$("ftList").hidden && shown[ftActive]){ e.preventDefault(); toggleFt(shown[ftActive].key); }
+  } else if (e.key === "Escape"){
+    if (!$("ftList").hidden){ e.preventDefault(); e.stopPropagation(); openFt(false); }
+  } else if (e.key === "Backspace" && !this.value){
+    var ks = onKeys(st.ftypes); if (ks.length){ delete st.ftypes[ks[ks.length - 1]]; renderFtList(); renderFtChips(); refresh(); }
+  }
+});
+document.addEventListener("click", function(ev){ if (!ev.target.isConnected) return; if (!$("ftList").hidden && !ev.target.closest("#ftCombo")) openFt(false); });
 $("sPreset").addEventListener("change", function(){ st.sPreset = this.value; refresh(); });
 $("sFrom").addEventListener("change", function(){ st.sFrom = this.value ? parseDate(this.value) : null; refresh(); });
 $("sTo").addEventListener("change", function(){ st.sTo = this.value ? parseDate(this.value) + 864e5 - 1 : null; refresh(); });
@@ -2400,6 +2814,7 @@ $("sheetReset").addEventListener("click", function(){ clearFilter("all"); });
 document.addEventListener("keydown", function(e){
   if (e.key !== "Escape" || $("about").open) return;
   if (!$("tour").hidden){ endTour(); return; }
+  if (!$("ruleFly").hidden){ closeFly(); return; }
   if (!$("filters").hidden){ closeSheet(); return; }
   if (!$("layersPop").hidden){ toggleLayers(false); return; }
   if (selected) clearSelection();
@@ -2441,7 +2856,7 @@ $("lyrHill").addEventListener("change", function(){
 
 function buildAbout(){
   var h = '<img class="logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group">';
-  h += "<p>This map ranks fish passage barriers in WRIA 14 by the benefit of fixing them. Each barrier is scored on up to " + CONFIG.maxScore + " points across five groups of measures. A higher score is a higher priority. Map published by South Puget Sound Salmon Enhancement Group.</p>";
+  h += "<p>This map ranks fish passage barriers in WRIA 14 by the benefit of fixing them. Each barrier is scored on up to " + CONFIG.maxScore + " points across five groups of measures. A higher score is a higher priority. Barriers marked Natural are natural features, such as waterfalls. They are ranked for the habitat they block but may not be project candidates. Map published by South Puget Sound Salmon Enhancement Group.</p>";
   h += '<table><thead><tr><th scope="col">Group</th><th scope="col" class="num">Points</th></tr></thead><tbody>';
   CATEGORIES.forEach(function(c){
     h += "<tr><td><b>" + esc(c.name) + '</b><br><span style="color:var(--muted)">' + esc(c.metrics) + '</span></td><td class="num">' + c.max + "</td></tr>";
@@ -2483,11 +2898,235 @@ function copyLink(){
 }
 $("btnCopy").addEventListener("click", copyLink);
 
+/* the scoring explanation pops out to the left of the sidebar on wide screens, so the list of scores stays in view */
+var flyKey = null;
+function flyMode(){ return window.innerWidth >= 1280; }
+function placeFly(btn, keep){
+  var fly = $("ruleFly"), dr = $("detail").getBoundingClientRect();
+  fly.style.right = Math.max(12, window.innerWidth - dr.left + 12) + "px";
+  if (keep && fly.style.top) return;
+  var top = btn ? btn.getBoundingClientRect().top - 44 : 90, h = fly.offsetHeight || 380;
+  fly.style.top = Math.max(72, Math.min(top, window.innerHeight - h - 16)) + "px";
+}
+function openFly(key, btn, keep){
+  var m = MEASURES.filter(function(x){ return x.key === key; })[0], card = document.getElementById("rule-" + key);
+  if (!m || !card || !selected) return;
+  flyKey = key;
+  var pts = isNum(selected.p[key]) ? selected.p[key] : 0;
+  $("rfTitle").textContent = m.name;
+  $("rfSub").textContent = "This barrier: " + m.raw(selected.p) + ", " + ptsText(pts) + " of " + m.max;
+  $("rfBody").innerHTML = card.innerHTML;
+  $("ruleFly").hidden = false;
+  document.querySelectorAll('#dBody button[data-rule]').forEach(function(b){
+    var on = b.dataset.rule === key; b.setAttribute("aria-expanded", String(on));
+    if (b.parentNode) b.parentNode.classList.toggle("on", on);
+  });
+  placeFly(btn, keep);
+}
+function closeFly(){
+  flyKey = null; $("ruleFly").hidden = true; $("ruleFly").style.top = "";
+  document.querySelectorAll('#dBody button[data-rule]').forEach(function(b){ b.setAttribute("aria-expanded", "false"); if (b.parentNode) b.parentNode.classList.remove("on"); });
+}
+// after the details are drawn again (another barrier), keep the same explanation open for the new barrier
+function syncFly(){
+  if (!flyKey) return;
+  var b = document.querySelector('#dBody button[data-rule="' + flyKey + '"]');
+  if (b && detailTab === "score" && flyMode() && selected) openFly(flyKey, b, true); else closeFly();
+}
+$("rfClose").addEventListener("click", closeFly);
+window.addEventListener("resize", function(){ if (flyKey){ if (!flyMode()) closeFly(); else placeFly(null, true); } });
+
+/* optional map layers: watersheds and habitat strategy reaches (polygons read from the data folder) */
+var habLayer = null, habPolys = [], habBy = "rest", habLevels = { rest:[], cons:[] }, habDisp = { rest:{}, cons:{} }, habPal = { rest:[], cons:[] };
+var wsPolys = [], wsNames = [], wsLayer = null, wsLabels = null, geoHi = null;
+var HAB_ORDER = ["highest", "high", "medium high", "moderately high", "moderate", "medium", "medium low", "moderately low", "low", "lowest", "none"];
+function lvKey(v){ return typeof v === "string" && v.trim() ? v.trim().toLowerCase() : ""; }
+function lvRank(k){ var i = HAB_ORDER.indexOf(k); return i < 0 ? 50 : i; }
+function habPalette(n){
+  var a = [26, 110, 66], b = [190, 226, 178], out = [];
+  for (var i = 0; i < n; i++){
+    var t = n === 1 ? 0 : i / (n - 1);
+    out.push("rgba(" + a.map(function(x, j){ return Math.round(x + (b[j] - x) * t); }).join(",") + ",0.5)");
+  }
+  return out;
+}
+var NOT_RATED = "rgba(150,150,150,0.22)";
+function habColor(which, v){ var i = habLevels[which].indexOf(lvKey(v)); return i < 0 ? NOT_RATED : habPal[which][i]; }
+function wsColor(name){ var i = wsNames.indexOf(name); return "hsla(" + ((i < 0 ? 0 : i) * 47 % 360) + ",52%,62%,0.34)"; }
+function ringHit(r, x, y){
+  var inside = false;
+  for (var i = 0, j = r.length - 1; i < r.length; j = i++){
+    var xi = r[i][0], yi = r[i][1], xj = r[j][0], yj = r[j][1];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+function polyHit(poly, lat, lng){
+  var bb = poly.bbox;
+  if (lng < bb[0] || lng > bb[2] || lat < bb[1] || lat > bb[3]) return false;
+  var inside = false;
+  poly.rings.forEach(function(r){ if (ringHit(r, lng, lat)) inside = !inside; });
+  return inside;
+}
+function polyAt(list, lat, lng){
+  for (var i = 0; i < list.length; i++) if (polyHit(list[i], lat, lng)) return list[i];
+  return null;
+}
+function reachAt(lat, lng){ var p = polyAt(habPolys, lat, lng); return p ? p.props : null; }
+function watershedAt(lat, lng){ var p = polyAt(wsPolys, lat, lng); return p ? p.props.name : null; }
+function parsePolys(g){
+  var out = [];
+  ((g && g.features) || []).forEach(function(f){
+    if (!f.geometry) return;
+    var polys = f.geometry.type === "Polygon" ? [f.geometry.coordinates] : (f.geometry.type === "MultiPolygon" ? f.geometry.coordinates : []);
+    polys.forEach(function(rings){
+      var bb = [1e9, 1e9, -1e9, -1e9];
+      rings.forEach(function(r){ r.forEach(function(c){ if (c[0] < bb[0]) bb[0] = c[0]; if (c[1] < bb[1]) bb[1] = c[1]; if (c[0] > bb[2]) bb[2] = c[0]; if (c[1] > bb[3]) bb[3] = c[1]; }); });
+      out.push({ rings:rings, bbox:bb, props:f.properties || {} });
+    });
+  });
+  return out;
+}
+function ringCentroid(r){
+  var a = 0, cx = 0, cy = 0;
+  for (var i = 0, j = r.length - 1; i < r.length; j = i++){
+    var f = r[j][0] * r[i][1] - r[i][0] * r[j][1];
+    a += f; cx += (r[j][0] + r[i][0]) * f; cy += (r[j][1] + r[i][1]) * f;
+  }
+  return a ? [cy / (3 * a), cx / (3 * a)] : [r[0][1], r[0][0]];
+}
+function polyArea(pl){ return (pl.bbox[2] - pl.bbox[0]) * (pl.bbox[3] - pl.bbox[1]); }
+function reachBlock(pr){
+  var h = "<b>" + esc(pr.reach || "Reach") + "</b>";
+  if (pr.ws) h += '<p style="margin:0 0 4px">' + esc(pr.ws) + "</p>";
+  var rows = [["Restoration priority", pr.rest], ["Conservation priority", pr.prot], ["Existing habitat", pr.hab], ["Salmon populations", pr.pop]].filter(function(x){ return x[1]; });
+  return h + "<ul>" + rows.map(function(x){ return '<li style="display:flex;justify-content:space-between;gap:14px;padding:3px 6px"><span style="color:var(--muted)">' + x[0] + "</span><b>" + esc(x[1]) + "</b></li>"; }).join("") + "</ul>";
+}
+function wsBlock(name){
+  var list = items.filter(function(it){ return it.p.watershed === name; });
+  var top = list.filter(function(it){ return it.tier.key === "top"; }).length;
+  return "<b>" + esc(name) + " watershed</b><p style=\"margin:0 0 6px\">" + plural(list.length, "barrier", "barriers") + (top ? ", " + top + " in the top 10 percent" : "") + '.</p><button type="button" class="btn" data-ws="' + esc(name) + '">Show only this watershed</button>';
+}
+function habLegendHtml(){
+  var which = habBy;
+  return habLevels[which].map(function(k, i){ return '<span class="lg"><i class="hsw" style="background:' + habPal[which][i] + '"></i>' + esc(habDisp[which][k] || k) + "</span>"; }).join("") +
+    '<span class="lg"><i class="hsw" style="background:' + NOT_RATED + '"></i>Not rated</span>';
+}
+function habRestyle(){
+  if (habLayer) habLayer.setStyle(function(f){ return { fillColor:habColor(habBy, habBy === "rest" ? f.properties.rest : f.properties.prot), fillOpacity:1, color:"#3f7a4c", weight:0.8, opacity:0.55 }; });
+  $("habLegend").innerHTML = habLegendHtml();
+  document.querySelectorAll("#habCard .hc-seg button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.by === habBy)); });
+}
+// clicks on a reach or watershed: the barrier layers sit on top and take every click, so look the polygon up by position
+function geoClick(ll){
+  var html = "", hi = null;
+  if (habLayer && map.hasLayer(habLayer)){
+    var rp = polyAt(habPolys, ll.lat, ll.lng);
+    if (rp){ html += '<div class="pp">' + reachBlock(rp.props) + "</div>"; hi = rp; }
+  }
+  if (wsLayer && map.hasLayer(wsLayer)){
+    var wp = polyAt(wsPolys, ll.lat, ll.lng);
+    if (wp){ html += '<div class="pp"' + (html ? ' style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"' : "") + ">" + wsBlock(wp.props.name) + "</div>"; if (!hi) hi = wp; }
+  }
+  if (!html) return false;
+  if (geoHi){ map.removeLayer(geoHi); geoHi = null; }
+  geoHi = L.polygon(hi.rings.map(function(r){ return r.map(function(c){ return [c[1], c[0]]; }); }), { pane:"habitat", color:"#1b3f95", weight:3, fill:false, interactive:false }).addTo(map);
+  L.popup({ maxWidth:300, autoPanPadding:[30, 30] }).setLatLng(ll).setContent(html).openOn(map);
+  return true;
+}
+map.on("popupclose", function(){ if (geoHi){ map.removeLayer(geoHi); geoHi = null; } });
+function updateWsLabels(){
+  if (!wsLabels) return;
+  var show = $("lyrWs").checked && map.getZoom() <= 12;
+  if (show && !map.hasLayer(wsLabels)) map.addLayer(wsLabels);
+  if (!show && map.hasLayer(wsLabels)) map.removeLayer(wsLabels);
+}
+map.on("zoomend", updateWsLabels);
+function loadGeo(url){ return getJson(url).then(function(g){ return g; }).catch(function(){ return null; }); }
+function loadHabitat(){ return loadGeo(CONFIG.habitatUrl); }
+function loadWatersheds(){ return loadGeo(CONFIG.watershedsUrl); }
+function finishGeo(habG, wsG){
+  habPolys = parsePolys(habG);
+  wsPolys = parsePolys(wsG);
+  if (!habPolys.length && !wsPolys.length) return;
+  // levels of each priority, highest first
+  [["rest", "rest"], ["cons", "prot"]].forEach(function(w){
+    var seen = {};
+    habPolys.forEach(function(pl){ var k = lvKey(pl.props[w[1]]); if (k && !seen[k]){ seen[k] = true; habDisp[w[0]][k] = String(pl.props[w[1]]).trim(); } });
+    habLevels[w[0]] = Object.keys(seen).sort(function(a, b){ return lvRank(a) - lvRank(b) || a.localeCompare(b); });
+    habPal[w[0]] = habPalette(habLevels[w[0]].length);
+  });
+  var seenWs = {};
+  wsPolys.forEach(function(pl){ var n = pl.props.name; if (n && !seenWs[n]){ seenWs[n] = true; wsNames.push(n); } });
+  wsNames.sort(function(a, b){ return a.localeCompare(b); });
+  // which reach and watershed each barrier is in
+  items.forEach(function(it){
+    var r = habPolys.length ? reachAt(it.ll[0], it.ll[1]) : null, w = wsPolys.length ? watershedAt(it.ll[0], it.ll[1]) : null;
+    if (r){
+      it.reach = r;
+      it.p.reach_name = r.reach || null; it.p.rest_pri = r.rest || null; it.p.cons_pri = r.prot || null; it.p.hab_bin = r.hab || null; it.p.reach_pop = r.pop || null;
+    }
+    var name = wsPolys.length ? w : ((r && r.ws) || null);   // the reach's own watershed text is only a fallback when there is no watersheds layer
+    if (name) it.p.watershed = name;
+  });
+  var haveWs = items.some(function(it){ return it.p.watershed; });
+  if (haveWs){ FIELDS.push(["watershed", "Watershed"]); TABLE_COLS.push(["watershed", "Watershed"]); }
+  if (habPolys.length){
+    [["reach_name", "Reach"], ["rest_pri", "Restoration priority"], ["cons_pri", "Conservation priority"], ["hab_bin", "Existing habitat"], ["reach_pop", "Salmon populations"]].forEach(function(f){ FIELDS.push(f); });
+    TABLE_COLS.push(["rest_pri", "Restoration priority"], ["cons_pri", "Conservation priority"]);
+  }
+  buildGeoUi(habG, wsG, haveWs);
+}
+function buildGeoUi(habG, wsG, haveWs){
+  var body = $("filters").querySelector(".sheet-body"), before = $("ftGroup");
+  if (haveWs){
+    var wg = document.createElement("details"); wg.className = "dd fg"; wg.id = "wsGroup";
+    wg.innerHTML = '<summary><span class="ft">Watershed</span><span class="fsum" data-fsum="ws" hidden></span></summary><div class="fgb"><div id="wsBox" style="max-height:280px;overflow:auto"></div></div>';
+    body.insertBefore(wg, before);
+    var counts = {};
+    items.forEach(function(it){ var n = it.p.watershed || NO_WS; counts[n] = (counts[n] || 0) + 1; });
+    Object.keys(counts).sort(function(a, b){ if (a === NO_WS) return 1; if (b === NO_WS) return -1; return a.localeCompare(b); }).forEach(function(n){
+      chkRow($("wsBox"), n, "<span>" + esc(n) + "</span>", counts[n], false, function(){ st.ws[n] = this.checked; refresh(); });
+    });
+  }
+  if (habPolys.length){
+    var grp = document.createElement("details"); grp.className = "dd fg"; grp.id = "habGroup";
+    grp.innerHTML = '<summary><span class="ft">Habitat strategy</span><span class="fsum" data-fsum="hab" hidden></span></summary><div class="fgb"><div class="note" style="margin-top:0">From the WRIA 14 freshwater prioritization tool, by reach. Barriers with any selected level.</div>' +
+      '<label class="lbl">Restoration priority</label><div id="restBox"></div><label class="lbl" style="margin-top:10px">Conservation priority</label><div id="consBox"></div></div>';
+    body.insertBefore(grp, before);
+    [["rest", "restBox", "rest"], ["cons", "consBox", "prot"]].forEach(function(w){
+      habLevels[w[0]].forEach(function(k){
+        var n = items.filter(function(it){ return it.reach && lvKey(it.reach[w[2]]) === k; }).length;
+        chkRow($(w[1]), k, '<i class="hsw" style="background:' + habColor(w[0], k) + '"></i><span>' + esc(habDisp[w[0]][k]) + "</span>", n, false, function(){ st[w[0]][k] = this.checked; refresh(); });
+      });
+    });
+    habLayer = L.geoJSON(habG, { pane:"habitat", interactive:false, style:{ weight:1 } });
+    habRestyle();
+    $("habLayerBox").hidden = false;
+    $("lyrHab").addEventListener("change", function(){ if (this.checked) habLayer.addTo(map); else { map.removeLayer(habLayer); map.closePopup(); } $("habCard").hidden = !this.checked; });
+    document.querySelectorAll("#habCard .hc-seg button").forEach(function(b){ b.addEventListener("click", function(){ habBy = this.dataset.by; habRestyle(); }); });
+  }
+  if (wsPolys.length){
+    wsLayer = L.geoJSON(wsG, { pane:"watersheds", interactive:false, style:function(f){ return { fillColor:wsColor(f.properties.name), fillOpacity:1, color:"#5f6f7c", weight:0.8, opacity:0.55 }; } });
+    wsLabels = L.layerGroup();
+    var best = {};
+    wsPolys.forEach(function(pl){ var n = pl.props.name; if (n && (!best[n] || polyArea(pl) > polyArea(best[n]))) best[n] = pl; });
+    Object.keys(best).forEach(function(n){
+      var c = ringCentroid(best[n].rings[0]);
+      wsLabels.addLayer(L.marker(c, { pane:"watersheds", interactive:false, keyboard:false, icon:L.divIcon({ className:"ws-label", html:esc(n), iconSize:[0, 0] }) }));
+    });
+    $("wsLayerBox").hidden = false;
+    $("lyrWs").addEventListener("change", function(){ if (this.checked) wsLayer.addTo(map); else { map.removeLayer(wsLayer); map.closePopup(); } updateWsLabels(); });
+  }
+  syncUi(); refresh();
+  if (selected) selectItem(selected, { from:"map", zoom:false });
+}
+
 /* quick tour for first time visitors */
 var TOUR = [
   { title:"Click a barrier", text:"Click any dot on the map, or any row in the list. The map then shows the stream above it, the path below it, and the barriers along both.", hl:".finder" },
   { title:"Switch tabs", text:"Overview has the score, the site facts and the species. Score shows how the points add up. Network lists the connected barriers and the lowest passability ones.", hl:"#dTabs" },
-  { title:"Print or share", text:"Print summary makes a one page sheet with a map. Copy link reopens this barrier, these filters and this view. WDFW report opens the site report.", hl:"#dFoot" }
+  { title:"Print or share", text:"Print summary makes a one page sheet with a map. Share link, at the top right, copies a link that reopens this barrier, these filters and this view. WDFW report opens the site report.", hl:"#dFoot" }
 ];
 var tourStep = -1;
 function tourSeen(){ try { return localStorage.getItem("wria14_tour") === "1"; } catch (e) { return false; } }
@@ -2576,6 +3215,7 @@ document.addEventListener("click", function(ev){
   var b = ev.target.closest && ev.target.closest(".pp button");
   if (!b) return;
   if (b.dataset.clearplace){ clearPlace(); map.closePopup(); return; }
+  if (b.dataset.ws){ st.ws = {}; st.ws[b.dataset.ws] = true; syncUi(); refresh(); map.closePopup(); status("Showing only the " + b.dataset.ws + " watershed. Clear it in the filters."); return; }
   var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
   if (it){ map.closePopup(); selectItem(it, { from:"map" }); }
 });
@@ -2612,6 +3252,7 @@ function start(fc, isDemo, streamsUrl){
   getJson(CONFIG.basinUrl).then(function(g){
     L.geoJSON(g, { style:{ color:"#142e6e", weight:2.5, dashArray:"2 6", fill:false }, interactive:false }).addTo(basinLayer);
   }).catch(function(){});
+  Promise.all([loadHabitat(), loadWatersheds()]).then(function(r){ finishGeo(r[0], r[1]); });
   return loadStreams(streamsUrl).then(function(){
     if (init.b){
       var it = items.filter(function(x){ return x.id === init.b; })[0];
