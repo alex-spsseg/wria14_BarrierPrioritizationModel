@@ -19,7 +19,6 @@
   --r:16px; --shadow:0 1px 2px rgba(16,32,43,.08),0 8px 28px rgba(16,32,43,.16); --shadow-sm:0 1px 2px rgba(16,32,43,.12),0 2px 8px rgba(16,32,43,.12);
   --font:"Public Sans","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
 }
-body.hc{ --ink:#000; --muted:#1a1a1a; --line:#000; --brand:#000; --brand-ink:#000; --soft:#fff; --tint:#fff; --tint2:#eee; }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{font:400 .96rem/1.5 var(--font);color:var(--ink);background:#dfe6e8;overflow:hidden;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
@@ -94,7 +93,17 @@ button{cursor:pointer}
 .mc-opt[aria-selected="true"] .mc-check{background:var(--brand);border-color:var(--brand)}
 .mc-opt[aria-selected="true"] .mc-check::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
 .mc-none{padding:8px;color:var(--muted);font-size:.86rem}
-.habcard{position:absolute;z-index:940;left:412px;bottom:78px;padding:10px 12px;max-width:400px}
+#aboutBody h3{margin:18px 0 6px;font-size:.95rem;color:var(--brand-ink)}
+#aboutBody ul{margin:6px 0 10px;padding-left:20px}
+#aboutBody li{margin-bottom:6px}
+#aboutBody th[scope="row"]{text-align:left;font-weight:600}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
+.habcard{position:absolute;z-index:940;left:412px;bottom:78px;padding:10px 12px;width:max-content;max-width:480px}
+.basegrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+#symBox{padding:0}
+#symBox > summary{padding:10px 0;font-size:.8rem;color:var(--muted)}
+.mini > summary{padding:8px 2px;font-size:.84rem;color:var(--brand);font-weight:600}
+.mini .drow{font-size:.86rem}
 .habcard[hidden]{display:none}
 .hc-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:.84rem}
 .hc-seg{display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
@@ -544,7 +553,7 @@ dialog td.num,dialog th.num{text-align:right}
 <div class="stage">
   <div class="pills">
     <button type="button" class="pbtn" id="btnTable" aria-pressed="false">Table</button>
-    <button type="button" class="pbtn" id="btnAbout">Scoring and about</button>
+    <button type="button" class="pbtn" id="btnAbout">Scoring methodology</button>
     <button type="button" class="pbtn" id="btnCopy">Share link</button>
     <a class="pbtn opt" id="dl" href="#" hidden>Download spreadsheet</a>
   </div>
@@ -555,7 +564,7 @@ dialog td.num,dialog th.num{text-align:right}
     <div class="finder-head">
       <div class="brand">
         <img src="img/spsseg_fish_96.png" alt="" width="46" height="44" onerror="this.style.display='none'">
-        <div><h1 id="appTitle">WRIA 14 Fish Passage Barriers</h1><p>Ranked by the benefit of fixing them</p></div>
+        <div><h1 id="appTitle">WRIA 14 Fish Passage Barriers</h1><p>Ranked by the benefit of restoring fish passage</p></div>
         <button type="button" class="collapse" id="fCollapse" aria-expanded="true" aria-controls="list" title="Hide the list" aria-label="Hide the list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
       </div>
       <div class="searchbox">
@@ -654,6 +663,7 @@ dialog td.num,dialog th.num{text-align:right}
       <button type="button" role="tab" class="tab" id="tabbtn-overview" data-tab="overview" aria-controls="tab-overview" aria-selected="true">Overview</button>
       <button type="button" role="tab" class="tab" id="tabbtn-score" data-tab="score" aria-controls="tab-score" aria-selected="false" tabindex="-1">Score</button>
       <button type="button" role="tab" class="tab" id="tabbtn-network" data-tab="network" aria-controls="tab-network" aria-selected="false" tabindex="-1">Network</button>
+      <button type="button" role="tab" class="tab" id="tabbtn-habitat" data-tab="habitat" aria-controls="tab-habitat" aria-selected="false" tabindex="-1" hidden>Habitat</button>
     </div>
     <div class="detail-body" id="dBody"></div>
     <div class="detail-foot" id="dFoot"></div>
@@ -665,18 +675,15 @@ dialog td.num,dialog th.num{text-align:right}
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>Map options</button>
   </div>
   <div class="popover card" id="layersPop" hidden>
-    <div class="sec" id="symKey"></div>
-    <div class="sec"><h3>Basemap</h3><div id="baseBox" role="radiogroup" aria-label="Basemap"></div></div>
     <div class="sec"><h3>Layers</h3>
+      <label class="chk" id="wsLayerBox" hidden><input type="checkbox" id="lyrWs"><span>Watersheds</span></label>
+      <label class="chk" id="habLayerBox" hidden><input type="checkbox" id="lyrHab"><span>Habitat strategy reaches</span></label>
       <label class="chk"><input type="checkbox" id="lyrStreams" checked><span>Streams</span></label>
       <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
       <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
-      <label class="chk" id="wsLayerBox" hidden><input type="checkbox" id="lyrWs"><span>Watersheds</span></label>
-      <label class="chk" id="habLayerBox" hidden><input type="checkbox" id="lyrHab"><span>Habitat strategy reaches</span></label>
     </div>
-    <div class="sec"><h3>Display</h3>
-      <label class="chk"><input type="checkbox" id="hcChk"><span>High contrast</span></label>
-    </div>
+    <div class="sec"><h3>Basemap</h3><div id="baseBox" class="basegrid" role="radiogroup" aria-label="Basemap"></div></div>
+    <details class="dd sec" id="symBox"><summary>Map symbols</summary><div id="symKey"></div></details>
   </div>
 
   <div class="habcard card" id="habCard" hidden>
@@ -686,7 +693,7 @@ dialog td.num,dialog th.num{text-align:right}
         <button type="button" data-by="cons" aria-pressed="false">Conservation</button>
       </div></div>
     <div class="hc-leg" id="habLegend"></div>
-    <div class="hc-note">Click a reach for details.</div>
+    <div class="hc-note" id="habNote">Click a reach for details.</div>
   </div>
   <div class="banner" id="banner" hidden></div>
   <div class="measure" id="measure" hidden role="group" aria-label="Measure distance">
@@ -720,7 +727,7 @@ dialog td.num,dialog th.num{text-align:right}
 </div>
 
 <dialog id="about" aria-labelledby="aboutH">
-  <div class="dh"><h2 id="aboutH">Scoring and about</h2><span class="sp"></span>
+  <div class="dh"><h2 id="aboutH">Scoring methodology</h2><span class="sp"></span>
     <button type="button" class="btn" id="aboutClose">Close</button></div>
   <div class="in" id="aboutBody"></div>
 </dialog>
@@ -742,6 +749,8 @@ var CONFIG = {
   basinUrl: "basin.geojson",       // optional
   habitatUrl: "habitat.geojson",   // optional: reach polygons with restoration and conservation priority
   watershedsUrl: "watersheds.geojson", // optional: watershed polygons
+  // the Habitat Prioritization app (Mason Conservation District); a barrier's location is added to the address so it opens there
+  habitatAppUrl: "https://masoncd.maps.arcgis.com/apps/webappviewer/index.html?id=8dc1e29d09334b199fa69fb8a54c1098",
   demoUrl: "demo_barriers.geojson",
   demoStreamsUrl: "demo_streams.geojson",
   center: [47.2, -123.0], zoom: 10, maxScore: 135,
@@ -1003,7 +1012,7 @@ function passKeyP(p){
 }
 var NO_WS = "Not in a mapped watershed";
 function defaultFilters(){
-  return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftypes:{}, pass:{}, ws:{}, rest:{}, cons:{}, use:{},
+  return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftypes:{}, pass:{}, ws:{}, rc:{}, rest:{}, cons:{}, use:{},
            pot:{}, sPreset:"", sFrom:null, sTo:null, fMin:null, fMax:null };
 }
 function onKeys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
@@ -1019,6 +1028,8 @@ function activeChips(st){
   if (pa.length) c.push({ key:"pass", label:"Passability: " + pa.map(function(k){ return PASS_SHORT[k] || k; }).join(", ") });
   var wk = onKeys(st.ws);
   if (wk.length) c.push({ key:"ws", label:"Watershed: " + (wk.length <= 2 ? wk.join(" or ") : wk.length + " watersheds") });
+  var rck = onKeys(st.rc);
+  if (rck.length) c.push({ key:"rc", label:"Reach: " + (rck.length <= 2 ? rck.map(function(k){ return reachNames[k] || k; }).join(" or ") : rck.length + " reaches") });
   [["rest", "Restoration priority"], ["cons", "Conservation priority"]].forEach(function(h){
     var hk = onKeys(st[h[0]]);
     if (hk.length) c.push({ key:h[0], label:h[1] + ": " + hk.map(function(k){ return habDisp[h[0]][k] || k; }).join(", ") });
@@ -1041,7 +1052,7 @@ function activeFilterCount(st){ return activeChips(st).length; }
 function applyFilters(items, st, now){
   now = now || Date.now();
   var yr = 365.25 * 864e5;
-  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use), ftKeys = onKeys(st.ftypes), paKeys = onKeys(st.pass), rsKeys = onKeys(st.rest), cnKeys = onKeys(st.cons), wsKeys = onKeys(st.ws);
+  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use), ftKeys = onKeys(st.ftypes), paKeys = onKeys(st.pass), rsKeys = onKeys(st.rest), cnKeys = onKeys(st.cons), wsKeys = onKeys(st.ws), rcKeys = onKeys(st.rc);
   var q = st.q.trim().toLowerCase();
   return items.filter(function(it){
     var p = it.p;
@@ -1052,6 +1063,7 @@ function applyFilters(items, st, now){
     if (ftKeys.length && !(it.types || typeTokens(p.ftype)).some(function(t){ return st.ftypes[t]; })) return false;
     if (paKeys.length && !st.pass[passKeyP(p)]) return false;
     if (wsKeys.length && !st.ws[p.watershed || NO_WS]) return false;
+    if (rcKeys.length && !(it.reach && st.rc[reachKey(it.reach)])) return false;
     if (rsKeys.length && !(it.reach && st.rest[lvKey(it.reach.rest)])) return false;
     if (cnKeys.length && !(it.reach && st.cons[lvKey(it.reach.prot)])) return false;
     if (useKeys.length && !useKeys.some(function(k){ return isNum(p["use_" + k]) && p["use_" + k] > 0; })) return false;
@@ -1098,6 +1110,7 @@ function encodeState(st, extra){
   var fkk = onKeys(st.ftypes); if (fkk.length) p.set("ft", fkk.join("|"));
   var pak = onKeys(st.pass); if (pak.length) p.set("pa", pak.join(","));
   var wsk = onKeys(st.ws); if (wsk.length) p.set("ws", wsk.join("|"));
+  var rck2 = onKeys(st.rc); if (rck2.length) p.set("rc", rck2.join("|"));
   var rpk = onKeys(st.rest); if (rpk.length) p.set("rp", rpk.join("|"));
   var cpk = onKeys(st.cons); if (cpk.length) p.set("cp", cpk.join("|"));
   var uk = onKeys(st.use); if (uk.length) p.set("use", uk.join(","));
@@ -1122,6 +1135,7 @@ function decodeState(str){
   (p.get("own") || "").split("|").forEach(function(k){ if (k) st.ownersOff[k] = true; });
   (p.get("ft") || "").split(/[|,]/).forEach(function(k){ k = k.trim(); if (k) st.ftypes[k] = true; });
   (p.get("ws") || "").split("|").forEach(function(k){ if (k) st.ws[k] = true; });
+  (p.get("rc") || "").split("|").forEach(function(k){ if (k) st.rc[k] = true; });
   (p.get("rp") || "").split("|").forEach(function(k){ if (k) st.rest[k.toLowerCase()] = true; });
   (p.get("cp") || "").split("|").forEach(function(k){ if (k) st.cons[k.toLowerCase()] = true; });
   (p.get("pa") || "").split(",").forEach(function(k){ if (/^(total|partial|none|unknown|assumed|na)$/.test(k)) st.pass[k] = true; });
@@ -1256,6 +1270,29 @@ function scoreCardHtml(it){
   });
   return h + "</ul></div>";
 }
+function habRow(label, v){ return v === null || v === undefined || v === "" ? "" : '<div class="drow"><span class="k">' + esc(label) + '</span><span class="v">' + esc(v) + "</span></div>"; }
+function habLevel(label, v, which){ return v ? '<div class="drow"><span class="k">' + esc(label) + '</span><span class="v"><i class="hsw" style="background:' + habColor(which, v) + '"></i> ' + esc(cap1(v)) + "</span></div>" : ""; }
+function habAppUrl(it){
+  var u = CONFIG.habitatAppUrl;
+  return u ? u + (u.indexOf("?") < 0 ? "?" : "&") + "center=" + it.ll[1].toFixed(5) + "," + it.ll[0].toFixed(5) + "&level=15" : "";
+}
+// the Habitat tab: everything the prioritization tool says about the reach the barrier is in
+function habitatTabHtml(it){
+  var r = it.reach, app = habAppUrl(it);
+  var link = app ? '<a class="btn main" href="' + esc(app) + '" target="_blank" rel="noopener" aria-label="Open the Habitat Prioritization app, in a new tab">Open the Habitat Prioritization app</a>' : "";
+  if (!r) return '<p class="note" style="margin-top:0">This barrier is not inside a mapped habitat reach.</p>' + accessHtml() + (link ? '<div class="hbtns">' + link + "</div>" : "");
+  var h = "";
+  var sec = function(title, body){ return body ? '<section class="dsec"><h4>' + title + "</h4>" + body + "</section>" : ""; };
+  h += sec("This reach", habRow("Reach", r.reach) + habRow("Watershed", it.p.watershed || r.ws));
+  h += sec("Priorities", habLevel("Restoration priority", r.rest, "rest") + habLevel("Conservation priority", r.prot, "cons"));
+  h += accessHtml();
+  h += sec("Salmon", habRow("Existing habitat", cap1(r.hab)) + habRow("Salmon populations, reach", cap1(r.pop)) + habRow("Salmon populations, watershed", cap1(r.wpop)) +
+    habRow("Anadromous stream length", isNum(r.anad) ? r.anad.toFixed(1) + " mi" : null));
+  h += sec("Reach condition", habRow("Reach area", isNum(r.area) ? r.area.toFixed(2) + " sq mi" : null) + habRow("Stream temperature", cap1(r.temp)) + habRow("Sediment", cap1(r.sed)) +
+    habRow("Stream complexity", cap1(r.cx)) + habRow("303(d) listing", cap1(r.t303)));
+  h += '<div class="hbtns"><button type="button" class="btn" data-showreach="1">Show this reach on the map</button>' + link + "</div>";
+  return h + '<p class="rnote">From the WRIA 14 freshwater prioritization tool, by reach.</p>';
+}
 function overviewHtml(it, conn){
   var p = it.p, h = scoreCardHtml(it), missing = [];
   var why = whySentence(p);
@@ -1267,10 +1304,10 @@ function overviewHtml(it, conn){
   var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS) + (p.watershed ? detailRows(p, ["watershed"], [], OV_LABELS) : "");
   if (site) h += '<section class="dsec"><h4>Site</h4>' + site + "</section>";
   if (it.reach){
-    var hb = detailRows(p, ["reach_name", "rest_pri", "cons_pri", "hab_bin", "reach_pop"], [], OV_LABELS);
-    if (hb) h += '<section class="dsec"><h4>Habitat strategy</h4>' + hb + '<p class="rnote">From the WRIA 14 freshwater prioritization tool, by reach.</p></section>';
+    var rr = it.reach, tp = habRow("Reach", rr.reach) + habLevel("Restoration priority", rr.rest, "rest") + habLevel("Conservation priority", rr.prot, "cons");
+    if (tp) h += '<section class="dsec"><h4>Habitat strategy</h4>' + tp + '<p class="why" style="margin:6px 0 0"><button type="button" class="linkbtn" data-go="habitat">More about this reach</button></p></section>';
   }
-  var sp = detailRows(p, ["pot_species", "species"], missing, null) + speciesTableHtml(p);
+  var sp = detailRows(p, ["pot_species"], missing, null);
   if (sp) h += '<section class="dsec"><h4>Species</h4>' + sp + "</section>";
   if (missing.length) h += '<p class="note dmiss"><b>Not available:</b> ' + esc(missing.join(", ")) + ".</p>";
   return h;
@@ -1360,7 +1397,8 @@ function detailHtml(it, conn, hasNetwork, reportUrl, o){
   var tab = o.tab || "overview";
   return tabPanel("overview", tab !== "overview", overviewHtml(it, hasNetwork === true ? conn : null)) +
          tabPanel("score", tab !== "score", scoreTabHtml(it)) +
-         tabPanel("network", tab !== "network", networkHtml(conn, hasNetwork, o));
+         tabPanel("network", tab !== "network", networkHtml(conn, hasNetwork, o)) +
+         (habPolys.length ? tabPanel("habitat", tab !== "habitat", habitatTabHtml(it)) : "");
 }
 
 function psLim(lim){
@@ -1632,7 +1670,7 @@ function networkGeoJson(it, conn, net, meta){
 var API = { CONFIG:CONFIG, TIERS:TIERS, CATEGORIES:CATEGORIES, FIELDS:FIELDS, buildModel:buildModel, buildNet:buildNet, connected:connected,
   walk:walk, activeChips:activeChips, activeFilterCount:activeFilterCount, parseDate:parseDate, defaultFilters:defaultFilters,
   applyFilters:applyFilters, orderItems:orderItems, encodeState:encodeState, decodeState:decodeState, whySentence:whySentence,
-  passText:passText, passClass:passClass, typeTokens:typeTokens, passKey:passKey, passKeyP:passKeyP, passTextP:passTextP, parsePass:parsePass, RULES:RULES, ruleCardHtml:ruleCardHtml, reachAt:reachAt, watershedAt:watershedAt, finishGeo:finishGeo, geoClick:geoClick, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
+  passText:passText, passClass:passClass, typeTokens:typeTokens, passKey:passKey, passKeyP:passKeyP, passTextP:passTextP, parsePass:parsePass, RULES:RULES, ruleCardHtml:ruleCardHtml, reachAt:reachAt, watershedAt:watershedAt, zoomToWatersheds:zoomToWatersheds, accessReaches:accessReaches, habitatTabHtml:habitatTabHtml, cap1:cap1, finishGeo:finishGeo, geoClick:geoClick, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
 if (typeof window !== "undefined") window.__barrierApp = API;
 if (typeof L === "undefined") return;
 
@@ -1931,7 +1969,7 @@ map.on("click", function(e){
       var d = pt.distanceTo(map.latLngToContainerPoint(it.ll));
       if (d < bd){ bd = d; best = it; }
     });
-    if (best){ map.closePopup(); selectItem(best, { from:"map", zoom:false }); }
+    if (best){ map.closePopup(); selectItem(best, { from:"map" }); }
     else geoClick(e.latlng);
     return;
   }
@@ -2007,7 +2045,7 @@ function connMarker(b, up){
   var m = L.marker(b.ll, { icon:triIcon(b.tier.color, up ? "#0088ad" : "#6a1f8f", up), keyboard:true, riseOnHover:true });
   m.bindTooltip(tipHtml(b.id, sub), { direction:"top", offset:[0, -8] });
   nameMarker(m, (up ? "Upstream" : "Downstream") + " barrier " + b.id + ", " + pass + ". Activate to open it.");
-  m.on("click", function(e){ L.DomEvent.stop(e); selectItem(b, { zoom:false, from:"map" }); });
+  m.on("click", function(e){ L.DomEvent.stop(e); selectItem(b, { from:"map" }); });
   return m;
 }
 function clusterMarker(g){
@@ -2093,7 +2131,7 @@ function limitMarkers(){
     var m = L.marker(lim.b.ll, { icon:limitIcon(lim.b.tier.color, x[2], x[1]), keyboard:true, zIndexOffset:500 });
     m.bindTooltip(tipHtml(lim.b.id, x[3].charAt(0).toUpperCase() + x[3].slice(1) + ": " + passTextP(lim.b.p) + ", " + distText(lim.d, "").trim()), { direction:"top", offset:[0, -14] });
     nameMarker(m, "Lowest passability barrier " + x[3] + ", " + lim.b.id + ", " + passTextP(lim.b.p) + ", " + distText(lim.d, x[3]) + ". Activate to open it.");
-    m.on("click", function(e){ L.DomEvent.stop(e); selectItem(lim.b, { zoom:false, from:"map" }); });
+    m.on("click", function(e){ L.DomEvent.stop(e); selectItem(lim.b, { from:"map" }); });
     limitLayer.addLayer(m);
   });
 }
@@ -2152,6 +2190,7 @@ function placeSelTag(){
   el.classList.add("pos-" + best);
 }
 function drawRing(){
+  clearGeoHi();
   ringLayer.clearLayers();
   selMarker = null;
   if (!selected) return;
@@ -2160,7 +2199,7 @@ function drawRing(){
   placeSelTag();
 }
 map.on("moveend", placeSelTag);
-function outlineW(){ return document.body.classList.contains("hc") ? 2.4 : 1.25; }
+function outlineW(){ return 1.25; }
 function applyDim(){
   var keep = null;
   if (selected && ov.dim && conn){
@@ -2346,7 +2385,7 @@ function printSelected(){
 window.addEventListener("afterprint", cleanupPrint);
 API.preparePrint = preparePrint;
 function setTab(name){
-  if (["overview", "score", "network"].indexOf(name) < 0) name = "overview";
+  if (["overview", "score", "habitat", "network"].indexOf(name) < 0 || (name === "habitat" && $("tabbtn-habitat").hidden)) name = "overview";
   detailTab = name;
   if (name !== "score" && typeof closeFly === "function") closeFly();
   document.querySelectorAll("#dTabs .tab").forEach(function(b){
@@ -2360,11 +2399,11 @@ $("dTabs").addEventListener("click", function(ev){
   if (b){ setTab(b.dataset.tab); $("dBody").scrollTop = 0; }
 });
 $("dTabs").addEventListener("keydown", function(ev){
-  var order = ["overview", "score", "network"], i = order.indexOf(detailTab), n = null;
-  if (ev.key === "ArrowRight") n = order[(i + 1) % 3];
-  else if (ev.key === "ArrowLeft") n = order[(i + 2) % 3];
+  var order = [].slice.call(document.querySelectorAll("#dTabs .tab")).filter(function(b){ return !b.hidden; }).map(function(b){ return b.dataset.tab; }), i = order.indexOf(detailTab), n = null, k = order.length;
+  if (ev.key === "ArrowRight") n = order[(i + 1) % k];
+  else if (ev.key === "ArrowLeft") n = order[(i + k - 1) % k];
   else if (ev.key === "Home") n = order[0];
-  else if (ev.key === "End") n = order[2];
+  else if (ev.key === "End") n = order[k - 1];
   if (n){ ev.preventDefault(); setTab(n); var btn = $("tabbtn-" + n); if (btn) btn.focus(); }
 });
 $("dBody").addEventListener("change", function(ev){
@@ -2385,6 +2424,7 @@ function selectItem(it, opt){
   opt = opt || {};
   selected = it;
   conn = (net && hasNet(it)) ? connected(net, it) : null;
+  accNow = accessReaches(conn);
   $("dTitle").innerHTML = '<span class="sr">Barrier </span>' + esc(it.id);
   $("dSub").textContent = [it.p.stream || "Unnamed", it.p.trib ? "tributary to " + it.p.trib : ""].filter(Boolean).join(", ");
   var dir = listDir;
@@ -2404,7 +2444,7 @@ function selectItem(it, opt){
   document.body.classList.add("has-detail");
   if (wasHidden && isPhone()) applySheet("detail", "half", true); else updateMapPad();
   if (!compactTouched && window.innerWidth < 1500 && window.innerWidth > 900) setCompact(true);
-  drawRing(); drawConnected(); applyDim(); updateStepper();
+  drawRing(); drawConnected(); drawAccess(); applyDim(); updateStepper();
   if (opt.zoom !== false){
     if (conn) fitSelected(); else flyTo(it.ll, Math.max(map.getZoom(), 15));
   } else if (opt.from === "step" || opt.from === "detail") ensureVisible(it);
@@ -2426,7 +2466,7 @@ function selectItem(it, opt){
 }
 function clearSelection(){
   closeFly();
-  selected = null; conn = null;
+  selected = null; conn = null; accNow = []; drawAccess();
   $("detail").hidden = true;
   document.body.classList.remove("has-detail");
   updateMapPad();
@@ -2440,6 +2480,12 @@ $("dPrev").addEventListener("click", function(){ step(-1); });
 $("dNext").addEventListener("click", function(){ step(1); });
 $("dBody").addEventListener("click", function(ev){
   if (ev.target.closest("#fitSel")){ fitSelected(); return; }
+  if (ev.target.closest("button[data-showreach]") && selected && selected.reach){
+    if (!$("lyrHab").checked){ $("lyrHab").checked = true; $("lyrHab").dispatchEvent(new Event("change", { bubbles:true })); }
+    var pcs = habPolys.filter(function(pl){ return pl.props === selected.reach; });
+    highlightPolys(pcs); fitPolys(pcs);
+    return;
+  }
   var ib = ev.target.closest("button[data-rule]");
   if (ib){
     if (flyMode()){ if (flyKey === ib.dataset.rule) closeFly(); else openFly(ib.dataset.rule, ib); return; }
@@ -2489,7 +2535,7 @@ function drawMarkers(){
   var order = filtered.slice().sort(function(a, b){ return a.pct - b.pct; });
   order.forEach(function(it){
     var m = L.circleMarker(it.ll, { renderer:canvas, radius:it.tier.radius, fillColor:it.tier.color, fillOpacity:0.95, color:"#16212b", weight:outlineW() });
-    m.on("click", function(e){ if (measuring) return; L.DomEvent.stop(e); selectItem(it, { from:"map", zoom:false }); });
+    m.on("click", function(e){ if (measuring) return; L.DomEvent.stop(e); selectItem(it, { from:"map" }); });
     m.bindTooltip(tipHtml(it.id, "Rank " + it.rank + ", score " + (isNum(it.p.total) ? it.p.total : "n/a")), { direction:"top" });
     barrierLayer.addLayer(m);
     markerById[it.id] = m;
@@ -2596,7 +2642,7 @@ function refresh(){
   writeHash();
 }
 function refreshSoon(){ clearTimeout(refreshTimer); refreshTimer = setTimeout(refresh, 120); }
-var FG_MAP = { tier:"tier", score:"score", pass:"pass", own:"own", survey:"survey", dates:"survey", pot:"pot", use:"use", fill:"fill", ftype:"ftype", ws:"ws", rest:"hab", cons:"hab" };
+var FG_MAP = { tier:"tier", score:"score", pass:"pass", own:"own", survey:"survey", dates:"survey", pot:"pot", use:"use", fill:"fill", ftype:"ftype", ws:"ws", rc:"hab", rest:"hab", cons:"hab" };
 function chipValue(c){ return c.label.replace(/^[^:]*:\s*/, "").replace(/^(Score|Road fill|Surveyed)\s+/, ""); }
 function updateGroupSummaries(){
   var by = {};
@@ -2630,6 +2676,7 @@ function clearFilter(key){
   else if (key === "ftype") st.ftypes = {};
   else if (key === "pass") st.pass = {};
   else if (key === "ws") st.ws = {};
+  else if (key === "rc") st.rc = {};
   else if (key === "rest") st.rest = {};
   else if (key === "cons") st.cons = {};
   syncUi(); refresh();
@@ -2830,8 +2877,7 @@ function buildMapBar(){
     '<div class="lg"><span class="key dn"></span><span>Downstream path</span></div>' +
     '<div class="lg"><span class="key tri u"></span><span>Upstream barrier</span></div>' +
     '<div class="lg"><span class="key tri d"></span><span>Downstream barrier</span></div>' +
-    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Lowest passability barrier (larger, bold outline)</span></div>' +
-    '<p class="note" style="margin:6px 0 0">Triangles take the fill color of their tier. Small arrows show the direction of flow. Hover a larger triangle for its distance.</p>';
+    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Lowest passability barrier (larger, bold outline)</span></div>';
   $("baseBox").innerHTML = "";
   BASEMAPS.forEach(function(b, i){
     var lab = document.createElement("label"); lab.className = "chk";
@@ -2855,13 +2901,24 @@ $("lyrHill").addEventListener("change", function(){
 });
 
 function buildAbout(){
-  var h = '<img class="logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group">';
-  h += "<p>This map ranks fish passage barriers in WRIA 14 by the benefit of fixing them. Each barrier is scored on up to " + CONFIG.maxScore + " points across five groups of measures. A higher score is a higher priority. Barriers marked Natural are natural features, such as waterfalls. They are ranked for the habitat they block but may not be project candidates. Map published by South Puget Sound Salmon Enhancement Group.</p>";
+  var h = '<img class="logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group" onerror="this.style.display=\'none\'">';
+  h += "<p>Each fish passage barrier in WRIA 14 gets a score of up to " + CONFIG.maxScore + " points for the benefit of restoring passage there. A higher score is a higher priority. " +
+    "The score weighs the habitat a fix would open, the species it would help, how bad the barrier is and what lies upstream and downstream, and water quality now and in the future. " +
+    "It does not consider cost, landowner interest or whether a project is feasible.</p>";
+  h += "<h3>How the points add up</h3>";
   h += '<table><thead><tr><th scope="col">Group</th><th scope="col" class="num">Points</th></tr></thead><tbody>';
   CATEGORIES.forEach(function(c){
     h += "<tr><td><b>" + esc(c.name) + '</b><br><span style="color:var(--muted)">' + esc(c.metrics) + '</span></td><td class="num">' + c.max + "</td></tr>";
   });
-  h += "</tbody></table><p><b>Connected barriers.</b> When you select a barrier, the map highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down, so they can be told apart without color. Arrows show the direction of flow.</p>";
+  h += "</tbody></table>";
+  h += '<p>Open the <b>Score</b> tab on any barrier to see every measure and the value behind it. Select <span class="ibtn ibtn-demo" aria-hidden="true">i</span> beside a measure for the rule that gives its points.</p>';
+  h += "<h3>Priority tiers</h3><p>Tiers show where a barrier\u2019s score falls among all barriers on the map.</p>";
+  h += '<table><tbody>' + TIERS.map(function(t){ return '<tr><th scope="row"><i class="swatch" style="background:' + t.color + '"></i> ' + esc(t.label) + "</th><td>" + esc(t.rule) + "</td></tr>"; }).join("") + "</tbody></table>";
+  h += "<h3>Things to know</h3><ul>" +
+    "<li><b>Natural barriers</b> are natural features, such as waterfalls. They are ranked for the habitat they block but may not be project candidates.</li>" +
+    "<li><b>Unknown passability.</b> Where a barrier has no passability rating, the model uses an assumed value. These show as Unknown or Unknown, modeled as 33% passable.</li>" +
+    "<li><b>Missing data.</b> A barrier with no value for a water quality or future conditions measure gets the middle score, so it is neither rewarded nor penalized.</li>" +
+    "<li><b>Connected barriers.</b> Selecting a barrier highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down. Arrows show the direction of flow.</li></ul>";
   if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review. Their upstream and downstream results may be wrong until the locations are checked.</p>";
   var rows = [];
   if (meta.run_label) rows.push(["Model run", meta.run_label]);
@@ -2869,7 +2926,8 @@ function buildAbout(){
   if (meta.wdfw_pull) rows.push(["WDFW barrier data", meta.wdfw_pull]);
   if (meta.generated) rows.push(["Last updated", meta.generated]);
   rows.push(["Barriers shown", String(items.length)]);
-  h += "<table><tbody>" + rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
+  h += "<h3>Data</h3><table><tbody>" + rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
+  h += "<p>Map published by South Puget Sound Salmon Enhancement Group.</p>";
   if (CONFIG.contactEmail) h += '<p>Questions or corrections: <a href="mailto:' + esc(CONFIG.contactEmail) + '">' + esc(CONFIG.contactEmail) + "</a></p>";
   h += '<p><button type="button" class="btn" id="aboutTour">Take the quick tour</button></p>';
   $("aboutBody").innerHTML = h;
@@ -2881,14 +2939,6 @@ function buildAbout(){
 var about = $("about");
 $("btnAbout").addEventListener("click", function(){ typeof about.showModal === "function" ? about.showModal() : about.setAttribute("open", ""); });
 $("aboutClose").addEventListener("click", function(){ typeof about.close === "function" ? about.close() : about.removeAttribute("open"); $("btnAbout").focus(); });
-$("hcChk").addEventListener("change", function(){
-  document.body.classList.toggle("hc", this.checked);
-  if (this.checked){
-    setBase("gray");
-    var r = document.querySelector('input[name="base"][value="gray"]'); if (r) r.checked = true;
-  }
-  drawMarkers();
-});
 function copyLink(){
   writeHash();
   var url = location.href;
@@ -2938,8 +2988,8 @@ window.addEventListener("resize", function(){ if (flyKey){ if (!flyMode()) close
 
 /* optional map layers: watersheds and habitat strategy reaches (polygons read from the data folder) */
 var habLayer = null, habPolys = [], habBy = "rest", habLevels = { rest:[], cons:[] }, habDisp = { rest:{}, cons:{} }, habPal = { rest:[], cons:[] };
-var wsPolys = [], wsNames = [], wsLayer = null, wsLabels = null, geoHi = null;
-var HAB_ORDER = ["highest", "high", "medium high", "moderately high", "moderate", "medium", "medium low", "moderately low", "low", "lowest", "none"];
+var wsPolys = [], wsNames = [], wsLayer = null, wsLabels = null, geoHi = null, reachNames = {};
+var HAB_ORDER = ["highest", "high", "medium high", "moderately high", "moderate", "medium", "medium low", "moderately low", "low", "lowest", "none", "unassigned"];
 function lvKey(v){ return typeof v === "string" && v.trim() ? v.trim().toLowerCase() : ""; }
 function lvRank(k){ var i = HAB_ORDER.indexOf(k); return i < 0 ? 50 : i; }
 function habPalette(n){
@@ -2950,9 +3000,22 @@ function habPalette(n){
   }
   return out;
 }
-var NOT_RATED = "rgba(150,150,150,0.22)";
-function habColor(which, v){ var i = habLevels[which].indexOf(lvKey(v)); return i < 0 ? NOT_RATED : habPal[which][i]; }
-function wsColor(name){ var i = wsNames.indexOf(name); return "hsla(" + ((i < 0 ? 0 : i) * 47 % 360) + ",52%,62%,0.34)"; }
+// one hue for each priority, darkest for the highest level (ColorBrewer Greens and Blues, safe for color blindness); unassigned is a neutral gray that stays in the background
+var HAB_RGB = {
+  rest:{ highest:[0, 109, 44], high:[49, 163, 84], medium:[116, 196, 118], low:[186, 228, 179] },
+  cons:{ highest:[8, 81, 156], high:[49, 130, 189], medium:[107, 174, 214], low:[189, 215, 231] }
+};
+var UNASSIGNED_RGB = [150, 150, 150], HAB_ALPHA = 0.55;
+function habRgba(c, a){ return "rgba(" + c.join(",") + "," + (a === undefined ? HAB_ALPHA : a) + ")"; }
+var NOT_RATED = habRgba(UNASSIGNED_RGB, 0.2);
+function habColor(which, v){
+  var k = lvKey(v);
+  if (!k || k === "unassigned") return NOT_RATED;
+  if (HAB_RGB[which][k]) return habRgba(HAB_RGB[which][k]);
+  var i = habLevels[which].indexOf(k);
+  return i < 0 ? NOT_RATED : habPal[which][i];     // a level the app does not know gets a shade of the same family
+}
+function wsColor(name, a){ var i = wsNames.indexOf(name); return "hsla(" + ((i < 0 ? 0 : i) * 47 % 360) + ",52%,62%," + a + ")"; }
 function ringHit(r, x, y){
   var inside = false;
   for (var i = 0, j = r.length - 1; i < r.length; j = i++){
@@ -2996,21 +3059,24 @@ function ringCentroid(r){
   return a ? [cy / (3 * a), cx / (3 * a)] : [r[0][1], r[0][0]];
 }
 function polyArea(pl){ return (pl.bbox[2] - pl.bbox[0]) * (pl.bbox[3] - pl.bbox[1]); }
-function reachBlock(pr){
+function cap1(v){ v = v === null || v === undefined ? "" : String(v).trim(); return v ? v.charAt(0).toUpperCase() + v.slice(1) : v; }
+function reachKey(r){ return String((r && (r.reach_id || r.reach)) || ""); }
+function reachBlock(pr, idx){
   var h = "<b>" + esc(pr.reach || "Reach") + "</b>";
   if (pr.ws) h += '<p style="margin:0 0 4px">' + esc(pr.ws) + "</p>";
-  var rows = [["Restoration priority", pr.rest], ["Conservation priority", pr.prot], ["Existing habitat", pr.hab], ["Salmon populations", pr.pop]].filter(function(x){ return x[1]; });
-  return h + "<ul>" + rows.map(function(x){ return '<li style="display:flex;justify-content:space-between;gap:14px;padding:3px 6px"><span style="color:var(--muted)">' + x[0] + "</span><b>" + esc(x[1]) + "</b></li>"; }).join("") + "</ul>";
+  var rows = [["Restoration priority", cap1(pr.rest)], ["Conservation priority", cap1(pr.prot)], ["Existing habitat", cap1(pr.hab)], ["Salmon populations", cap1(pr.pop)]].filter(function(x){ return x[1]; });
+  return h + "<ul>" + rows.map(function(x){ return '<li style="display:flex;justify-content:space-between;gap:14px;padding:3px 6px"><span style="color:var(--muted)">' + x[0] + "</span><b>" + esc(x[1]) + "</b></li>"; }).join("") + "</ul>" +
+    (idx === undefined ? "" : '<button type="button" class="btn" data-zoomreach="' + idx + '">Zoom to this reach</button>');
 }
 function wsBlock(name){
   var list = items.filter(function(it){ return it.p.watershed === name; });
   var top = list.filter(function(it){ return it.tier.key === "top"; }).length;
-  return "<b>" + esc(name) + " watershed</b><p style=\"margin:0 0 6px\">" + plural(list.length, "barrier", "barriers") + (top ? ", " + top + " in the top 10 percent" : "") + '.</p><button type="button" class="btn" data-ws="' + esc(name) + '">Show only this watershed</button>';
+  return "<b>" + esc(name) + " watershed</b><p style=\"margin:0 0 6px\">" + plural(list.length, "barrier", "barriers") + (top ? ", " + top + " in the top 10 percent" : "") + '.</p><button type="button" class="btn" data-zoomws="' + esc(name) + '">Zoom to watershed</button>';
 }
 function habLegendHtml(){
   var which = habBy;
-  return habLevels[which].map(function(k, i){ return '<span class="lg"><i class="hsw" style="background:' + habPal[which][i] + '"></i>' + esc(habDisp[which][k] || k) + "</span>"; }).join("") +
-    '<span class="lg"><i class="hsw" style="background:' + NOT_RATED + '"></i>Not rated</span>';
+  return habLevels[which].map(function(k){ return '<span class="lg"><i class="hsw" style="background:' + habColor(which, k) + '"></i>' + esc(habDisp[which][k] || k) + "</span>"; }).join("") +
+    (habLevels[which].indexOf("unassigned") < 0 ? '<span class="lg"><i class="hsw" style="background:' + NOT_RATED + '"></i>Unassigned</span>' : "");
 }
 function habRestyle(){
   if (habLayer) habLayer.setStyle(function(f){ return { fillColor:habColor(habBy, habBy === "rest" ? f.properties.rest : f.properties.prot), fillOpacity:1, color:"#3f7a4c", weight:0.8, opacity:0.55 }; });
@@ -3022,19 +3088,73 @@ function geoClick(ll){
   var html = "", hi = null;
   if (habLayer && map.hasLayer(habLayer)){
     var rp = polyAt(habPolys, ll.lat, ll.lng);
-    if (rp){ html += '<div class="pp">' + reachBlock(rp.props) + "</div>"; hi = rp; }
+    if (rp){ html += '<div class="pp">' + reachBlock(rp.props, habPolys.indexOf(rp)) + "</div>"; hi = { __pieces:habPolys.filter(function(pl){ return pl.props === rp.props; }) }; }
   }
   if (wsLayer && map.hasLayer(wsLayer)){
     var wp = polyAt(wsPolys, ll.lat, ll.lng);
-    if (wp){ html += '<div class="pp"' + (html ? ' style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"' : "") + ">" + wsBlock(wp.props.name) + "</div>"; if (!hi) hi = wp; }
+    if (wp){ html += '<div class="pp"' + (html ? ' style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)"' : "") + ">" + wsBlock(wp.props.name) + "</div>"; if (!hi) hi = { __pieces:wsPolys.filter(function(pl){ return pl.props.name === wp.props.name; }) }; }
   }
   if (!html) return false;
-  if (geoHi){ map.removeLayer(geoHi); geoHi = null; }
-  geoHi = L.polygon(hi.rings.map(function(r){ return r.map(function(c){ return [c[1], c[0]]; }); }), { pane:"habitat", color:"#1b3f95", weight:3, fill:false, interactive:false }).addTo(map);
+  highlightPolys(hi.__pieces);
   L.popup({ maxWidth:300, autoPanPadding:[30, 30] }).setLatLng(ll).setContent(html).openOn(map);
   return true;
 }
-map.on("popupclose", function(){ if (geoHi){ map.removeLayer(geoHi); geoHi = null; } });
+/* reaches the upstream streams touch: outlined while a barrier is selected and the reaches are on, to show what access a fix could open */
+var accLayer = null, accCache = {}, accNow = [];
+function segReachProps(k){
+  if (accCache[k] !== undefined) return accCache[k];
+  var out = [];
+  function test(lat, lng){ var pl = polyAt(habPolys, lat, lng); if (pl && out.indexOf(pl.props) < 0) out.push(pl.props); }
+  segLines(k).forEach(function(line){
+    for (var i = 0; i < line.length; i++){ test(line[i][0], line[i][1]); if (i) test((line[i - 1][0] + line[i][0]) / 2, (line[i - 1][1] + line[i][1]) / 2); }
+  });
+  accCache[k] = out;
+  return out;
+}
+function accessReaches(c){
+  var out = [];
+  if (!habPolys.length || !c) return out;
+  Object.keys(c.upSegs).forEach(function(k){ segReachProps(k).forEach(function(p){ if (out.indexOf(p) < 0) out.push(p); }); });
+  return out;
+}
+function drawAccess(){
+  if (accLayer){ map.removeLayer(accLayer); accLayer = null; }
+  var on = !!(habLayer && map.hasLayer(habLayer) && selected && accNow.length);
+  if ($("habNote")) $("habNote").textContent = on ? "Outlined reaches are touched by the upstream streams (" + accNow.length + ")." : "Click a reach for details.";
+  if (!on) return;
+  var shapes = [];
+  habPolys.filter(function(pl){ return accNow.indexOf(pl.props) >= 0; }).forEach(function(pl){
+    var rings = pl.rings.map(function(r){ return r.map(function(c){ return [c[1], c[0]]; }); });
+    shapes.push(L.polygon(rings, { pane:"habitat", color:"#ffffff", weight:6, opacity:0.85, fill:false, interactive:false }));
+    shapes.push(L.polygon(rings, { pane:"habitat", color:"#142e6e", weight:2.5, opacity:1, fill:false, interactive:false }));
+  });
+  accLayer = L.featureGroup(shapes).addTo(map);
+}
+function levelSummary(list, key, which){
+  var c = {};
+  list.forEach(function(p){ var k = lvKey(p[key]) || "unassigned"; c[k] = (c[k] || 0) + 1; });
+  var order = habLevels[which].slice(); if (order.indexOf("unassigned") < 0) order.push("unassigned");
+  return order.filter(function(k){ return c[k]; }).map(function(k){ return c[k] + " " + (habDisp[which][k] || cap1(k)).toLowerCase(); }).join(", ");
+}
+function accessHtml(){
+  if (!accNow.length) return "";
+  return '<section class="dsec"><h4>Reaches upstream</h4>' + habRow("Reaches the upstream streams touch", String(accNow.length)) +
+    habRow("Restoration priority", levelSummary(accNow, "rest", "rest")) + habRow("Conservation priority", levelSummary(accNow, "prot", "cons")) +
+    '<p class="rnote">These reaches are outlined on the map when the habitat reaches layer is on.</p></section>';
+}
+function clearGeoHi(){ if (geoHi){ map.removeLayer(geoHi); geoHi = null; } }
+function highlightPolys(list){
+  clearGeoHi();
+  if (!list || !list.length) return;
+  geoHi = L.featureGroup(list.map(function(pl){ return L.polygon(pl.rings.map(function(r){ return r.map(function(c){ return [c[1], c[0]]; }); }), { pane:"habitat", color:"#1b3f95", weight:3, fill:false, interactive:false }); })).addTo(map);
+}
+map.on("popupclose", clearGeoHi);
+// light color fill by default; when the reaches are drawn, the watersheds become an outline so the two do not blend
+function wsRestyle(){
+  if (!wsLayer) return;
+  var reachesOn = !!(habLayer && map.hasLayer(habLayer));
+  wsLayer.setStyle(function(f){ return { fillColor:wsColor(f.properties.name, reachesOn ? 0 : 0.26), fillOpacity:1, color:reachesOn ? "#44525d" : "#6a7a87", weight:reachesOn ? 1.6 : 0.9, opacity:reachesOn ? 0.85 : 0.55 }; });
+}
 function updateWsLabels(){
   if (!wsLabels) return;
   var show = $("lyrWs").checked && map.getZoom() <= 12;
@@ -3042,6 +3162,21 @@ function updateWsLabels(){
   if (!show && map.hasLayer(wsLabels)) map.removeLayer(wsLabels);
 }
 map.on("zoomend", updateWsLabels);
+function fitPolys(list){
+  var b = null;
+  list.forEach(function(pl){ var bb = L.latLngBounds([pl.bbox[1], pl.bbox[0]], [pl.bbox[3], pl.bbox[2]]); b = b ? b.extend(bb) : bb; });
+  if (b) map.fitBounds(b, panelPad());
+}
+function zoomToWatersheds(){
+  var names = onKeys(st.ws).filter(function(n){ return n !== NO_WS; }), b = null;
+  if (!names.length) return;
+  wsPolys.forEach(function(pl){
+    if (names.indexOf(pl.props.name) < 0) return;
+    var bb = L.latLngBounds([pl.bbox[1], pl.bbox[0]], [pl.bbox[3], pl.bbox[2]]);
+    b = b ? b.extend(bb) : bb;
+  });
+  if (b) map.fitBounds(b, panelPad());
+}
 function loadGeo(url){ return getJson(url).then(function(g){ return g; }).catch(function(){ return null; }); }
 function loadHabitat(){ return loadGeo(CONFIG.habitatUrl); }
 function loadWatersheds(){ return loadGeo(CONFIG.watershedsUrl); }
@@ -3052,10 +3187,11 @@ function finishGeo(habG, wsG){
   // levels of each priority, highest first
   [["rest", "rest"], ["cons", "prot"]].forEach(function(w){
     var seen = {};
-    habPolys.forEach(function(pl){ var k = lvKey(pl.props[w[1]]); if (k && !seen[k]){ seen[k] = true; habDisp[w[0]][k] = String(pl.props[w[1]]).trim(); } });
+    habPolys.forEach(function(pl){ var k = lvKey(pl.props[w[1]]); if (k && !seen[k]){ seen[k] = true; habDisp[w[0]][k] = cap1(pl.props[w[1]]); } });
     habLevels[w[0]] = Object.keys(seen).sort(function(a, b){ return lvRank(a) - lvRank(b) || a.localeCompare(b); });
     habPal[w[0]] = habPalette(habLevels[w[0]].length);
   });
+  habPolys.forEach(function(pl){ var k = reachKey(pl.props); if (k && pl.props.reach) reachNames[k] = pl.props.reach; });
   var seenWs = {};
   wsPolys.forEach(function(pl){ var n = pl.props.name; if (n && !seenWs[n]){ seenWs[n] = true; wsNames.push(n); } });
   wsNames.sort(function(a, b){ return a.localeCompare(b); });
@@ -3086,7 +3222,7 @@ function buildGeoUi(habG, wsG, haveWs){
     var counts = {};
     items.forEach(function(it){ var n = it.p.watershed || NO_WS; counts[n] = (counts[n] || 0) + 1; });
     Object.keys(counts).sort(function(a, b){ if (a === NO_WS) return 1; if (b === NO_WS) return -1; return a.localeCompare(b); }).forEach(function(n){
-      chkRow($("wsBox"), n, "<span>" + esc(n) + "</span>", counts[n], false, function(){ st.ws[n] = this.checked; refresh(); });
+      chkRow($("wsBox"), n, "<span>" + esc(n) + "</span>", counts[n], false, function(){ st.ws[n] = this.checked; refresh(); if (this.checked) zoomToWatersheds(); });
     });
   }
   if (habPolys.length){
@@ -3103,11 +3239,12 @@ function buildGeoUi(habG, wsG, haveWs){
     habLayer = L.geoJSON(habG, { pane:"habitat", interactive:false, style:{ weight:1 } });
     habRestyle();
     $("habLayerBox").hidden = false;
-    $("lyrHab").addEventListener("change", function(){ if (this.checked) habLayer.addTo(map); else { map.removeLayer(habLayer); map.closePopup(); } $("habCard").hidden = !this.checked; });
+    $("tabbtn-habitat").hidden = false;
+    $("lyrHab").addEventListener("change", function(){ if (this.checked) habLayer.addTo(map); else { map.removeLayer(habLayer); map.closePopup(); } $("habCard").hidden = !this.checked; wsRestyle(); drawAccess(); });
     document.querySelectorAll("#habCard .hc-seg button").forEach(function(b){ b.addEventListener("click", function(){ habBy = this.dataset.by; habRestyle(); }); });
   }
   if (wsPolys.length){
-    wsLayer = L.geoJSON(wsG, { pane:"watersheds", interactive:false, style:function(f){ return { fillColor:wsColor(f.properties.name), fillOpacity:1, color:"#5f6f7c", weight:0.8, opacity:0.55 }; } });
+    wsLayer = L.geoJSON(wsG, { pane:"watersheds", interactive:false });
     wsLabels = L.layerGroup();
     var best = {};
     wsPolys.forEach(function(pl){ var n = pl.props.name; if (n && (!best[n] || polyArea(pl) > polyArea(best[n]))) best[n] = pl; });
@@ -3116,6 +3253,7 @@ function buildGeoUi(habG, wsG, haveWs){
       wsLabels.addLayer(L.marker(c, { pane:"watersheds", interactive:false, keyboard:false, icon:L.divIcon({ className:"ws-label", html:esc(n), iconSize:[0, 0] }) }));
     });
     $("wsLayerBox").hidden = false;
+    $("lyrWs").checked = true; wsLayer.addTo(map); wsRestyle(); updateWsLabels();      // on at load: the names help people find their area
     $("lyrWs").addEventListener("change", function(){ if (this.checked) wsLayer.addTo(map); else { map.removeLayer(wsLayer); map.closePopup(); } updateWsLabels(); });
   }
   syncUi(); refresh();
@@ -3125,7 +3263,7 @@ function buildGeoUi(habG, wsG, haveWs){
 /* quick tour for first time visitors */
 var TOUR = [
   { title:"Click a barrier", text:"Click any dot on the map, or any row in the list. The map then shows the stream above it, the path below it, and the barriers along both.", hl:".finder" },
-  { title:"Switch tabs", text:"Overview has the score, the site facts and the species. Score shows how the points add up. Network lists the connected barriers and the lowest passability ones.", hl:"#dTabs" },
+  { title:"Switch tabs", text:"Overview has the score and the site facts. Score shows how the points add up. Network lists the connected barriers and the lowest passability ones. Habitat has the reach priorities.", hl:"#dTabs" },
   { title:"Print or share", text:"Print summary makes a one page sheet with a map. Share link, at the top right, copies a link that reopens this barrier, these filters and this view. WDFW report opens the site report.", hl:"#dFoot" }
 ];
 var tourStep = -1;
@@ -3215,7 +3353,23 @@ document.addEventListener("click", function(ev){
   var b = ev.target.closest && ev.target.closest(".pp button");
   if (!b) return;
   if (b.dataset.clearplace){ clearPlace(); map.closePopup(); return; }
-  if (b.dataset.ws){ st.ws = {}; st.ws[b.dataset.ws] = true; syncUi(); refresh(); map.closePopup(); status("Showing only the " + b.dataset.ws + " watershed. Clear it in the filters."); return; }
+  if (b.dataset.zoomreach !== undefined){
+    var rp = habPolys[Number(b.dataset.zoomreach)];
+    if (rp){
+      var rk = reachKey(rp.props);
+      st.ws = {}; st.rc = {}; st.rc[rk] = true; syncUi(); refresh(); map.closePopup();   // a reach replaces any watershed or reach filter
+      fitPolys(habPolys.filter(function(pl){ return pl.props === rp.props; }));   // every piece of a split reach
+      status("Showing barriers in the " + (rp.props.reach || "selected") + " reach. Clear it with the filter chip under the search box.", 7000);
+    }
+    return;
+  }
+  if (b.dataset.zoomws){
+    var zn = b.dataset.zoomws;
+    st.rc = {}; st.ws = {}; st.ws[zn] = true; syncUi(); refresh(); map.closePopup();   // and so does a watershed
+    fitPolys(wsPolys.filter(function(pl){ return pl.props.name === zn; }));
+    status("Showing barriers in the " + zn + " watershed. Clear it with the filter chip under the search box.", 7000);
+    return;
+  }
   var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
   if (it){ map.closePopup(); selectItem(it, { from:"map" }); }
 });
