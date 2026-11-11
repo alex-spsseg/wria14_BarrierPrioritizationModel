@@ -1,0 +1,2635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WRIA 14 Fish Passage Barriers</title>
+<meta name="description" content="Ranked fish passage barriers in WRIA 14, with the upstream habitat and connected barriers for each one.">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  /* SPSSEG logo colors: blue #1b3f95, cyan #019fc4 */
+  --brand:#1b3f95; --brand-ink:#142e6e; --accent:#019fc4; --tint:#e4f3f8; --tint2:#d2ebf3;
+  --ink:#16212b; --muted:#566673; --faint:#8a98a4; --paper:#ffffff; --line:#e1e8ed; --soft:#f3f6f8;
+  --focus:#0b5fff; --up:#0088ad; --down:#6a1f8f;
+  --r:16px; --shadow:0 1px 2px rgba(16,32,43,.08),0 8px 28px rgba(16,32,43,.16); --shadow-sm:0 1px 2px rgba(16,32,43,.12),0 2px 8px rgba(16,32,43,.12);
+  --font:"Public Sans","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+}
+body.hc{ --ink:#000; --muted:#1a1a1a; --line:#000; --brand:#000; --brand-ink:#000; --soft:#fff; --tint:#fff; --tint2:#eee; }
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font:400 .96rem/1.5 var(--font);color:var(--ink);background:#dfe6e8;overflow:hidden;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:8px;top:-60px;z-index:3000;background:#fff;color:var(--ink);padding:8px 14px;border-radius:10px;box-shadow:var(--shadow)}
+.skip:focus{top:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stage{position:fixed;inset:0}
+#map{position:absolute;inset:0;background:#dfe6e8}
+.card{background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* top right pills */
+.pills{position:absolute;z-index:1100;top:16px;right:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pbtn{background:rgba(255,255,255,.97);border:0;border-radius:999px;padding:9px 16px;font-size:.88rem;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap;box-shadow:var(--shadow-sm);transition:background .15s,transform .15s}
+.pbtn:hover{background:#fff;transform:translateY(-1px)}
+.pbtn[aria-pressed="true"]{background:var(--brand);color:#fff}
+
+/* finder */
+.finder{position:absolute;z-index:1000;left:16px;top:16px;bottom:16px;width:380px;display:flex;flex-direction:column;overflow:hidden}
+.finder-head{padding:16px 18px 10px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.brand img{width:46px;height:auto;flex:none;border-radius:4px}
+.brand h1{margin:0;font-size:1.1rem;line-height:1.2;font-weight:700;letter-spacing:-.005em;color:var(--brand)}
+.brand p{margin:2px 0 0;font-size:.8rem;color:var(--muted)}
+.searchbox{position:relative}
+.searchbox input{width:100%;padding:11px 14px 11px 40px;border:1px solid var(--line);border-radius:12px;background:var(--soft);transition:background .15s,border-color .15s,box-shadow .15s}
+.searchbox input:hover{border-color:#c4d0d8}
+.searchbox input:focus{background:#fff;border-color:var(--brand);outline:none;box-shadow:0 0 0 3px rgba(27,63,149,.22)}
+.searchbox svg{position:absolute;left:13px;top:12px;width:18px;height:18px;fill:none;stroke:var(--faint);stroke-width:2;pointer-events:none}
+.fbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px}
+.fbar .count{font-size:.84rem;color:var(--muted)}
+.fbtn{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:5px 14px;font-weight:600;font-size:.86rem;transition:background .15s}
+.fbtn:hover{background:var(--tint)}
+.fbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.fbtn .n[hidden]{display:none}
+.fbtn .n{background:var(--brand);color:#fff;border-radius:999px;min-width:20px;height:20px;display:inline-grid;place-items:center;font-size:.76rem;padding:0 5px}
+.placebox{margin-top:8px}
+.placebtn{width:100%;display:flex;align-items:center;gap:8px;border:1.5px dashed var(--brand);background:var(--tint);border-radius:10px;padding:7px 10px;font-weight:600;color:var(--brand-ink);text-align:left;font-size:.86rem;transition:background .15s}
+.placebtn:hover{background:var(--tint2)}
+.placebtn svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.placebtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.places{list-style:none;margin:6px 0 0;padding:0}
+.places button{width:100%;text-align:left;background:none;border:0;padding:7px 8px;border-radius:8px;font-size:.86rem;font-weight:600}
+.places button:hover{background:var(--soft)}
+.places .s{display:block;font-weight:400;color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pin-icon svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.4))}
+.pp{min-width:210px}
+.pp b{display:block;margin-bottom:2px}
+.pp p{margin:0 0 6px;color:var(--muted);font-size:.86rem}
+.pp ul{list-style:none;margin:0 0 8px;padding:0}
+.pp li button{width:100%;display:flex;justify-content:space-between;gap:12px;background:none;border:0;padding:5px 6px;border-radius:8px;font-size:.86rem}
+.pp li button:hover{background:var(--soft)}
+.pp li button span{color:var(--muted)}
+.pp .btn{padding:3px 12px;font-size:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips:empty{display:none}
+.fchip{display:inline-flex;align-items:center;gap:2px;background:var(--tint);color:var(--brand-ink);border-radius:999px;padding:2px 3px 2px 10px;font-size:.8rem;font-weight:600;max-width:100%}
+.fchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fchip button{width:22px;height:22px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;padding:0;flex:none}
+.fchip button:hover{background:var(--tint2)}
+.fchip svg{width:11px;height:11px;stroke:currentColor;stroke-width:2.4;fill:none}
+.clearall{background:none;border:0;color:var(--brand);font-weight:600;font-size:.8rem;text-decoration:underline;padding:2px 6px}
+.collapse{margin-left:auto;width:34px;height:34px;flex:none;border-radius:50%;border:0;background:var(--soft);display:grid;place-items:center;transition:background .15s}
+.collapse:hover{background:var(--tint)}
+.collapse svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.finder.compact{bottom:auto}
+.finder.compact .collapse svg{transform:rotate(180deg)}
+.finder.compact .listwrap,.finder.compact .sortrow{display:none}
+.finder.compact .finder-head{padding-bottom:14px}
+body.has-detail .tierkey{display:none}
+.sortrow{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.82rem;color:var(--muted)}
+.sortrow select{border:0;background:transparent;font-weight:600;color:var(--ink);padding:2px 4px;border-radius:6px}
+
+.listwrap{flex:1;min-height:0;overflow:auto;border-top:1px solid var(--line)}
+.list{list-style:none;margin:0;padding:6px 8px 10px}
+.item{width:100%;text-align:left;background:none;border:0;padding:9px 10px;border-radius:12px;display:grid;grid-template-columns:30px 1fr auto;column-gap:10px;row-gap:0;align-items:center;transition:background .12s}
+.item:hover{background:var(--soft)}
+.item[aria-current="true"]{background:var(--tint);box-shadow:inset 3px 0 0 var(--brand)}
+.item .rk{grid-row:1/3;text-align:right;color:var(--faint);font-size:.8rem}
+.item .nm{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .sub{grid-column:2/4;color:var(--muted);font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .sc{display:flex;gap:7px;align-items:center;font-weight:600;font-size:.88rem;border-radius:999px;padding:1px 10px 1px 8px;min-width:62px}
+.swatch{width:12px;height:12px;border-radius:50%;box-shadow:0 0 0 1px rgba(22,33,43,.7);flex:none}
+.empty{padding:16px;color:var(--muted)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* filter sheet (covers the finder card) */
+.sheet{position:absolute;inset:0;background:#fff;z-index:6;display:flex;flex-direction:column;animation:sheetin .18s ease}
+.sheet[hidden]{display:none}
+@keyframes sheetin{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.sheet-head{display:flex;align-items:center;gap:8px;padding:16px 18px 12px;border-bottom:1px solid var(--line)}
+.sheet-head h2{margin:0;font-size:1.1rem;flex:1}
+.linkbtn{background:none;border:0;padding:5px 9px;color:var(--brand);font-weight:600;font-size:.86rem;border-radius:8px}
+.linkbtn:hover{background:var(--tint)}
+.sheet-body{flex:1;overflow:auto;padding:0 18px 12px}
+.sheet-foot{padding:12px 18px 16px;border-top:1px solid var(--line)}
+.primary{width:100%;border:0;background:var(--brand);color:#fff;border-radius:12px;padding:12px;font-weight:700;transition:background .15s}
+.primary:hover{background:var(--brand-ink)}
+.fg:first-child{border-top:0}
+.fg .fgb{padding:0 2px 14px}
+.fg .lbl{font-weight:600;font-size:.82rem;color:var(--muted);display:block;margin:0 0 4px}
+.fg .grow{flex:1;min-width:0}
+.sheet input[type=number],.sheet input[type=date],.sheet select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+.row2{display:flex;gap:8px;align-items:center}
+.row2 input{flex:1;min-width:0}
+.chk{display:flex;align-items:center;gap:10px;padding:3px 0;min-height:32px;cursor:pointer}
+.chk input{width:17px;height:17px;margin:0;flex:none;accent-color:var(--brand)}
+.chk .n{margin-left:auto;color:var(--faint);font-size:.82rem}
+
+/* detail */
+.detail{position:absolute;z-index:1000;right:16px;top:68px;bottom:16px;width:400px;display:flex;flex-direction:column;overflow:hidden;animation:slidein .22s ease}
+.detail[hidden]{display:none}
+@keyframes slidein{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.detail-head{padding:16px 20px 12px;position:relative;border-bottom:1px solid var(--line);background:linear-gradient(180deg,var(--tint),#fff)}
+.detail-head h2{margin:0;font-size:1.3rem;line-height:1.2;font-weight:700;letter-spacing:-.01em;padding-right:150px;color:var(--brand-ink)}
+.detail-head p{margin:4px 0 0;color:var(--muted);font-size:.9rem}
+.stepper{position:absolute;right:58px;top:14px;display:flex;gap:6px}
+.step{width:36px;height:36px;border:0;background:#fff;border-radius:50%;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;color:var(--brand);padding:0}
+.step svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.step:hover:not(:disabled){background:var(--tint)}
+.step:disabled{color:var(--faint);cursor:default}
+.xbtn{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;color:var(--ink);display:grid;place-items:center;box-shadow:0 0 0 1px var(--line);transition:background .15s}
+.xbtn:hover{background:var(--soft)}
+.xbtn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2.2;fill:none}
+.detail-body{flex:1;min-height:0;overflow:auto;padding:14px 18px 18px}
+.scorecard{display:block;padding:14px 16px 10px;border-radius:14px;background:var(--tint)}
+.sc-top{display:flex;align-items:center;gap:18px}
+.mini{list-style:none;margin:12px 0 0;padding:10px 0 0;border-top:1px solid rgba(27,63,149,.16)}
+.mini li{display:grid;grid-template-columns:106px 1fr 46px;gap:8px;align-items:center;font-size:.78rem;margin:5px 0}
+.mini .bar{height:5px;background:#fff}
+.mini .v{text-align:right;color:var(--muted)}
+.tabs{display:flex;gap:2px;padding:0 12px;border-bottom:1px solid var(--line);background:#fff}
+.tab{border:0;background:none;padding:10px 14px;font-weight:600;font-size:.9rem;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+.tabpanel[hidden]{display:none}
+.tabpanel:focus-visible{outline-offset:-3px}
+.detail-foot{display:flex;gap:8px;padding:10px 16px 12px;border-top:1px solid var(--line);background:#fff}
+.detail-foot .btn{flex:1;text-align:center;text-decoration:none;color:var(--ink);padding:7px 8px;font-size:.84rem;display:inline-block}
+.detail-foot .btn.main{background:var(--brand);color:#fff;border-color:var(--brand)}
+.detail-foot .btn.main:hover{background:var(--brand-ink)}
+.glance2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 4px}
+.gtile{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:1px;transition:background .15s,border-color .15s}
+.gtile:hover{background:var(--tint);border-color:var(--brand)}
+.gtile .gt{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted);font-weight:600}
+.gtile b{font-size:1.15rem}
+.gtile .s{font-size:.8rem;color:var(--muted)}
+.facts{margin:12px 0 0;padding:0}
+.facts div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--line);font-size:.9rem}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0;font-weight:600;text-align:right}
+.seg{display:flex;gap:6px;margin:14px 0 8px}
+.seg button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-weight:600;font-size:.84rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--tint);border-color:var(--brand);color:var(--brand-ink)}
+.big{font-size:2.7rem;line-height:1;font-weight:700;color:var(--brand);letter-spacing:-.02em}
+.of{font-size:.82rem;color:var(--muted)}
+.scorecard .meta{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.tag{display:inline-flex;align-items:center;gap:7px;padding:3px 12px 3px 9px;background:#fff;border-radius:999px;font-size:.84rem;font-weight:600;box-shadow:0 0 0 1px var(--line)}
+.warnbox{background:#fff1e3;border:1px solid #f0b27a;border-radius:10px;padding:8px 12px;font-size:.86rem;margin:12px 0 0;color:#6b3300}
+.why{margin:12px 0 0;color:var(--muted);font-size:.9rem}
+.glance{margin:12px 0 4px;color:var(--ink);font-size:.95rem}
+.detail h3{font-size:.8rem;margin:22px 0 6px;color:var(--muted);font-weight:600;letter-spacing:.01em}
+.toggles{list-style:none;margin:0;padding:0}
+.toggles li + li{border-top:1px solid var(--line)}
+.toggles label{display:grid;grid-template-columns:34px 1fr auto 44px;gap:12px;align-items:center;padding:10px 0;cursor:pointer}
+.toggles b{font-weight:600}
+.sw{appearance:none;-webkit-appearance:none;width:40px;height:24px;border-radius:999px;background:#c3cfd6;position:relative;margin:0;cursor:pointer;transition:background .15s;flex:none}
+.sw::before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .15s}
+.sw:checked{background:var(--brand)}
+.sw:checked::before{transform:translateX(16px)}
+.key{display:block;height:0;border-top:4px solid;border-radius:2px}
+.key.up{border-color:var(--up)}
+.key.dn{border-color:var(--down);border-top-style:dashed}
+.key.tri{width:0;height:0;border:0;border-left:8px solid transparent;border-right:8px solid transparent;margin:auto}
+.key.tri.u{border-bottom:14px solid var(--up)}
+.key.tri.d{border-top:14px solid var(--down)}
+.key.ring{width:16px;height:16px;border:3px solid var(--down);border-radius:50%;margin:auto;box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--up)}
+.key.dim{width:14px;height:14px;border:0;border-radius:50%;background:#aab7c0;margin:auto;opacity:.6}
+.note{color:var(--muted);font-size:.9rem;margin:8px 0}
+.btn{border:1px solid #c4d0d8;background:#fff;border-radius:999px;padding:6px 16px;font-weight:600;font-size:.86rem}
+.btn:hover{background:var(--soft)}
+details.dd{border-top:1px solid var(--line)}
+details.dd:last-of-type{border-bottom:1px solid var(--line)}
+details.dd > summary{padding:12px 2px;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between}
+details.dd > summary::-webkit-details-marker{display:none}
+details.dd > summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s;margin-right:4px}
+details.dd[open] > summary::after{transform:rotate(-135deg)}
+.conn{list-style:none;margin:0 0 10px;padding:0}
+.conn button{text-align:left;background:none;border:0;padding:8px 8px;margin:0 -8px;width:calc(100% + 16px);display:grid;grid-template-columns:1fr auto;gap:0 10px;border-radius:10px}
+.conn button:hover{background:var(--soft)}
+.conn .s{color:var(--muted);font-size:.82rem}
+.cats{list-style:none;margin:0;padding:0}
+.cats li{display:grid;grid-template-columns:120px 1fr 52px;gap:10px;align-items:center;font-size:.86rem;margin:9px 0}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brand);border-radius:3px}
+.cats .v{text-align:right;color:var(--muted)}
+table.kv{border-collapse:collapse;width:100%;font-size:.9rem;margin-bottom:8px}
+.kv th{font-weight:400;color:var(--muted);text-align:left;vertical-align:top;padding:6px 12px 6px 0;width:48%}
+.kv td{padding:6px 0;vertical-align:top;word-break:break-word}
+.kv tr + tr th,.kv tr + tr td{border-top:1px solid var(--line)}
+.nodata{color:var(--faint)}
+.dsec h4{margin:18px 0 2px;font-size:.78rem;color:var(--muted);font-weight:700;letter-spacing:.02em}
+.dsec:first-child h4{margin-top:2px}
+.drow{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:8px 0;border-top:1px solid var(--line);font-size:.9rem}
+.drow .k{color:var(--muted);flex:none;max-width:48%}
+.drow .v{font-weight:600;text-align:right}
+.drow.long{display:block}
+.drow.long .v{display:block;text-align:left;margin-top:2px}
+.stab{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:6px}
+.stab th,.stab td{padding:7px 8px 7px 0;text-align:left;border-top:1px solid var(--line)}
+.stab thead th{font-size:.76rem;color:var(--muted);font-weight:600;border-top:0}
+.stab tbody th{font-weight:400;color:var(--ink)}
+.stab td{font-weight:600}
+.stab .r{text-align:right;padding-right:0}
+.dmiss{margin-top:16px}
+.bd{margin-top:2px}
+.bdtotal{border-top:0;padding-top:0;font-size:1rem}
+.bdtotal .v{font-size:1.1rem;color:var(--brand-ink)}
+.why .linkbtn{display:block;margin-top:4px;padding:0;font-size:inherit}
+.bd h4{display:flex;justify-content:space-between;margin:14px 0 2px;font-size:.8rem;color:var(--ink)}
+.bd h4 span{color:var(--muted);font-weight:600}
+.mrow{display:grid;grid-template-columns:1fr auto 54px;gap:10px;align-items:baseline;padding:5px 0;border-top:1px solid var(--line);font-size:.84rem}
+.mrow .mr{color:var(--muted);text-align:right;font-size:.8rem}
+.mrow .mp{text-align:right;font-weight:600}
+.dlrow{display:flex;align-items:center;gap:8px;margin:14px 0 4px;padding-top:12px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.dlrow .dlt{flex:1}
+.dlrow .btn{padding:4px 12px;font-size:.8rem}
+.dlink{display:inline-block;margin-top:14px;color:var(--brand);font-weight:600}
+
+.nethead{display:flex;align-items:center;justify-content:space-between;margin:20px 0 4px}
+.nethead h3{margin:0}
+table.net{border-collapse:collapse;width:100%;font-size:.9rem}
+.net th,.net td{padding:7px 6px;text-align:left;vertical-align:top;border-top:1px solid var(--line)}
+.net thead th,.net thead td{border-top:0;font-size:.8rem;color:var(--muted);font-weight:600;padding-top:2px}
+.net tbody th{font-weight:400;color:var(--muted);padding-left:0;width:32%}
+.net td{font-weight:600}
+.limbtn{background:none;border:0;padding:2px 6px;margin:-2px -6px;text-align:left;border-radius:8px;display:block}
+.limbtn:hover{background:var(--tint)}
+.limbtn b{display:block}
+.limbtn .s{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.tchips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.tchip{position:relative;display:inline-flex;cursor:pointer}
+.tchip input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.tchip .box{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border:1.5px solid var(--line);border-radius:999px;font-size:.8rem;font-weight:600;background:#fff;color:var(--muted);transition:background .15s,border-color .15s}
+.tchip input:checked + .box{background:var(--tint);border-color:var(--brand);color:var(--brand-ink)}
+.tchip input:focus-visible + .box{outline:3px solid var(--focus);outline-offset:2px}
+.tchip svg{display:block;flex:none}
+.limits{display:flex;flex-direction:column;gap:8px}
+.limit{width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;display:grid;grid-template-columns:30px 1fr;align-items:center;gap:6px;transition:background .15s,border-color .15s}
+.limit:hover{background:var(--soft)}
+.limit.dn{border-left:5px solid var(--down)}
+.limit.up{border-left:5px solid var(--up)}
+.limit .s{color:var(--muted);font-size:.82rem}
+
+/* map controls */
+.leaflet-bottom.leaflet-right{transition:right .22s ease}
+body.has-detail .leaflet-bottom.leaflet-right{right:416px}
+.leaflet-bottom.leaflet-left{left:410px;bottom:4px}
+.mctl{display:flex;flex-direction:column;gap:8px;margin:0 16px 20px 0 !important}
+.mbtn{width:42px;height:42px;border-radius:50%;border:0;background:#fff;box-shadow:var(--shadow-sm);display:grid;place-items:center;padding:0;font-size:1.35rem;font-weight:600;transition:background .15s}
+.mbtn:hover{background:var(--soft)}
+.mbtn[aria-pressed="true"]{background:var(--brand);color:#fff}
+.mbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.leaflet-control-scale-line{border-color:#566673;background:rgba(255,255,255,.8);font-size:.7rem}
+
+/* map bar: tier key and layers */
+.mapbar{position:absolute;z-index:900;left:412px;bottom:40px;display:flex;gap:10px;align-items:center}
+.tierkey{display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.97);border-radius:999px;padding:7px 16px;box-shadow:var(--shadow-sm);font-size:.82rem;font-weight:600}
+.tierkey span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.layersbtn{border:0;background:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:.84rem;box-shadow:var(--shadow-sm);display:inline-flex;gap:7px;align-items:center}
+.layersbtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.layersbtn[aria-expanded="true"]{background:var(--brand);color:#fff}
+.popover{position:absolute;z-index:950;left:412px;bottom:84px;width:290px;padding:14px 16px;max-height:70vh;overflow:auto;border-radius:14px}
+.popover[hidden]{display:none}
+.popover h3{margin:0 0 6px;font-size:.8rem;color:var(--muted);font-weight:600}
+.popover .sec + .sec{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.lg{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.86rem}
+.lg .key:not(.tri){width:28px;flex:none}
+.lg .key.tri{flex:none;margin:0 7px}
+.banner{position:absolute;z-index:1050;left:412px;top:16px;max-width:min(440px,calc(100% - 900px));background:#fff6d6;color:#4d3900;padding:9px 16px;border-radius:14px;font-size:.84rem;box-shadow:var(--shadow-sm)}
+.banner[hidden]{display:none}
+.status{position:absolute;z-index:1200;left:50%;top:72px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:9px 18px;border-radius:999px;font-size:.88rem;max-width:calc(100% - 32px);text-align:center}
+.status[hidden]{display:none}
+.measure{position:absolute;z-index:1000;right:76px;bottom:20px;background:#fff;border-radius:14px;padding:10px 12px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px;min-width:230px}
+.mmodes{display:flex;gap:4px}
+.mmodes button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-weight:600;font-size:.8rem;color:var(--muted)}
+.mmodes button[aria-pressed="true"]{background:var(--tint);border-color:var(--brand);color:var(--brand-ink)}
+.mres{font-size:.9rem;color:var(--muted)}
+.mres b{font-size:1.05rem;color:var(--ink)}
+.mact{display:flex;gap:6px}
+.mact .btn{flex:1;padding:4px 10px}
+body.has-detail .measure{right:492px}
+.measure[hidden]{display:none}
+
+.sel-icon{pointer-events:none}
+.sel-ring{position:absolute;left:-20px;top:-20px;width:40px;height:40px;box-sizing:border-box;border-radius:50%;border:4px solid var(--brand-ink);background:rgba(255,255,255,.12);box-shadow:0 0 0 3px #fff,0 0 0 8px rgba(1,159,196,.38),0 3px 10px rgba(0,0,0,.4)}
+.sel-ring::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:3px solid var(--accent);opacity:0;animation:selpulse 1.2s ease-out 1}
+@keyframes selpulse{0%{transform:scale(.55);opacity:.95}100%{transform:scale(1.8);opacity:0}}
+.sel-tag{position:absolute;left:30px;top:-13px;white-space:nowrap;background:#fff;border:1.5px solid var(--brand);border-radius:999px;padding:1px 10px;font-weight:700;font-size:.8rem;line-height:1.35;color:var(--brand-ink);box-shadow:0 1px 6px rgba(0,0,0,.25)}
+.sel-icon.pos-w .sel-tag{left:auto;right:30px}
+.sel-icon.pos-ne .sel-tag{left:12px;top:-47px}
+.sel-icon.pos-nw .sel-tag{left:auto;right:12px;top:-47px}
+.sel-icon.pos-se .sel-tag{left:12px;top:22px}
+.sel-icon.pos-sw .sel-tag{left:auto;right:12px;top:22px}
+/* while measuring, clicks go through the markers to the map so a trace can start or end on a barrier */
+.measuring .leaflet-marker-icon{pointer-events:none}
+.tri-icon svg,.cl-icon svg{display:block;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.4))}
+.arrow-icon svg{display:block}
+.cl-icon{font-weight:700;font-size:.78rem}
+.leaflet-tooltip b{font-weight:700;color:var(--ink)}
+.leaflet-tooltip .tsub{color:var(--muted);font-size:.78rem}
+.leaflet-tooltip{font-family:var(--font);font-size:.82rem;border-radius:8px;border:0;box-shadow:var(--shadow-sm);padding:5px 9px}
+.leaflet-container{font-family:var(--font)}
+.leaflet-control-attribution{border-radius:8px 0 0 0;font-size:.7rem}
+
+/* table drawer */
+.drawer{position:absolute;z-index:1150;left:16px;right:16px;bottom:16px;height:44%;display:flex;flex-direction:column;overflow:hidden}
+.drawer[hidden]{display:none}
+.dh{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line)}
+.dh h2{margin:0;font-size:1.05rem}
+.dh .sp{flex:1}
+.tw{overflow:auto;flex:1}
+table.t{border-collapse:collapse;width:100%;font-size:.88rem}
+.t th{position:sticky;top:0;background:var(--soft);text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.t th button{background:none;border:0;padding:0;font-weight:600}
+.t td{padding:8px 14px;border-bottom:1px solid var(--line);white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.t td button{background:none;border:0;padding:0;color:var(--brand);font-weight:600;text-decoration:underline}
+.t tbody tr:hover{background:var(--soft)}
+.num{text-align:right}
+
+dialog{border:0;border-radius:var(--r);padding:0;width:min(640px,calc(100% - 32px));max-height:calc(100% - 48px);box-shadow:var(--shadow);color:var(--ink)}
+dialog::backdrop{background:rgba(10,22,30,.45)}
+dialog .in{padding:8px 22px 24px;overflow:auto;max-height:70vh}
+dialog .logo{display:block;width:240px;max-width:70%;height:auto;margin:10px 0 6px}
+dialog table{border-collapse:collapse;width:100%;font-size:.9rem;margin:8px 0 16px}
+dialog th,dialog td{border-bottom:1px solid var(--line);padding:8px 8px;text-align:left;vertical-align:top}
+dialog td.num,dialog th.num{text-align:right}
+
+/* quick tour */
+.tour{position:absolute;z-index:1300;left:412px;bottom:100px;width:330px;padding:14px 16px 14px;border:2px solid var(--brand)}
+.tour[hidden]{display:none}
+.tour-top{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted);font-weight:600}
+.tour h2{margin:4px 0 4px;font-size:1.05rem;color:var(--brand-ink);outline:none}
+.tour p{margin:0 0 10px;font-size:.9rem}
+.tour-act{display:flex;gap:8px;justify-content:flex-end}
+.tour-act .main{background:var(--brand);color:#fff;border-color:var(--brand)}
+.tour-act .btn:disabled{opacity:.4;cursor:default}
+.tour-hl{outline:3px solid var(--accent);outline-offset:-3px;border-radius:6px;animation:tourpulse 1.4s ease-in-out 3}
+@keyframes tourpulse{50%{outline-color:rgba(1,159,196,.25)}}
+.grab{display:none}
+/* printable one page summary */
+#printRoot{position:fixed;left:-12000px;top:0;width:7.5in;background:#fff;color:#111;font-size:10pt;line-height:1.35}
+.ps-demo{background:#fff6d6;border:1px solid #c99a00;padding:4pt 8pt;margin-bottom:6pt;font-size:9pt}
+.ps-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16pt;border-bottom:3pt solid var(--brand);padding-bottom:6pt;margin-bottom:6pt}
+.ps-logo{height:24pt;width:auto;display:block;margin-bottom:6pt}
+.ps-head h1{margin:0;font-size:20pt;line-height:1.1;color:var(--brand-ink)}
+.ps-head p{margin:2pt 0 0;color:#444;font-size:10.5pt}
+.ps-score{text-align:right;white-space:nowrap}
+.ps-score .big{font-size:30pt;line-height:1;font-weight:700;color:var(--brand)}
+.ps-map{width:7.5in;height:2.1in;border:1pt solid #888;position:relative;background:#e8eef0}
+.ps-legend{display:flex;flex-wrap:wrap;gap:4pt 14pt;margin:4pt 0 6pt;font-size:8.5pt;color:#333}
+.ps-legend span{display:inline-flex;align-items:center;gap:5pt}
+.ps-cols{display:grid;grid-template-columns:1fr 1fr;gap:6pt 18pt;margin-bottom:6pt}
+#printRoot h2{font-size:10.5pt;margin:0 0 3pt;color:var(--brand-ink);border-bottom:1pt solid #bbb;padding-bottom:2pt}
+.ps-sec{break-inside:avoid;margin-bottom:4pt}
+.ps-net,.ps-list{border-collapse:collapse;width:100%;font-size:8.6pt}
+.ps-net th,.ps-net td,.ps-list th,.ps-list td{padding:1.8pt 4pt;text-align:left;vertical-align:top;border-bottom:.5pt solid #ccc}
+.ps-net thead th,.ps-list thead th{font-size:8pt;color:#555}
+.ps-net tbody th{font-weight:400;color:#555;width:30%}
+.ps-list .r{text-align:right}
+.ps-cats{list-style:none;margin:0;padding:0}
+.ps-cats li{display:grid;grid-template-columns:105pt 1fr 38pt;gap:6pt;align-items:center;font-size:9pt;margin:3pt 0}
+.ps-cats .bar{height:7pt;background:#dde4e8;border-radius:4pt;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ps-cats .bar i{display:block;height:100%;background:var(--brand);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ps-cats .v{text-align:right}
+.ps-det{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:4pt 14pt;font-size:8.2pt;line-height:1.25}
+.ps-col h3{margin:0 0 2pt;font-size:8.5pt;color:var(--brand-ink)}
+.ps-col > div{display:flex;justify-content:space-between;gap:6pt;padding:1pt 0;border-bottom:.5pt solid #ddd}
+.ps-col > div.long{display:block}
+.ps-col .k{color:#555}
+.ps-col .v{font-weight:600;text-align:right}
+.ps-col > div.long .v{display:block;text-align:left}
+.ps-sp{border-collapse:collapse;width:100%;margin-top:3pt;font-size:8pt}
+.ps-sp th,.ps-sp td{text-align:left;padding:1pt 3pt 1pt 0;border-bottom:.5pt solid #ddd}
+.ps-sp th{color:#555;font-weight:400}
+.ps-sp .r{text-align:right}
+.ps-attrs{column-count:3;column-gap:14pt;font-size:8.2pt;line-height:1.25}
+.ps-attrs div{break-inside:avoid;display:flex;justify-content:space-between;gap:6pt;padding:1pt 0;border-bottom:.5pt solid #ddd}
+.ps-attrs .k{color:#555}
+.ps-attrs .v{text-align:right;font-weight:600}
+.ps-foot{margin-top:3pt;padding-top:2pt;border-top:1pt solid #bbb;font-size:7pt;line-height:1.25;color:#444;break-inside:avoid}
+.ps-foot a{color:#222;word-break:break-all}
+@media print{
+  @page{size:letter;margin:.45in}
+  html,body{height:auto;overflow:visible;background:#fff}
+  .stage,dialog,.skip,#live{display:none !important}
+  #printRoot{position:static;width:auto}
+  .ps-cols,.ps-head{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .swatch{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (max-width:1200px){ .banner{display:none} }
+@media (max-width:900px){
+  .collapse{display:none}
+  .finder.compact{bottom:8px}
+  .finder.compact .listwrap,.finder.compact .sortrow{display:flex}
+  body.has-detail .tierkey{display:flex}
+  .finder{left:8px;right:8px;top:auto;bottom:8px;width:auto;height:46%;transition:height .22s ease}
+  .detail{transition:height .22s ease}
+  .finder.dragging,.detail.dragging{transition:none}
+  body.has-detail .finder{display:none}
+  .grab{display:block;flex:none;height:26px;position:relative;touch-action:none;cursor:grab;z-index:7}
+  .grab span{position:absolute;left:50%;top:9px;width:44px;height:5px;margin-left:-22px;border-radius:3px;background:#b8c4cc}
+  .grab:hover span,.grab:focus-visible span{background:var(--brand)}
+  .tour{left:8px;right:8px;top:60px;bottom:auto;width:auto}
+  .brand p{display:none}
+  .pills{top:8px;right:8px;left:8px}
+  .pbtn.opt{display:none}
+  .detail{left:8px;right:8px;top:auto;bottom:8px;width:auto;height:64%;z-index:1010}
+  .mapbar{display:none}
+  .popover{display:none}
+  .leaflet-bottom.leaflet-left{display:none}
+  .mctl{margin-bottom:var(--map-pad,48%) !important}
+  body.has-detail .leaflet-bottom.leaflet-right{right:0}
+  body.has-detail .mctl{margin-bottom:var(--map-pad,66%) !important}
+  .measure,body.has-detail .measure{right:68px;bottom:var(--map-pad,48%)}
+  .drawer{left:8px;right:8px;height:58%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#list">Skip to the barrier list</a>
+
+<div class="stage">
+  <div class="pills">
+    <button type="button" class="pbtn" id="btnTable" aria-pressed="false">Table</button>
+    <button type="button" class="pbtn" id="btnAbout">Scoring and about</button>
+    <button type="button" class="pbtn" id="btnCopy">Share link</button>
+    <a class="pbtn opt" id="dl" href="#" hidden>Download spreadsheet</a>
+  </div>
+  <div id="map" aria-label="Map of fish passage barriers. All barriers are also available in the list and table." role="region"></div>
+
+  <section class="finder card" aria-label="Find a barrier">
+    <div class="grab" role="button" tabindex="0" data-sheet="finder" aria-label="Resize the list panel"><span></span></div>
+    <div class="finder-head">
+      <div class="brand">
+        <img src="img/spsseg_fish_96.png" alt="" width="46" height="44" onerror="this.style.display='none'">
+        <div><h1 id="appTitle">WRIA 14 Fish Passage Barriers</h1><p>Ranked by the benefit of fixing them</p></div>
+        <button type="button" class="collapse" id="fCollapse" aria-expanded="true" aria-controls="list" title="Hide the list" aria-label="Hide the list"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+      </div>
+      <div class="searchbox">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/></svg>
+        <label class="sr" for="q">Search by barrier ID, stream, tributary, or place</label>
+        <input id="q" type="search" placeholder="Barrier ID, stream, tributary, or place" autocomplete="off">
+      </div>
+      <div class="placebox" id="placeBox" hidden>
+        <button type="button" class="placebtn" id="placeBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg><span id="placeBtnText">Find a place</span></button>
+        <p class="note" id="placeMsg" hidden role="status"></p>
+        <ul class="places" id="placeList" aria-label="Places found"></ul>
+      </div>
+      <div class="fbar">
+        <span class="count" id="count" aria-live="polite"><span class="spin" aria-hidden="true"></span>Loading barriers</span>
+        <button type="button" class="fbtn" id="fToggle" aria-haspopup="dialog" aria-controls="filters">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+          <span>Filters</span><span class="n" id="fCount" hidden></span>
+        </button>
+      </div>
+      <div class="chips" id="chips" aria-label="Active filters"></div>
+      <div class="sortrow"><label for="sortSel">Sort by</label>
+        <select id="sortSel">
+          <option value="rank">Rank, highest score first</option>
+          <option value="id">Barrier ID</option>
+          <option value="newest">Most recently surveyed</option>
+          <option value="oldest">Longest since surveyed</option>
+        </select></div>
+    </div>
+    <div class="listwrap"><ul class="list" id="list" aria-label="Barriers"></ul></div>
+
+    <div class="sheet" id="filters" role="dialog" aria-label="Filters" hidden>
+      <div class="sheet-head"><h2>Filters</h2><button type="button" class="linkbtn" id="sheetReset">Reset all</button></div>
+      <div class="sheet-body">
+        <details class="dd fg" open><summary>Priority tier</summary><div class="fgb" id="tierBox"></div></details>
+        <details class="dd fg"><summary>Total score</summary><div class="fgb">
+          <div class="row2">
+            <input id="smin" type="number" inputmode="numeric" placeholder="Min" aria-label="Minimum score">
+            <span>to</span>
+            <input id="smax" type="number" inputmode="numeric" placeholder="Max" aria-label="Maximum score">
+          </div></div></details>
+        <details class="dd fg"><summary>Ownership</summary><div class="fgb" id="ownerBox"></div></details>
+        <details class="dd fg" id="surveyGroup"><summary>Last surveyed</summary><div class="fgb">
+          <label class="lbl" for="sPreset">Surveyed</label>
+          <select id="sPreset">
+            <option value="">Any time</option>
+            <option value="2">In the last 2 years</option>
+            <option value="5">In the last 5 years</option>
+            <option value="10">In the last 10 years</option>
+            <option value="older10">More than 10 years ago</option>
+            <option value="none">No survey date</option>
+          </select>
+          <div class="row2" style="margin-top:10px;align-items:flex-end">
+            <div class="grow"><label class="lbl" for="sFrom">From</label><input id="sFrom" type="date"></div>
+            <div class="grow"><label class="lbl" for="sTo">To</label><input id="sTo" type="date"></div>
+          </div></div></details>
+        <details class="dd fg" id="potGroup"><summary>Potential species</summary><div class="fgb">
+          <div class="note" style="margin-top:0">Barriers with any selected species.</div><div id="potBox"></div></div></details>
+        <details class="dd fg"><summary>Fish use recorded</summary><div class="fgb">
+          <div class="note" style="margin-top:0">From SWIFD. Barriers with any selected species.</div><div id="useBox"></div></div></details>
+        <details class="dd fg" id="fillGroup" hidden><summary>Road fill</summary><div class="fgb">
+          <div class="row2">
+            <input id="fMin" type="number" inputmode="decimal" step="any" placeholder="Min" aria-label="Minimum road fill">
+            <span>to</span>
+            <input id="fMax" type="number" inputmode="decimal" step="any" placeholder="Max" aria-label="Maximum road fill">
+          </div>
+          <div class="note" id="fillNote"></div></div></details>
+        <details class="dd fg"><summary>Feature type</summary><div class="fgb">
+          <select id="ftype" aria-label="Feature type"><option value="">All feature types</option></select></div></details>
+      </div>
+      <div class="sheet-foot"><button type="button" class="primary" id="sheetDone">Show barriers</button></div>
+    </div>
+  </section>
+
+  <section class="detail card" id="detail" hidden aria-labelledby="dTitle">
+    <div class="grab" role="button" tabindex="0" data-sheet="detail" aria-label="Resize the details panel"><span></span></div>
+    <div class="detail-head">
+      <h2 id="dTitle" tabindex="-1">Barrier</h2>
+      <p id="dSub"></p>
+      <div class="stepper">
+        <button type="button" class="step" id="dPrev" aria-label="Previous barrier in the list" title="Previous barrier"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="step" id="dNext" aria-label="Next barrier in the list" title="Next barrier"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+      <button type="button" class="xbtn" id="dClose" aria-label="Close barrier details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Barrier sections" id="dTabs">
+      <button type="button" role="tab" class="tab" id="tabbtn-overview" data-tab="overview" aria-controls="tab-overview" aria-selected="true">Overview</button>
+      <button type="button" role="tab" class="tab" id="tabbtn-score" data-tab="score" aria-controls="tab-score" aria-selected="false" tabindex="-1">Score</button>
+      <button type="button" role="tab" class="tab" id="tabbtn-network" data-tab="network" aria-controls="tab-network" aria-selected="false" tabindex="-1">Network</button>
+    </div>
+    <div class="detail-body" id="dBody"></div>
+    <div class="detail-foot" id="dFoot"></div>
+  </section>
+
+  <div class="mapbar" id="mapbar">
+    <div class="tierkey" id="tierkey" aria-label="Priority tiers"></div>
+    <button type="button" class="layersbtn" id="layersBtn" aria-expanded="false" aria-controls="layersPop">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>Map options</button>
+  </div>
+  <div class="popover card" id="layersPop" hidden>
+    <div class="sec" id="symKey"></div>
+    <div class="sec"><h3>Basemap</h3><div id="baseBox" role="radiogroup" aria-label="Basemap"></div></div>
+    <div class="sec"><h3>Layers</h3>
+      <label class="chk"><input type="checkbox" id="lyrStreams" checked><span>Streams</span></label>
+      <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
+      <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
+    </div>
+    <div class="sec"><h3>Display</h3>
+      <label class="chk"><input type="checkbox" id="hcChk"><span>High contrast</span></label>
+    </div>
+  </div>
+
+  <div class="banner" id="banner" hidden></div>
+  <div class="measure" id="measure" hidden role="group" aria-label="Measure distance">
+    <div class="mmodes" role="group" aria-label="Measure mode">
+      <button type="button" id="mLine" aria-pressed="true">Straight line</button>
+      <button type="button" id="mStream" aria-pressed="false">Along stream</button>
+    </div>
+    <div class="mres" aria-live="polite"><span id="mLabel">Distance</span> <b id="mDist">0 ft</b></div>
+    <div class="mact"><button type="button" class="btn" id="mUndo">Undo</button><button type="button" class="btn" id="mClear">Clear</button></div>
+  </div>
+  <div class="status" id="status" role="status" hidden></div>
+  <section class="tour card" id="tour" hidden role="region" aria-label="Quick tour">
+    <div class="tour-top"><span id="tourStep">1 of 3</span><button type="button" class="linkbtn" id="tourSkip">Skip tour</button></div>
+    <h2 id="tourTitle" tabindex="-1"></h2>
+    <p id="tourText"></p>
+    <div class="tour-act"><button type="button" class="btn" id="tourBack">Back</button><button type="button" class="btn main" id="tourNext">Next</button></div>
+  </section>
+
+  <section class="drawer card" id="drawer" hidden aria-label="Barrier table">
+    <div class="dh">
+      <h2>Barrier table</h2><span id="tcount" style="color:var(--muted)"></span><span class="sp"></span>
+      <button type="button" class="btn" id="csvBtn">Download CSV of results</button>
+      <button type="button" class="btn" id="closeTable">Close</button>
+    </div>
+    <div class="tw"><table class="t" id="tbl"></table></div>
+  </section>
+</div>
+
+<dialog id="about" aria-labelledby="aboutH">
+  <div class="dh"><h2 id="aboutH">Scoring and about</h2><span class="sp"></span>
+    <button type="button" class="btn" id="aboutClose">Close</button></div>
+  <div class="in" id="aboutBody"></div>
+</dialog>
+
+<div class="sr" id="live" aria-live="polite" role="status"></div>
+<div id="printRoot" aria-hidden="true"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ------------------------------------------------------------------ config */
+var CONFIG = {
+  spreadsheetUrl: "",              // link to the scoring spreadsheet; blank hides the button
+  contactEmail: "",                // shown in the About dialog when set
+  dataUrl: "barriers.geojson",
+  streamsUrl: "streams.geojson",   // split stream lines with topology, from export_webapp_data.py
+  basinUrl: "basin.geojson",       // optional
+  demoUrl: "demo_barriers.geojson",
+  demoStreamsUrl: "demo_streams.geojson",
+  center: [47.2, -123.0], zoom: 10, maxScore: 135,
+  // Used when a barrier has no FormLinkURL of its own. {id} is the barrier (site) ID.
+  reportUrlTemplate: "https://fortress.wa.gov/dfw/public/fishpassagephotos/reports/{id}_Report.pdf",
+  roadFillUnit: "ft",
+  // place search. Free, no key needed, light use only. Results are biased toward south Puget Sound.
+  geocoderUrl: "https://nominatim.openstreetmap.org/search",
+  geocoderViewbox: "-124.4,48.2,-121.8,46.4"
+};
+var TIERS = [
+  { key:"top",  label:"Top 10 percent", rule:"Percentile 90 to 100", min:0.90, color:"#8c0f26", radius:7.5 },
+  { key:"high", label:"High",           rule:"Percentile 66 to 90",  min:0.66, color:"#e8590c", radius:6.5 },
+  { key:"med",  label:"Medium",         rule:"Percentile 33 to 66",  min:0.33, color:"#fdae61", radius:5.5 },
+  { key:"low",  label:"Lower",          rule:"Percentile 0 to 33",   min:0,    color:"#fff3b0", radius:4.5 }
+];
+var CATEGORIES = [
+  { name:"Habitat quantity gain", short:"habitat gain", max:20, keys:["s_hab0","s_habtot"], metrics:"Upstream habitat, upstream habitat to 0 percent passable" },
+  { name:"Species benefit", short:"species benefit", max:50, keys:["s_chinook","s_coho","s_steelhead","s_chum","s_cutthroat","s_species"], metrics:"Upstream habitat for Chinook, Coho, Steelhead and Chum, cutthroat presence, number of species" },
+  { name:"Barrier metrics", short:"barrier metrics", max:30, keys:["s_pass","s_ds","s_us","s_nods"], metrics:"Barrier passability, downstream barriers, upstream barriers, no downstream barriers" },
+  { name:"Water quality", short:"water quality", max:20, keys:["s_road","s_wq","s_temp","s_canopy"], metrics:"Road density, 303d listing, stream temperature, canopy cover" },
+  { name:"Future conditions", short:"future conditions", max:15, keys:["s_ftemp","s_flood","s_flow"], metrics:"Future stream temperature, future flood events, future summer low flow" }
+];
+var FIELDS = [
+  ["trib","Tributary to"],["owner","Ownership (owner type)"],["ftype","Feature type"],["survey_date","Last surveyed"],["snap_status","Location check"],["pot_species","Potential species"],["species","Species recorded"],["road_fill","Road fill (" + CONFIG.roadFillUnit + ")",1],
+  ["pass_pct","Barrier passability",0],
+  ["use_chinook","Fish use, Chinook (SWIFD)",0],["use_coho","Fish use, Coho (SWIFD)",0],["use_steelhead","Fish use, Steelhead (SWIFD)",0],
+  ["use_chum","Fish use, Chum (SWIFD)",0],["use_cutthroat","Fish use, Cutthroat (SWIFD)",0],
+  ["n_species","Number of species benefitting",0],
+  ["hab_chinook","Upstream Chinook habitat (miles)",2],["hab_coho","Upstream Coho habitat (miles)",2],
+  ["hab_steelhead","Upstream Steelhead habitat (miles)",2],["hab_chum","Upstream Chum habitat (miles)",2],
+  ["hab_cutthroat","Upstream Cutthroat habitat (miles)",2],
+  ["us_dist","Upstream stream distance (miles)",2],["us_dist_0pass","Upstream distance to 0 percent passable (miles)",2],
+  ["ds_count","Downstream barriers (model count)",0],["ds_minpass","Downstream minimum percent passable",0],
+  ["us_count","Upstream barriers (model count)",0],["us_minpass","Upstream minimum percent passable",0],
+  ["road_density","Road density (mi per sq mi)",2],["wq_303d","Water quality 303d listing"],
+  ["temp","Stream temperature, mean August (C)",1],["temp_2040","Future (2040) stream temperature (C)",1],
+  ["canopy","Canopy cover (percent)",0],["flood_pct","Future flood events (percent change)",1],
+  ["flow_pct","Future summer low flow (percent change)",1]
+];
+var BASEMAPS = [
+  { id:"gray", name:"Light gray", url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", attr:"Tiles &copy; Esri", nat:16 },
+  { id:"topo", name:"Topographic", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", attr:"Tiles &copy; Esri", nat:19 },
+  { id:"img",  name:"Imagery", url:"https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr:"Tiles &copy; Esri", nat:19 },
+  { id:"osm",  name:"OpenStreetMap", url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png", attr:"&copy; OpenStreetMap contributors", nat:19 }
+];
+var HILLSHADE = { url:"https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}", attr:"Hillshade &copy; Esri", nat:16 };
+var SNAP_LABELS = { auto:"Placed by the snapping rules", manual:"Checked by hand", poc_nearest:"Nearest stream line, not checked", unchecked:"Not placed on the network" };
+// Plain words for passability: 0 is a total barrier, 100 is not a barrier, anything in between is a partial barrier.
+var PASS_LABELS = { 0:"Total Barrier", 100:"Not a Barrier" };
+var SORTS = { rank:1, id:1, newest:1, oldest:1 };
+
+/* ------------------------------------------------------------ pure helpers */
+function isNum(v){ return typeof v === "number" && isFinite(v); }
+function clean(v){
+  if (v === undefined || v === null) return null;
+  if (typeof v === "string"){
+    var s = v.trim();
+    if (s === "" || s === "<Null>" || s.toLowerCase() === "null" || s === "NaN") return null;
+    return s;
+  }
+  return v;
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function fmt(v, d){
+  v = clean(v);
+  if (v === null) return null;
+  if (typeof v === "number") return d === undefined ? String(v) : v.toFixed(d);
+  return String(v);
+}
+function miles(v){ return (Math.round(v * 10) / 10).toFixed(1) + " mi"; }
+function plural(n, one, many){ return n + " " + (n === 1 ? one : many); }
+function tierOf(pct){
+  for (var i = 0; i < TIERS.length; i++){ if (pct >= TIERS[i].min) return TIERS[i]; }
+  return TIERS[TIERS.length - 1];
+}
+function parseDate(v){
+  if (v === null || v === undefined || v === "") return null;
+  if (isNum(v)) return v > 1e11 ? v : null;
+  var t = String(v).trim(), m = /^(\d{4})-(\d{2})-(\d{2})/.exec(t);
+  if (m) return Date.UTC(+m[1], +m[2] - 1, +m[3]);
+  m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(t);
+  if (m) return Date.UTC(+m[3], +m[1] - 1, +m[2]);
+  var d = Date.parse(t);
+  return isNaN(d) ? null : d;
+}
+function isoOf(ms){ return new Date(ms).toISOString().slice(0, 10); }
+function splitSpecies(v){
+  if (typeof v !== "string") return [];
+  return v.split(/[,;]/).map(function(x){ return x.replace(/\s+/g, " ").trim(); }).filter(Boolean);
+}
+function asArray(v){ return Array.isArray(v) ? v : (v === null || v === undefined ? [] : [v]); }
+
+function buildModel(fc){
+  var items = [];
+  (fc.features || []).forEach(function(f){
+    if (!f.geometry || f.geometry.type !== "Point") return;
+    var p = {};
+    Object.keys(f.properties || {}).forEach(function(k){ p[k] = (k === "su" || k === "sd") ? asArray(f.properties[k]) : clean(f.properties[k]); });
+    if (p.id === null || p.id === undefined) return;
+    if (!p.su) p.su = [];
+    if (!p.sd) p.sd = [];
+    var ms = parseDate(p.survey_date);
+    p.survey_date = ms === null ? null : isoOf(ms);
+    var snap = typeof p.snap_status === "string" ? p.snap_status : null;
+    p.snap_status = snap === null ? null : (SNAP_LABELS[snap] || snap);
+    var rf = typeof p.road_fill === "string" ? parseFloat(p.road_fill) : p.road_fill;
+    items.push({ p:p, id:String(p.id), ll:[f.geometry.coordinates[1], f.geometry.coordinates[0]],
+      survey:ms, pot:splitSpecies(p.pot_species), fill:isNum(rf) ? rf : null, snap:snap });
+  });
+  items.sort(function(a, b){
+    var ta = isNum(a.p.total) ? a.p.total : -1, tb = isNum(b.p.total) ? b.p.total : -1;
+    return (tb - ta) || a.id.localeCompare(b.id);
+  });
+  var n = items.length;
+  items.forEach(function(it, i){
+    it.rank = i + 1; it.n = n;
+    it.pct = isNum(it.p.pct) ? it.p.pct : (n > 1 ? (n - 1 - i) / (n - 1) : 1);
+    it.tier = tierOf(it.pct);
+  });
+  return items;
+}
+
+/* stream network: each segment lists the segment(s) it flows into */
+function buildNet(fc, items){
+  var seg = {};
+  (fc.features || []).forEach(function(f){
+    var p = f.properties || {};
+    if (p.s === undefined || p.s === null || !f.geometry) return;
+    var lines = f.geometry.type === "MultiLineString" ? f.geometry.coordinates : [f.geometry.coordinates];
+    seg[p.s] = { id:p.s, to:asArray(p.to), parents:[], mi:isNum(p.mi) ? p.mi : 0, lines:lines, ll:null };
+  });
+  Object.keys(seg).forEach(function(k){
+    seg[k].to.forEach(function(t){ if (seg[t]) seg[t].parents.push(seg[k].id); });
+  });
+  var bySd = {}, bySu = {};
+  items.forEach(function(it){
+    it.p.sd.forEach(function(s){ (bySd[s] = bySd[s] || []).push(it); });
+    it.p.su.forEach(function(s){ (bySu[s] = bySu[s] || []).push(it); });
+  });
+  return { seg:seg, bySd:bySd, bySu:bySu };
+}
+function walk(net, starts, dir){
+  var seen = {}, stack = [];
+  starts.forEach(function(s){ if (net.seg[s] && !seen[s]){ seen[s] = true; stack.push(s); } });
+  while (stack.length){
+    var cur = net.seg[stack.pop()];
+    var next = dir === "up" ? cur.parents : cur.to;
+    for (var i = 0; i < next.length; i++){
+      var n = next[i];
+      if (net.seg[n] && !seen[n]){ seen[n] = true; stack.push(n); }
+    }
+  }
+  return seen;
+}
+function distances(net, starts, dir){
+  // miles along the stream from the selected barrier to the far end of each segment
+  var dist = {}, prev = {}, q = [], head = 0;
+  starts.forEach(function(s){
+    if (!net.seg[s]) return;
+    var d = net.seg[s].mi;
+    if (dist[s] === undefined || d < dist[s]){ dist[s] = d; prev[s] = null; q.push(s); }
+  });
+  while (head < q.length){
+    var s = q[head++], cur = net.seg[s], next = dir === "up" ? cur.parents : cur.to;
+    for (var i = 0; i < next.length; i++){
+      var n = next[i];
+      if (!net.seg[n]) continue;
+      var d = dist[s] + net.seg[n].mi;
+      if (dist[n] === undefined || d < dist[n] - 1e-12){ dist[n] = d; prev[n] = s; q.push(n); }
+    }
+  }
+  return { dist:dist, prev:prev };
+}
+function pathTo(prev, seg){
+  var out = {};
+  while (seg !== null && seg !== undefined && !out[seg]){ out[seg] = true; seg = prev[seg]; }
+  return out;
+}
+// the lowest passability in a direction; ties go to the nearest barrier along the stream
+function limiting(list, dmap){
+  var best = null;
+  list.forEach(function(b){
+    var d = dmap[b.id];
+    if (!isNum(b.p.pass_pct) || d === undefined) return;
+    if (best === null || b.p.pass_pct < best.b.p.pass_pct || (b.p.pass_pct === best.b.p.pass_pct && d < best.d)) best = { b:b, d:d };
+  });
+  return best;
+}
+function connected(net, it){
+  var up = walk(net, it.p.su, "up"), dn = walk(net, it.p.sd, "down");
+  var ub = {}, db = {}, upMi = 0, dnMi = 0;
+  Object.keys(up).forEach(function(s){
+    upMi += net.seg[s].mi;
+    (net.bySd[s] || []).forEach(function(b){ if (b !== it) ub[b.id] = b; });
+  });
+  Object.keys(dn).forEach(function(s){
+    dnMi += net.seg[s].mi;
+    (net.bySu[s] || []).forEach(function(b){ if (b !== it) db[b.id] = b; });
+  });
+  var U = distances(net, it.p.su, "up"), D = distances(net, it.p.sd, "down");
+  var upDist = {}, dnDist = {}, upSeg = {}, dnSeg = {};
+  Object.keys(ub).forEach(function(id){
+    ub[id].p.sd.forEach(function(s){
+      if (U.dist[s] !== undefined && (upDist[id] === undefined || U.dist[s] < upDist[id])){ upDist[id] = U.dist[s]; upSeg[id] = s; }
+    });
+  });
+  Object.keys(db).forEach(function(id){
+    db[id].p.su.forEach(function(s){
+      if (D.dist[s] !== undefined && (dnDist[id] === undefined || D.dist[s] < dnDist[id])){ dnDist[id] = D.dist[s]; dnSeg[id] = s; }
+    });
+  });
+  function list(o, dm){
+    return Object.keys(o).map(function(k){ return o[k]; }).sort(function(a, b){
+      var da = dm[a.id] === undefined ? 1e9 : dm[a.id], dbb = dm[b.id] === undefined ? 1e9 : dm[b.id];
+      return (da - dbb) || (a.rank - b.rank);
+    });
+  }
+  var upB = list(ub, upDist), dnB = list(db, dnDist);
+  var upL = limiting(upB, upDist), dnL = limiting(dnB, dnDist);
+  if (upL) upL.path = pathTo(U.prev, upSeg[upL.b.id]);
+  if (dnL) dnL.path = pathTo(D.prev, dnSeg[dnL.b.id]);
+  return { upSegs:up, dnSegs:dn, upMi:upMi, dnMi:dnMi, upBarriers:upB, dnBarriers:dnB,
+           upDist:upDist, dnDist:dnDist, upLimit:upL, dnLimit:dnL };
+}
+function hasNet(it){ return it.p.su.length + it.p.sd.length > 0; }
+
+/* filters */
+function defaultFilters(){
+  return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftype:"", use:{},
+           pot:{}, sPreset:"", sFrom:null, sTo:null, fMin:null, fMax:null };
+}
+function onKeys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
+function activeChips(st){
+  var c = [];
+  var offT = TIERS.filter(function(t){ return !st.tiers[t.key]; });
+  if (offT.length){
+    var onT = TIERS.filter(function(t){ return st.tiers[t.key]; }).map(function(t){ return t.label; });
+    c.push({ key:"tier", label:"Tier: " + (onT.length ? onT.join(", ") : "none") });
+  }
+  if (st.min !== null || st.max !== null) c.push({ key:"score", label:"Score " + (st.min !== null ? st.min : "any") + " to " + (st.max !== null ? st.max : "any") });
+  var offO = onKeys(st.ownersOff);
+  if (offO.length) c.push({ key:"own", label:"Ownership: not " + (offO.length <= 2 ? offO.join(" or ") : offO.length + " types") });
+  var presets = { "2":"last 2 years", "5":"last 5 years", "10":"last 10 years", older10:"more than 10 years ago", none:"no survey date" };
+  if (st.sPreset) c.push({ key:"survey", label:"Surveyed: " + presets[st.sPreset] });
+  if (st.sFrom !== null || st.sTo !== null) c.push({ key:"dates", label:"Surveyed " + (st.sFrom !== null ? "from " + isoOf(st.sFrom) : "") + (st.sFrom !== null && st.sTo !== null ? " " : "") + (st.sTo !== null ? "to " + isoOf(st.sTo) : "") });
+  var pk = onKeys(st.pot);
+  if (pk.length) c.push({ key:"pot", label:"Potential species: " + pk.map(function(k){ return k.charAt(0).toUpperCase() + k.slice(1); }).join(", ") });
+  var uk = onKeys(st.use);
+  if (uk.length) c.push({ key:"use", label:"Fish use: " + uk.map(function(k){ return k.charAt(0).toUpperCase() + k.slice(1); }).join(", ") });
+  if (st.fMin !== null || st.fMax !== null) c.push({ key:"fill", label:"Road fill " + (st.fMin !== null ? st.fMin : "any") + " to " + (st.fMax !== null ? st.fMax : "any") + " " + CONFIG.roadFillUnit });
+  if (st.ftype) c.push({ key:"ftype", label:"Type: " + st.ftype });
+  return c;
+}
+function activeFilterCount(st){ return activeChips(st).length; }
+function applyFilters(items, st, now){
+  now = now || Date.now();
+  var yr = 365.25 * 864e5;
+  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use);
+  var q = st.q.trim().toLowerCase();
+  return items.filter(function(it){
+    var p = it.p;
+    if (!st.tiers[it.tier.key]) return false;
+    if (st.min !== null && !(isNum(p.total) && p.total >= st.min)) return false;
+    if (st.max !== null && !(isNum(p.total) && p.total <= st.max)) return false;
+    if (p.owner !== null && st.ownersOff[p.owner]) return false;
+    if (st.ftype && p.ftype !== st.ftype) return false;
+    if (useKeys.length && !useKeys.some(function(k){ return isNum(p["use_" + k]) && p["use_" + k] > 0; })) return false;
+    if (potKeys.length && !it.pot.some(function(x){ return potKeys.indexOf(x.toLowerCase()) !== -1; })) return false;
+    if (st.sPreset === "none"){ if (it.survey !== null) return false; }
+    else if (st.sPreset === "older10"){ if (it.survey === null || it.survey >= now - 10 * yr) return false; }
+    else if (st.sPreset){ if (it.survey === null || it.survey < now - Number(st.sPreset) * yr) return false; }
+    if (st.sFrom !== null && (it.survey === null || it.survey < st.sFrom)) return false;
+    if (st.sTo !== null && (it.survey === null || it.survey > st.sTo)) return false;
+    if (st.fMin !== null || st.fMax !== null){
+      if (it.fill === null) return false;
+      if (st.fMin !== null && it.fill < st.fMin) return false;
+      if (st.fMax !== null && it.fill > st.fMax) return false;
+    }
+    if (q && [it.id, p.stream, p.trib].join(" ").toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+}
+function orderItems(list, mode){
+  var out = list.slice();
+  if (mode === "id") out.sort(function(a, b){ return a.id.localeCompare(b.id, undefined, { numeric:true }); });
+  else if (mode === "newest" || mode === "oldest"){
+    out.sort(function(a, b){
+      if (a.survey === null && b.survey === null) return a.rank - b.rank;
+      if (a.survey === null) return 1;
+      if (b.survey === null) return -1;
+      return (mode === "newest" ? b.survey - a.survey : a.survey - b.survey) || (a.rank - b.rank);
+    });
+  } else out.sort(function(a, b){ return a.rank - b.rank; });
+  return out;
+}
+
+/* shareable state in the URL hash */
+function encodeState(st, extra){
+  extra = extra || {};
+  var p = new URLSearchParams();
+  if (extra.b) p.set("b", extra.b);
+  if (st.q) p.set("q", st.q);
+  var offT = TIERS.filter(function(t){ return !st.tiers[t.key]; }).map(function(t){ return t.key; });
+  if (offT.length) p.set("t", offT.join(","));
+  if (st.min !== null) p.set("smin", String(st.min));
+  if (st.max !== null) p.set("smax", String(st.max));
+  var own = onKeys(st.ownersOff); if (own.length) p.set("own", own.join("|"));
+  if (st.ftype) p.set("ft", st.ftype);
+  var uk = onKeys(st.use); if (uk.length) p.set("use", uk.join(","));
+  var pk = onKeys(st.pot); if (pk.length) p.set("pot", pk.join(","));
+  if (st.sPreset) p.set("sp", st.sPreset);
+  if (st.sFrom !== null) p.set("sf", isoOf(st.sFrom));
+  if (st.sTo !== null) p.set("sto", isoOf(st.sTo));
+  if (st.fMin !== null) p.set("fmin", String(st.fMin));
+  if (st.fMax !== null) p.set("fmax", String(st.fMax));
+  if (extra.sort && extra.sort !== "rank") p.set("sort", extra.sort);
+  if (extra.v) p.set("v", extra.v);
+  return p.toString();
+}
+function decodeState(str){
+  var p = new URLSearchParams(String(str || "").replace(/^#/, ""));
+  var st = defaultFilters(), out = { st:st, b:null, v:null, sort:"rank" };
+  function num(k){ var v = p.get(k); if (v === null || v === "") return null; var n = Number(v); return isFinite(n) ? n : null; }
+  out.b = p.get("b");
+  st.q = p.get("q") || "";
+  (p.get("t") || "").split(",").forEach(function(k){ if (k && st.tiers.hasOwnProperty(k)) st.tiers[k] = false; });
+  st.min = num("smin"); st.max = num("smax");
+  (p.get("own") || "").split("|").forEach(function(k){ if (k) st.ownersOff[k] = true; });
+  st.ftype = p.get("ft") || "";
+  (p.get("use") || "").split(",").forEach(function(k){ if (k) st.use[k] = true; });
+  (p.get("pot") || "").split(",").forEach(function(k){ if (k) st.pot[k] = true; });
+  var sp = p.get("sp"); if (sp && /^(2|5|10|older10|none)$/.test(sp)) st.sPreset = sp;
+  var sf = parseDate(p.get("sf")); if (sf !== null) st.sFrom = sf;
+  var sto = parseDate(p.get("sto")); if (sto !== null) st.sTo = sto + 864e5 - 1;
+  st.fMin = num("fmin"); st.fMax = num("fmax");
+  var sort = p.get("sort"); if (sort && SORTS[sort]) out.sort = sort;
+  var v = (p.get("v") || "").split(",").map(Number);
+  if (v.length === 3 && v.every(isFinite)) out.v = v;
+  return out;
+}
+
+/* detail and table */
+function catScore(p, cat){
+  var s = 0;
+  cat.keys.forEach(function(k){ if (isNum(p[k])) s += p[k]; });
+  return s;
+}
+function whySentence(p){
+  var r = CATEGORIES.map(function(c){ return { c:c, f:catScore(p, c) / c.max }; });
+  r.sort(function(a, b){ return b.f - a.f; });
+  if (!isNum(p.total) || r[0].f <= 0) return "";
+  var top = r.filter(function(x){ return x.f >= 0.5; }).slice(0, 2).map(function(x){ return x.c.short; });
+  if (!top.length) return "Scores highest on " + r[0].c.short + ".";
+  return "Scores high on " + top.join(" and ") + ".";
+}
+var TABLE_COLS = [["rank","Rank",true],["id","Barrier ID"],["stream","Name"],["trib","Tributary to"],["owner","Owner"],["ftype","Feature type"],["survey_date","Last surveyed"],["total","Score",true],["tier","Tier"],["pass_pct","Passability"]];
+function cellValue(it, key){
+  if (key === "rank") return it.rank;
+  if (key === "id") return it.id;
+  if (key === "tier") return it.tier.label;
+  var v = it.p[key];
+  return v === undefined ? null : v;
+}
+function sortItems(list, key, dir){
+  var out = list.slice();
+  out.sort(function(a, b){
+    var va = cellValue(a, key), vb = cellValue(b, key);
+    if (va === null && vb === null) return 0;
+    if (va === null) return 1;
+    if (vb === null) return -1;
+    var r = (typeof va === "number" && typeof vb === "number") ? va - vb : String(va).localeCompare(String(vb));
+    return dir === "desc" ? -r : r;
+  });
+  return out;
+}
+function csvOf(list){
+  var scoreKeys = [].concat.apply([], CATEGORIES.map(function(c){ return c.keys; }));
+  var keys = ["id","rank","total","pct"].concat(FIELDS.map(function(f){ return f[0]; })).concat(scoreKeys).concat(["pass_class"]);
+  var labels = ["Barrier ID","Rank","Total score","Percentile"].concat(FIELDS.map(function(f){ return f[1]; })).concat(scoreKeys.map(function(k){ return "Score " + k.slice(2); })).concat(["Passability class"]);
+  function q(v){ v = (v === null || v === undefined) ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  var lines = [labels.map(q).join(",")];
+  list.forEach(function(it){
+    lines.push(keys.map(function(k){ return k === "id" ? q(it.id) : (k === "rank" ? q(it.rank) : (k === "pass_class" ? q(passClass(it.p.pass_pct)) : q(it.p[k]))); }).join(","));
+  });
+  return lines.join("\r\n");
+}
+function passClass(v){
+  if (!isNum(v)) return "Passability unknown";
+  if (PASS_LABELS[v]) return PASS_LABELS[v];
+  if (v <= 0) return "Total Barrier";
+  if (v >= 100) return "Not a Barrier";
+  return "Partial Barrier";
+}
+// the space inside the brackets cannot break, so a narrow column wraps before the "(" and never splits "0%" from "Passable"
+function passText(v){ return isNum(v) ? passClass(v) + " (" + v + "%\u00a0Passable)" : "Passability unknown"; }
+function passShort(v){ return isNum(v) ? (v <= 0 ? "Total" : (v >= 100 ? "Not a barrier" : "Partial")) + " (" + v + "%)" : "n/a"; }
+function fieldVal(f, p){
+  if (f[0] === "pass_pct") return isNum(p.pass_pct) ? passText(p.pass_pct) : null;
+  return fmt(p[f[0]], f[2]);
+}
+function distText(d, dir){ return d === undefined ? "" : (d < 0.1 ? Math.round(d * 5280).toLocaleString() + " ft " : d.toFixed(1) + " mi ") + dir; }
+function connRow(b, d, dir){
+  var pass = passText(b.p.pass_pct);
+  return '<li><button type="button" data-id="' + esc(b.id) + '"><span><b>' + esc(b.id) + '</b><br><span class="s">' +
+    esc(b.p.ftype || "Barrier") + ", " + esc(pass) + '</span></span><span class="s" style="text-align:right">' + esc(distText(d, dir)) + "<br>Rank " + b.rank + "</span></button></li>";
+}
+function symSvg(kind){
+  var m = {
+    up:'<svg width="20" height="10" aria-hidden="true"><line x1="2" y1="5" x2="18" y2="5" stroke="#0088ad" stroke-width="4" stroke-linecap="round"/></svg>',
+    dn:'<svg width="20" height="10" aria-hidden="true"><line x1="2" y1="5" x2="18" y2="5" stroke="#6a1f8f" stroke-width="4" stroke-linecap="round" stroke-dasharray="5 3"/></svg>',
+    ub:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><polygon points="7,1.5 12.5,12 1.5,12" fill="#0088ad"/></svg>',
+    db:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><polygon points="1.5,2 12.5,2 7,12.5" fill="#6a1f8f"/></svg>',
+    lim:'<svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><polygon points="16,3 29,27 3,27" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="16,3 29,27 3,27" fill="#e8590c" stroke="#16212b" stroke-width="4" stroke-linejoin="round"/></svg>',
+    ups:'<svg width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><line x1="2" y1="7" x2="16" y2="7" stroke="#0088ad" stroke-width="4" stroke-linecap="round"/><polygon points="22,1.5 27.5,12 16.5,12" fill="#0088ad"/></svg>',
+    dns:'<svg width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><line x1="2" y1="7" x2="16" y2="7" stroke="#6a1f8f" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 3"/><polygon points="16.5,2 27.5,2 22,12.5" fill="#6a1f8f"/></svg>',
+    dim:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#aab7c0" opacity=".6"/></svg>'
+  };
+  return m[kind];
+}
+function tchip(id, kind, label, checked){
+  return '<label class="tchip"><input type="checkbox" id="' + id + '"' + (checked === false ? "" : " checked") + '><span class="box">' + symSvg(kind) + esc(label) + "</span></label>";
+}
+function limCell(lim, dir){
+  if (!lim) return '<span class="nodata">None known</span>';
+  var d = dir === "dn" ? "downstream" : "upstream";
+  return '<button type="button" class="limbtn" data-limit="' + dir + '" aria-label="Zoom to the stretch to ' + d + " barrier " + esc(lim.b.id) + ", " + esc(passText(lim.b.p.pass_pct)) + ", " + esc(distText(lim.d, d)) + '"><b>' +
+    esc(lim.b.id) + '</b><span class="s">' + esc(passText(lim.b.p.pass_pct)) + '</span><span class="s">' + esc(distText(lim.d, "").trim()) + "</span></button>";
+}
+function shortName(c){ return c.short.charAt(0).toUpperCase() + c.short.slice(1); }
+function scoreCardHtml(it){
+  var p = it.p, total = isNum(p.total) ? p.total : null;
+  var h = '<div class="scorecard"><div class="sc-top"><div><div class="big">' + (total === null ? "No score" : total) + '</div><div class="of">of ' + CONFIG.maxScore +
+          ' points</div></div><div class="meta"><div>Rank ' + it.rank + ' of ' + it.n + '</div><span class="tag"><span class="swatch" style="background:' + it.tier.color + '"></span>' + esc(it.tier.label) + '</span></div></div><ul class="mini" aria-label="Score by group">';
+  CATEGORIES.forEach(function(c){
+    var sc = catScore(p, c);
+    h += "<li><span>" + esc(shortName(c)) + '</span><span class="bar"><i style="width:' + Math.round(100 * sc / c.max) + '%"></i></span><span class="v">' + sc + " / " + c.max + "</span></li>";
+  });
+  return h + "</ul></div>";
+}
+function overviewHtml(it, conn){
+  var p = it.p, h = scoreCardHtml(it), missing = [];
+  var why = whySentence(p);
+  h += '<p class="why">' + (why ? esc(why) + " " : "") + '<button type="button" class="linkbtn" data-go="score">See how the score adds up</button></p>';
+  if (it.snap === "poc_nearest") h += '<p class="warnbox"><b>Location not checked.</b> This barrier was placed on the nearest stream line without review. Its upstream and downstream results may be wrong.</p>';
+  if (conn) h += '<div class="glance2"><button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("ups") + ' Upstream</span><b>' + miles(conn.upMi) + '</b><span class="s">' + plural(conn.upBarriers.length, "other barrier", "other barriers") + "</span></button>" +
+    '<button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("dns") + ' Downstream</span><b>' + miles(conn.dnMi) + '</b><span class="s">' + plural(conn.dnBarriers.length, "barrier", "barriers") + "</span></button></div>";
+  var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS);
+  if (site) h += '<section class="dsec"><h4>Site</h4>' + site + "</section>";
+  var sp = detailRows(p, ["pot_species", "species"], missing, null) + speciesTableHtml(p);
+  if (sp) h += '<section class="dsec"><h4>Species</h4>' + sp + "</section>";
+  if (missing.length) h += '<p class="note dmiss"><b>Not available:</b> ' + esc(missing.join(", ")) + ".</p>";
+  return h;
+}
+function connListHtml(conn, dir){
+  var up = dir === "up", list = up ? conn.upBarriers : conn.dnBarriers, dm = up ? conn.upDist : conn.dnDist, cap = 40;
+  if (!list.length) return '<p class="note">' + (up ? "No other barriers upstream." : "No barriers downstream.") + "</p>";
+  return '<ul class="conn">' + list.slice(0, cap).map(function(b){ return connRow(b, dm[b.id], up ? "upstream" : "downstream"); }).join("") + "</ul>" +
+    (list.length > cap ? '<p class="note">And ' + (list.length - cap) + " more. Use the table for the full list.</p>" : "");
+}
+function networkHtml(conn, hasNetwork, o){
+  if (hasNetwork === false) return '<p class="note">The stream network is not loaded, so connected barriers and upstream stream cannot be shown.</p>';
+  if (!(hasNetwork === true && conn)) return '<p class="note">This barrier is not connected to the stream network in this model run.</p>';
+  var ov = o.ov, dir = o.dir;
+  var h = '<div class="nethead"><h3>Connected network</h3><button type="button" class="linkbtn" id="fitSel">Zoom to network</button></div>';
+  h += '<table class="net"><thead><tr><td></td><th scope="col">Upstream</th><th scope="col">Downstream</th></tr></thead><tbody>' +
+    '<tr><th scope="row">Stream</th><td>' + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
+    '<tr><th scope="row">Barriers</th><td>' + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
+    '<tr><th scope="row"><span aria-hidden="true">Lowest</span><span class="sr">Lowest passability barrier</span></th><td>' + limCell(conn.upLimit, "up") + "</td><td>" + limCell(conn.dnLimit, "dn") + "</td></tr></tbody></table>";
+  h += '<div class="tchips" role="group" aria-label="Show on the map">' + tchip("tgUS", "ups", "Upstream", ov.us) + tchip("tgDS", "dns", "Downstream", ov.ds) +
+       tchip("tgLim", "lim", "Lowest passability", ov.lim) + tchip("tgDim", "dim", "Fade others", ov.dim) + "</div>";
+  h += '<div class="seg" role="group" aria-label="Barriers to list"><button type="button" data-dir="up" aria-pressed="' + (dir === "up") + '">Upstream (' + conn.upBarriers.length +
+       ')</button><button type="button" data-dir="dn" aria-pressed="' + (dir === "dn") + '">Downstream (' + conn.dnBarriers.length + ")</button></div>";
+  h += '<div id="connListBox">' + connListHtml(conn, dir) + "</div>";
+  h += '<div class="dlrow"><span class="dlt">Download this network</span><button type="button" class="btn" data-dl="geojson">GeoJSON</button><button type="button" class="btn" data-dl="csv">CSV</button></div>';
+  return h;
+}
+var LONG_KEYS = { pot_species:1, species:1 };
+var SPECIES = ["chinook","coho","steelhead","chum","cutthroat"];
+function fieldByKey(k){
+  for (var i = 0; i < FIELDS.length; i++) if (FIELDS[i][0] === k) return FIELDS[i];
+  return [k, k];
+}
+function speciesRows(p){
+  return SPECIES.map(function(sp){
+    var use = p["use_" + sp], hab = p["hab_" + sp];
+    if (!isNum(use) && !isNum(hab)) return null;
+    return { name:sp.charAt(0).toUpperCase() + sp.slice(1), use:isNum(use) ? (use > 0 ? "Yes" : "No") : "n/a", hab:isNum(hab) ? hab.toFixed(2) + " mi" : "n/a" };
+  }).filter(Boolean);
+}
+function speciesTableHtml(p){
+  var rows = speciesRows(p);
+  if (!rows.length) return "";
+  return '<table class="stab"><thead><tr><th scope="col">Species</th><th scope="col">Fish use (SWIFD)</th><th scope="col" class="r">Upstream habitat</th></tr></thead><tbody>' +
+    rows.map(function(r){ return "<tr><th scope=\"row\">" + r.name + "</th><td>" + r.use + '</td><td class="r">' + r.hab + "</td></tr>"; }).join("") + "</tbody></table>";
+}
+var OV_LABELS = { owner:"Ownership", ftype:"Feature type", survey_date:"Last surveyed", snap_status:"Location check", pass_pct:"Passability", road_fill:"Road fill (ft)" };
+function detailRows(p, keys, missing, labels){
+  return keys.map(function(k){
+    var f = fieldByKey(k), v = fieldVal(f, p), label = (labels && labels[k]) || f[1];
+    if (v === null){ missing.push(label); return ""; }
+    return '<div class="drow' + (LONG_KEYS[k] ? " long" : "") + '"><span class="k">' + esc(label) + '</span><span class="v">' + esc(v) + "</span></div>";
+  }).join("");
+}
+function minPassText(count, v){
+  if (count === 0) return "No barriers";
+  return isNum(v) ? passText(v) : null;
+}
+/* the Score tab: every measure with the value behind it, then the two model values that have no score of their own */
+function scoreTabHtml(it){
+  var p = it.p, missing = [], h = '<p class="note" style="margin-top:0">Each barrier is scored on ' + MEASURES.length + " measures worth " + CONFIG.maxScore + " points. The value behind each score is shown beside it.</p>";
+  h += '<div class="drow bdtotal"><span class="k">Total score</span><span class="v">' + (isNum(p.total) ? p.total : "No score") + " / " + CONFIG.maxScore + "</span></div>";
+  h += breakdownHtml(p);
+  var extra = [["Lowest passability downstream, from the model run", minPassText(p.ds_count, p.ds_minpass)], ["Lowest passability upstream, from the model run", minPassText(p.us_count, p.us_minpass)]]
+    .filter(function(x){ return x[1] !== null; });
+  if (extra.length) h += '<section class="dsec"><h4>Other model values</h4>' + extra.map(function(x){ return '<div class="drow"><span class="k">' + esc(x[0]) + '</span><span class="v">' + esc(x[1]) + "</span></div>"; }).join("") + "</section>";
+  return h;
+}
+function footHtml(reportUrl){
+  return '<button type="button" class="btn main" id="printBtn">Print summary</button><button type="button" class="btn" id="copyBtn2">Copy link</button>' +
+    (reportUrl ? '<a class="btn" id="rptLink" href="' + esc(reportUrl) + '" target="_blank" rel="noopener" title="Open the WDFW fish passage report for this site (PDF, new tab)" aria-label="WDFW report for this site, opens a PDF in a new tab">WDFW report</a>' : "");
+}
+function tabPanel(id, hidden, inner){
+  return '<div class="tabpanel" role="tabpanel" id="tab-' + id + '" aria-labelledby="tabbtn-' + id + '" tabindex="0"' + (hidden ? " hidden" : "") + ">" + inner + "</div>";
+}
+// hasNetwork: true (connected), null (barrier has no link to the network), false (no network file)
+function detailHtml(it, conn, hasNetwork, reportUrl, o){
+  o = o || {};
+  o.ov = o.ov || { us:true, ds:true, lim:true, dim:true };
+  o.dir = o.dir || "up";
+  var tab = o.tab || "overview";
+  return tabPanel("overview", tab !== "overview", overviewHtml(it, hasNetwork === true ? conn : null)) +
+         tabPanel("score", tab !== "score", scoreTabHtml(it)) +
+         tabPanel("network", tab !== "network", networkHtml(conn, hasNetwork, o));
+}
+
+function psLim(lim){
+  if (!lim) return '<span style="color:#777">None known</span>';
+  return "<b>" + esc(lim.b.id) + "</b><br>" + esc(passText(lim.b.p.pass_pct)) + "<br>" + esc(distText(lim.d, "").trim());
+}
+// shorter labels so each line of the printed details stays on one line
+var PS_LABELS = { owner:"Ownership", pass_pct:"Passability", n_species:"Species benefitting", us_dist:"Upstream stream (mi)", us_dist_0pass:"Upstream to 0% passable (mi)",
+  road_density:"Road density (mi/sq mi)", wq_303d:"303d listing", temp:"Stream temp, Aug mean (C)", temp_2040:"Future (2040) temp (C)", canopy:"Canopy cover (%)",
+  flood_pct:"Future flood change (%)", flow_pct:"Future low flow change (%)" };
+function psRows(p, keys){
+  return keys.map(function(k){
+    var f = fieldByKey(k), v = fieldVal(f, p);
+    return v === null ? "" : '<div class="' + (LONG_KEYS[k] ? "long" : "") + '"><span class="k">' + esc(PS_LABELS[k] || f[1]) + '</span><span class="v">' + esc(v) + "</span></div>";
+  }).join("");
+}
+function psDetails(p){
+  var sp = speciesRows(p);
+  var table = sp.length ? '<table class="ps-sp"><thead><tr><th>Species</th><th>Fish use</th><th class="r">Habitat</th></tr></thead><tbody>' +
+    sp.map(function(r){ return "<tr><td>" + r.name + "</td><td>" + r.use + '</td><td class="r">' + r.hab + "</td></tr>"; }).join("") + "</tbody></table>" : "";
+  return '<div class="ps-det"><div class="ps-col"><h3>Site</h3>' + psRows(p, ["trib", "owner", "ftype", "survey_date", "snap_status", "pass_pct", "road_fill"]) + "</div>" +
+    '<div class="ps-col"><h3>Species</h3>' + psRows(p, ["pot_species", "species"]) + table + "</div>" +
+    '<div class="ps-col"><h3>Habitat and conditions</h3>' + psRows(p, ["n_species", "us_dist", "us_dist_0pass", "road_density", "wq_303d", "temp", "temp_2040", "canopy", "flood_pct", "flow_pct"]) + "</div></div>";
+}
+function psList(list, dmap, dir){
+  if (!list.length) return '<p style="margin:2pt 0;color:#666;font-size:9pt">None.</p>';
+  var cap = 4;
+  var h = '<table class="ps-list"><thead><tr><th>Barrier</th><th>Type</th><th class="r">Passability</th><th class="r">Distance</th></tr></thead><tbody>';
+  list.slice(0, cap).forEach(function(b){
+    h += "<tr><td><b>" + esc(b.id) + "</b></td><td>" + esc(b.p.ftype || "") + '</td><td class="r">' + passShort(b.p.pass_pct) + '</td><td class="r">' + esc(distText(dmap[b.id], "").trim()) + "</td></tr>";
+  });
+  h += "</tbody></table>";
+  if (list.length > cap) h += '<p style="margin:2pt 0;color:#666;font-size:8pt">Nearest ' + cap + " of " + list.length + " shown.</p>";
+  return h;
+}
+function printHtml(it, conn, meta, url, demo, reportUrl){
+  var p = it.p, total = isNum(p.total) ? p.total : null;
+  var sub = [p.stream || "Unnamed", p.trib ? "tributary to " + p.trib : ""].filter(Boolean).join(", ");
+  var h = "";
+  if (demo) h += '<div class="ps-demo">Demo data: barrier and stream locations are placeholders.</div>';
+  else if (meta && meta.draft) h += '<div class="ps-demo">Draft results: some barrier locations have not been checked.' + (it.snap === "poc_nearest" ? " This barrier was placed on the nearest stream line without review." : "") + "</div>";
+  h += '<div class="ps-head"><div><img class="ps-logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group" onerror="this.style.display=\'none\'">' +
+       "<h1>Barrier " + esc(it.id) + "</h1><p>" + esc(sub) + "</p></div>" +
+       '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + "</div><div>of " + CONFIG.maxScore + " points</div><div><b>Rank " + it.rank + " of " + it.n +
+       '</b></div><div><span class="swatch" style="display:inline-block;vertical-align:-1pt;background:' + it.tier.color + '"></span> ' + esc(it.tier.label) + "</div></div></div>";
+  h += '<div class="ps-map" id="psMap"></div>';
+  h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Lowest passability barrier</span></div>";
+  h += '<div class="ps-cols">';
+  h += '<div class="ps-sec"><h2>Connected network</h2>';
+  if (conn){
+    h += '<table class="ps-net"><thead><tr><td></td><th>Upstream</th><th>Downstream</th></tr></thead><tbody>' +
+      "<tr><th>Stream</th><td>" + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
+      "<tr><th>Barriers</th><td>" + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
+      "<tr><th>Lowest passability</th><td>" + psLim(conn.upLimit) + "</td><td>" + psLim(conn.dnLimit) + "</td></tr></tbody></table>";
+  } else h += '<p style="margin:2pt 0;color:#666">This barrier is not connected to the stream network in this model run.</p>';
+  h += "</div>";
+  h += '<div class="ps-sec"><h2>Score by group</h2><ul class="ps-cats">';
+  CATEGORIES.forEach(function(c){
+    var sc = catScore(p, c);
+    h += "<li><span>" + esc(c.name) + '</span><span class="bar"><i style="width:' + Math.round(100 * sc / c.max) + '%"></i></span><span class="v">' + sc + " / " + c.max + "</span></li>";
+  });
+  h += "</ul></div></div>";
+  if (conn){
+    h += '<div class="ps-cols"><div class="ps-sec"><h2>Upstream barriers (' + conn.upBarriers.length + ")</h2>" + psList(conn.upBarriers, conn.upDist) + "</div>" +
+         '<div class="ps-sec"><h2>Downstream barriers (' + conn.dnBarriers.length + ")</h2>" + psList(conn.dnBarriers, conn.dnDist) + "</div></div>";
+  }
+  h += '<div class="ps-sec"><h2>Barrier details</h2>' + psDetails(p) + "</div>";
+  var src = [];
+  if (meta && meta.run_label) src.push("Model run: " + meta.run_label);
+  if (meta && meta.network) src.push("Stream network: " + meta.network);
+  if (meta && meta.wdfw_pull) src.push("WDFW barrier data: " + meta.wdfw_pull);
+  if (meta && meta.generated) src.push("Data updated: " + meta.generated);
+  h += '<div class="ps-foot">' + (src.length ? esc(src.join(". ")) + ".<br>" : "") + "Printed " + esc(new Date().toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" })) +
+       ". Open this barrier online: <a href=\"" + esc(url) + '">' + esc(url) + "</a>" +
+       (reportUrl ? "<br>WDFW report: <a href=\"" + esc(reportUrl) + '">' + esc(reportUrl) + "</a>" : "") + "</div>";
+  return h;
+}
+
+function hav(lat1, lng1, lat2, lng2){
+  var R = 3958.8, rad = Math.PI / 180, dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
+  var a = Math.pow(Math.sin(dLat / 2), 2) + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.pow(Math.sin(dLng / 2), 2);
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+function nearestBarriers(list, lat, lng){
+  return list.map(function(it){ return { it:it, mi:hav(lat, lng, it.ll[0], it.ll[1]) }; }).sort(function(a, b){ return a.mi - b.mi; });
+}
+function shortPlace(name){ return String(name || "Place").split(",").slice(0, 3).join(",").trim(); }
+function placePopupHtml(name, near, filtered){
+  var within = near.filter(function(n){ return n.mi <= 1; });
+  var h = '<div class="pp"><b>' + esc(shortPlace(name)) + "</b>";
+  if (within.length){
+    h += "<p>" + plural(within.length, "barrier", "barriers") + " within 1 mile" + (filtered ? " that match your filters" : "") + ".</p><ul>" + within.slice(0, 6).map(function(n){
+      return '<li><button type="button" data-id="' + esc(n.it.id) + '"><b style="display:inline;margin:0">' + esc(n.it.id) + "</b><span>" + n.mi.toFixed(2) + " mi</span></button></li>";
+    }).join("") + "</ul>" + (within.length > 6 ? '<p>And ' + (within.length - 6) + " more nearby.</p>" : "");
+  } else if (near.length){
+    h += "<p>No barriers within 1 mile" + (filtered ? " that match your filters" : "") + ".</p><ul><li><button type=\"button\" data-id=\"" + esc(near[0].it.id) + '"><b style="display:inline;margin:0">' + esc(near[0].it.id) + "</b><span>" + near[0].mi.toFixed(1) + " mi away</span></button></li></ul>";
+  }
+  return h + '<button type="button" class="btn" data-clearplace="1">Remove marker</button></div>';
+}
+
+/* how a score adds up: every measure with the value behind it */
+function rawNum(v, unit, d){ return isNum(v) ? (d === undefined ? String(v) : v.toFixed(d)) + (unit || "") : "No data"; }
+var MEASURES = [
+  { g:"Habitat quantity gain", name:"Upstream habitat", key:"s_habtot", max:10, raw:function(p){ return rawNum(p.us_dist, " mi", 2); } },
+  { g:"Habitat quantity gain", name:"Upstream habitat to 0% passable", key:"s_hab0", max:10, raw:function(p){ return rawNum(p.us_dist_0pass, " mi", 2); } },
+  { g:"Species benefit", name:"Chinook habitat", key:"s_chinook", max:10, raw:function(p){ return rawNum(p.hab_chinook, " mi", 2); } },
+  { g:"Species benefit", name:"Coho habitat", key:"s_coho", max:10, raw:function(p){ return rawNum(p.hab_coho, " mi", 2); } },
+  { g:"Species benefit", name:"Steelhead habitat", key:"s_steelhead", max:10, raw:function(p){ return rawNum(p.hab_steelhead, " mi", 2); } },
+  { g:"Species benefit", name:"Chum habitat", key:"s_chum", max:10, raw:function(p){ return rawNum(p.hab_chum, " mi", 2); } },
+  { g:"Species benefit", name:"Cutthroat presence", key:"s_cutthroat", max:5, raw:function(p){ return rawNum(p.hab_cutthroat, " mi", 2); } },
+  { g:"Species benefit", name:"Number of species", key:"s_species", max:5, raw:function(p){ return rawNum(p.n_species); } },
+  { g:"Barrier metrics", name:"Barrier passability", key:"s_pass", max:15, raw:function(p){ return isNum(p.pass_pct) ? passText(p.pass_pct) : "No data"; } },
+  { g:"Barrier metrics", name:"Downstream barriers", key:"s_ds", max:5, raw:function(p){ return isNum(p.ds_count) ? plural(p.ds_count, "barrier", "barriers") : "No data"; } },
+  { g:"Barrier metrics", name:"Upstream barriers", key:"s_us", max:5, raw:function(p){ return isNum(p.us_count) ? plural(p.us_count, "barrier", "barriers") : "No data"; } },
+  { g:"Barrier metrics", name:"No downstream barriers", key:"s_nods", max:5, raw:function(p){ return isNum(p.ds_count) ? (p.ds_count === 0 ? "Yes" : "No") : "No data"; } },
+  { g:"Water quality", name:"Road density", key:"s_road", max:5, raw:function(p){ return rawNum(p.road_density, " mi/sq mi", 2); } },
+  { g:"Water quality", name:"303d listing", key:"s_wq", max:5, raw:function(p){ return p.wq_303d ? p.wq_303d : "No listing"; } },
+  { g:"Water quality", name:"Canopy cover", key:"s_canopy", max:5, raw:function(p){ return rawNum(p.canopy, "%", 0); } },
+  { g:"Water quality", name:"Stream temperature", key:"s_temp", max:5, raw:function(p){ return rawNum(p.temp, " C", 1); } },
+  { g:"Future conditions", name:"Future stream temperature", key:"s_ftemp", max:5, raw:function(p){ return rawNum(p.temp_2040, " C", 1); } },
+  { g:"Future conditions", name:"Future flood events", key:"s_flood", max:5, raw:function(p){ return rawNum(p.flood_pct, "% change", 1); } },
+  { g:"Future conditions", name:"Future summer low flow", key:"s_flow", max:5, raw:function(p){ return rawNum(p.flow_pct, "% change", 1); } }
+];
+// Scoring changes between runs (Cutthroat was worth 5 points, then 2), so the maximums come from the data when it has them.
+function applyMaxPoints(mp){
+  if (!mp) return;
+  var any = false;
+  MEASURES.forEach(function(m){ if (isNum(mp[m.key])){ m.max = mp[m.key]; any = true; } });
+  if (!any) return;
+  CATEGORIES.forEach(function(c){ c.max = MEASURES.filter(function(m){ return m.g === c.name; }).reduce(function(t, m){ return t + m.max; }, 0); });
+  CONFIG.maxScore = CATEGORIES.reduce(function(t, c){ return t + c.max; }, 0);
+}
+function breakdownHtml(p){
+  var h = '<div class="bd">';
+  CATEGORIES.forEach(function(c){
+    var rows = MEASURES.filter(function(m){ return m.g === c.name; });
+    h += "<h4>" + esc(c.name) + "<span>" + catScore(p, c) + " / " + c.max + "</span></h4>";
+    rows.forEach(function(m){
+      var pts = isNum(p[m.key]) ? p[m.key] : 0;
+      h += '<div class="mrow"><span>' + esc(m.name) + '</span><span class="mr">' + esc(m.raw(p)) + '</span><span class="mp">' + pts + " / " + m.max + "</span></div>";
+    });
+  });
+  return h + "</div>";
+}
+
+/* downloading one barrier's network */
+function safeName(id){ return String(id).replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "barrier"; }
+function csvCell(v){ v = (v === null || v === undefined) ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function netRows(it, conn){
+  var rows = [{ role:"selected", b:it, d:0, lim:false }];
+  conn.upBarriers.forEach(function(b){ rows.push({ role:"upstream", b:b, d:conn.upDist[b.id], lim:!!(conn.upLimit && conn.upLimit.b === b) }); });
+  conn.dnBarriers.forEach(function(b){ rows.push({ role:"downstream", b:b, d:conn.dnDist[b.id], lim:!!(conn.dnLimit && conn.dnLimit.b === b) }); });
+  return rows;
+}
+function r3(v){ return v === undefined || v === null ? null : Math.round(v * 1000) / 1000; }
+function networkCsv(it, conn){
+  var head = ["role", "id", "distance_mi", "rank", "total_score", "tier", "passability_pct", "passability_class", "feature_type", "stream", "tributary", "lowest_passability", "latitude", "longitude"];
+  var lines = [head.join(",")];
+  netRows(it, conn).forEach(function(r){
+    var b = r.b, p = b.p;
+    lines.push([r.role, b.id, r3(r.d), b.rank, isNum(p.total) ? p.total : "", b.tier.label, isNum(p.pass_pct) ? p.pass_pct : "", passClass(p.pass_pct), p.ftype || "", p.stream || "", p.trib || "", r.lim ? "yes" : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
+  });
+  return lines.join("\r\n");
+}
+function networkGeoJson(it, conn, net, meta){
+  var feats = netRows(it, conn).map(function(r){
+    var b = r.b, p = b.p;
+    return { type:"Feature", properties:{ role:r.role, id:b.id, distance_mi:r3(r.d), rank:b.rank, total_score:isNum(p.total) ? p.total : null, tier:b.tier.label,
+      passability_pct:isNum(p.pass_pct) ? p.pass_pct : null, passability_class:passClass(p.pass_pct), feature_type:p.ftype || null, stream:p.stream || null,
+      tributary:p.trib || null, lowest_passability:r.lim }, geometry:{ type:"Point", coordinates:[b.ll[1], b.ll[0]] } };
+  });
+  function lines(set){
+    var out = [];
+    Object.keys(set).forEach(function(k){ net.seg[k].lines.forEach(function(l){ out.push(l); }); });
+    return out;
+  }
+  [["upstream_stream", conn.upSegs, conn.upMi], ["downstream_stream", conn.dnSegs, conn.dnMi]].forEach(function(x){
+    var ln = lines(x[1]);
+    if (ln.length) feats.push({ type:"Feature", properties:{ role:x[0], length_mi:r3(x[2]), segments:Object.keys(x[1]).length }, geometry:{ type:"MultiLineString", coordinates:ln } });
+  });
+  return { type:"FeatureCollection", name:"wria14_barrier_" + safeName(it.id) + "_network", meta:{ barrier:it.id, run_label:(meta && meta.run_label) || null, generated:(meta && meta.generated) || null,
+    note:"Coordinates are WGS 84 longitude and latitude. Distances are miles along the stream from the selected barrier." }, features:feats };
+}
+
+var API = { CONFIG:CONFIG, TIERS:TIERS, CATEGORIES:CATEGORIES, FIELDS:FIELDS, buildModel:buildModel, buildNet:buildNet, connected:connected,
+  walk:walk, activeChips:activeChips, activeFilterCount:activeFilterCount, parseDate:parseDate, defaultFilters:defaultFilters,
+  applyFilters:applyFilters, orderItems:orderItems, encodeState:encodeState, decodeState:decodeState, whySentence:whySentence,
+  passText:passText, passClass:passClass, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
+if (typeof window !== "undefined") window.__barrierApp = API;
+if (typeof L === "undefined") return;
+
+/* ------------------------------------------------------------------- app */
+function $(id){ return document.getElementById(id); }
+var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var items = [], filtered = [], meta = {}, net = null, st = defaultFilters(), listMode = "rank";
+var selected = null, conn = null, sortKey = "rank", sortDir = "asc", measuring = false;
+var ov = { us:true, ds:true, lim:true, dim:true }, detailTab = "overview", listDir = "up";
+var markerById = {};
+
+var map = L.map("map", { zoomControl:false, preferCanvas:true, minZoom:6, zoomSnap:0.5, keyboard:true }).setView(CONFIG.center, CONFIG.zoom);
+API.map = map;
+var baseLayer = null, hillLayer = null;
+var currentBase = "gray";
+function setBase(id){
+  currentBase = id;
+  var b = BASEMAPS.filter(function(x){ return x.id === id; })[0] || BASEMAPS[0];
+  if (baseLayer) map.removeLayer(baseLayer);
+  baseLayer = L.tileLayer(b.url, { attribution:b.attr, maxZoom:19, maxNativeZoom:b.nat }).addTo(map);
+  baseLayer.bringToBack();
+}
+setBase("gray");
+L.control.scale({ position:"bottomleft", maxWidth:110, imperial:true, metric:true }).addTo(map);
+
+map.createPane("hi").style.zIndex = 440;
+map.createPane("barriers").style.zIndex = 460;
+map.createPane("ring").style.zIndex = 470;
+var canvas = L.canvas({ pane:"barriers", padding:0.5, tolerance:6 });
+var hiCanvas = L.canvas({ pane:"hi", padding:0.5 });
+var ringCanvas = L.canvas({ pane:"ring", padding:0.5 });
+var basinLayer = L.layerGroup().addTo(map);
+var streamLayer = L.layerGroup().addTo(map);
+var upLayer = L.layerGroup().addTo(map), dnLayer = L.layerGroup().addTo(map);
+var barrierLayer = L.layerGroup().addTo(map);
+var arrowLayer = L.layerGroup().addTo(map);
+var connMarkers = L.layerGroup().addTo(map);
+var limitLayer = L.layerGroup().addTo(map);
+var ringLayer = L.layerGroup().addTo(map);
+
+function say(msg){ $("live").textContent = ""; setTimeout(function(){ $("live").textContent = msg; }, 30); }
+function status(msg, ms){
+  var el = $("status"); el.textContent = msg; el.hidden = false;
+  clearTimeout(status.t); status.t = setTimeout(function(){ el.hidden = true; }, ms || 3500);
+}
+
+/* map controls */
+var Ctl = L.Control.extend({
+  options:{ position:"bottomright" },
+  onAdd:function(){
+    var box = L.DomUtil.create("div", "mctl");
+    function mk(id, label, html){
+      var b = L.DomUtil.create("button", "mbtn", box);
+      b.type = "button"; b.id = id; b.title = label; b.setAttribute("aria-label", label); b.innerHTML = html;
+      return b;
+    }
+    mk("zIn", "Zoom in", "+"); mk("zOut", "Zoom out", "&minus;");
+    mk("toolHome", "Zoom to all barriers", '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10"/></svg>');
+    mk("toolLocate", "Find my location", '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>');
+    var m = mk("toolMeasure", "Measure distance", '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21z M8 12l2 2M11 9l2 2M14 6l2 2"/></svg>');
+    m.setAttribute("aria-pressed", "false");
+    L.DomEvent.disableClickPropagation(box);
+    return box;
+  }
+});
+map.addControl(new Ctl());
+$("zIn").addEventListener("click", function(){ map.zoomIn(); });
+$("zOut").addEventListener("click", function(){ map.zoomOut(); });
+$("toolHome").addEventListener("click", function(){ fitAll(); });
+$("toolLocate").addEventListener("click", function(){ status("Finding your location"); map.locate({ setView:true, maxZoom:15 }); });
+var locMarker = null;
+map.on("locationfound", function(e){
+  if (locMarker) map.removeLayer(locMarker);
+  locMarker = L.circle(e.latlng, { radius:e.accuracy / 2, color:"#0b5fff", weight:2, fillOpacity:0.12 }).addTo(map);
+});
+map.on("locationerror", function(){ status("Location is not available in this browser"); });
+
+/* measuring: a straight line, or traced along the streams */
+var SNAP_PX = 24, mMode = "line";
+var measureLayer = L.layerGroup().addTo(map);
+var mPts = [];                 // straight line points
+var sPts = [], sLegs = [];     // along stream: snapped points, and the traced leg between each pair
+function lenText(mi){
+  var ft = mi * 5280;
+  return ft < 528 ? Math.round(ft).toLocaleString() + " ft" : mi.toFixed(2) + " mi (" + Math.round(ft).toLocaleString() + " ft)";
+}
+function gdist(a, b){ var kx = Math.cos((a[0] + b[0]) * Math.PI / 360), dx = (b[1] - a[1]) * kx, dy = b[0] - a[0]; return Math.sqrt(dx * dx + dy * dy) * 111320; }
+function segGeom(k){
+  var s = net.seg[k];
+  if (!s.geo){
+    var line = segLines(k)[0] || [], cum = [0], tot = 0;
+    for (var i = 1; i < line.length; i++){ tot += gdist(line[i - 1], line[i]); cum.push(tot); }
+    s.geo = { line:line, cum:cum, len:tot };
+  }
+  return s.geo;
+}
+// the part of a segment between two fractions of its length, as a list of [lat, lng]
+function cutLine(geo, f0, f1){
+  var a = f0 * geo.len, b = f1 * geo.len, last = geo.line.length;
+  function at(d){
+    for (var i = 1; i < last; i++){
+      if (geo.cum[i] >= d){
+        var span = (geo.cum[i] - geo.cum[i - 1]) || 1e-9, t = (d - geo.cum[i - 1]) / span, p = geo.line[i - 1], q = geo.line[i];
+        return [p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t, i];
+      }
+    }
+    var e = geo.line[last - 1];
+    return [e[0], e[1], last];
+  }
+  var s0 = at(a), e0 = at(b), out = [[s0[0], s0[1]]];
+  for (var j = s0[2]; j < e0[2]; j++) out.push(geo.line[j]);
+  out.push([e0[0], e0[1]]);
+  return out;
+}
+// stream ends that meet at the same point share one node, found from the "flows into" links
+function buildGraph(n){
+  var parent = {}, ids = Object.keys(n.seg);
+  function find(x){ while (parent[x] !== x){ parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
+  function union(a, b){ a = find(a); b = find(b); if (a !== b) parent[a] = b; }
+  ids.forEach(function(k){ parent["s" + k] = "s" + k; parent["e" + k] = "e" + k; });
+  ids.forEach(function(k){ n.seg[k].to.forEach(function(t){ if (n.seg[t]) union("e" + k, "s" + t); }); });
+  // streams that finish or start at the very same point (for example two streams reaching one outlet) also meet there
+  ids.forEach(function(k){
+    var line = n.seg[k].lines[0], f = line[0], l = line[line.length - 1];
+    var ks = "c" + f[1].toFixed(5) + "," + f[0].toFixed(5), ke = "c" + l[1].toFixed(5) + "," + l[0].toFixed(5);
+    if (parent[ks] === undefined) parent[ks] = ks;
+    if (parent[ke] === undefined) parent[ke] = ke;
+    union("s" + k, ks); union("e" + k, ke);
+  });
+  var adj = {};
+  function add(a, e){ (adj[a] = adj[a] || []).push(e); }
+  ids.forEach(function(k){
+    var a = find("s" + k), b = find("e" + k), w = n.seg[k].mi;
+    add(a, { n:b, w:w, seg:k }); add(b, { n:a, w:w, seg:k });
+  });
+  return { find:find, adj:adj };
+}
+// shortest way along the streams from the start nodes to any goal node (a goal carries a little extra distance)
+function shortest(g, starts, goals){
+  var dist = {}, prev = {}, heap = [];
+  function push(d, nd){
+    heap.push([d, nd]);
+    var i = heap.length - 1;
+    while (i > 0){ var p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; var t = heap[p]; heap[p] = heap[i]; heap[i] = t; i = p; }
+  }
+  function pop(){
+    var top = heap[0], last = heap.pop();
+    if (heap.length){
+      heap[0] = last;
+      var i = 0, n = heap.length;
+      for (;;){
+        var l = 2 * i + 1, r = l + 1, m = i;
+        if (l < n && heap[l][0] < heap[m][0]) m = l;
+        if (r < n && heap[r][0] < heap[m][0]) m = r;
+        if (m === i) break;
+        var t = heap[m]; heap[m] = heap[i]; heap[i] = t; i = m;
+      }
+    }
+    return top;
+  }
+  starts.forEach(function(st){ if (dist[st[0]] === undefined || st[1] < dist[st[0]]){ dist[st[0]] = st[1]; prev[st[0]] = null; push(st[1], st[0]); } });
+  var best = Infinity, bestNode = null;
+  while (heap.length){
+    var top = pop(), d = top[0], u = top[1];
+    if (d > dist[u]) continue;
+    if (d >= best) break;
+    if (goals[u] !== undefined && d + goals[u] < best){ best = d + goals[u]; bestNode = u; }
+    var es = g.adj[u] || [];
+    for (var i = 0; i < es.length; i++){
+      var e = es[i], nd = d + e.w;
+      if (dist[e.n] === undefined || nd < dist[e.n] - 1e-12){ dist[e.n] = nd; prev[e.n] = { n:u, seg:e.seg }; push(nd, e.n); }
+    }
+  }
+  return bestNode === null ? null : { cost:best, node:bestNode, prev:prev };
+}
+// nearest point on any stream line within SNAP_PX pixels of the click
+function snapToStream(ll){
+  if (!net) return null;
+  var p0 = map.latLngToContainerPoint(ll), q = map.containerPointToLatLng([p0.x + SNAP_PX, p0.y + SNAP_PX]);
+  var tLat = Math.abs(q.lat - ll.lat), tLng = Math.abs(q.lng - ll.lng), best = null;
+  Object.keys(net.seg).forEach(function(k){
+    var geo = segGeom(k), line = geo.line, sg = net.seg[k];
+    if (line.length < 2) return;
+    if (!sg.bb){
+      var a = 90, b = 180, c = -90, d = -180;
+      line.forEach(function(v){ if (v[0] < a) a = v[0]; if (v[1] < b) b = v[1]; if (v[0] > c) c = v[0]; if (v[1] > d) d = v[1]; });
+      sg.bb = [a, b, c, d];
+    }
+    if (ll.lat < sg.bb[0] - tLat || ll.lat > sg.bb[2] + tLat || ll.lng < sg.bb[1] - tLng || ll.lng > sg.bb[3] + tLng) return;
+    for (var i = 1; i < line.length; i++){
+      var A = map.latLngToContainerPoint(line[i - 1]), B = map.latLngToContainerPoint(line[i]);
+      var dx = B.x - A.x, dy = B.y - A.y, l2 = dx * dx + dy * dy, t = l2 ? ((p0.x - A.x) * dx + (p0.y - A.y) * dy) / l2 : 0;
+      t = Math.max(0, Math.min(1, t));
+      var dd = Math.hypot(p0.x - (A.x + t * dx), p0.y - (A.y + t * dy));
+      if (!best || dd < best.px){
+        var along = geo.cum[i - 1] + t * (geo.cum[i] - geo.cum[i - 1]), p = line[i - 1], r = line[i];
+        best = { seg:k, frac:geo.len ? along / geo.len : 0, px:dd, ll:[p[0] + (r[0] - p[0]) * t, p[1] + (r[1] - p[1]) * t] };
+      }
+    }
+  });
+  return best && best.px <= SNAP_PX ? best : null;
+}
+// the shortest trace along the streams between two snapped points, going up or down stream
+function streamPath(P, Q){
+  var g = net.graph || (net.graph = buildGraph(net)), sp = net.seg[P.seg], sq = net.seg[Q.seg], direct = null;
+  if (P.seg === Q.seg){
+    var f0 = Math.min(P.frac, Q.frac), f1 = Math.max(P.frac, Q.frac);
+    direct = { mi:(f1 - f0) * sp.mi, parts:[cutLine(segGeom(P.seg), f0, f1)] };
+  }
+  var pS = g.find("s" + P.seg), pE = g.find("e" + P.seg), qS = g.find("s" + Q.seg), qE = g.find("e" + Q.seg);
+  var goals = {}, extraE = (1 - Q.frac) * sq.mi;
+  goals[qS] = Q.frac * sq.mi;
+  goals[qE] = goals[qE] === undefined ? extraE : Math.min(goals[qE], extraE);
+  var r = shortest(g, [[pS, P.frac * sp.mi], [pE, (1 - P.frac) * sp.mi]], goals), via = null;
+  if (r){
+    var mids = [], node = r.node, e;
+    while (r.prev[node]){ e = r.prev[node]; mids.push(e.seg); node = e.n; }
+    var parts = [node === pS ? cutLine(segGeom(P.seg), 0, P.frac) : cutLine(segGeom(P.seg), P.frac, 1)];
+    mids.reverse().forEach(function(k){ parts.push(segGeom(k).line); });
+    parts.push(r.node === qS ? cutLine(segGeom(Q.seg), 0, Q.frac) : cutLine(segGeom(Q.seg), Q.frac, 1));
+    via = { mi:r.cost, parts:parts };
+  }
+  if (direct && (!via || direct.mi <= via.mi)) return direct;
+  return via;
+}
+
+function mClear(){
+  mPts = []; sPts = []; sLegs = [];
+  measureLayer.clearLayers();
+  $("mDist").textContent = mMode === "stream" ? "Click a stream" : "0 ft";
+}
+function drawLineMeasure(){
+  measureLayer.clearLayers();
+  var m = 0;
+  for (var i = 1; i < mPts.length; i++) m += map.distance(mPts[i - 1], mPts[i]);
+  if (mPts.length > 1) measureLayer.addLayer(L.polyline(mPts, { color:"#1b3f95", weight:3, dashArray:"6 6", interactive:false }));
+  mPts.forEach(function(pt){ measureLayer.addLayer(L.circleMarker(pt, { radius:4, color:"#1b3f95", fillColor:"#fff", fillOpacity:1, weight:2, interactive:false })); });
+  $("mDist").textContent = mPts.length > 1 ? lenText(m / 1609.344) : "0 ft";
+}
+function drawStreamMeasure(){
+  measureLayer.clearLayers();
+  var total = 0, all = [];
+  sLegs.forEach(function(l){ total += l.mi; l.parts.forEach(function(pt){ all.push(pt); }); });
+  if (all.length){
+    measureLayer.addLayer(L.polyline(all, { color:"#ffffff", weight:10, opacity:0.95, lineCap:"round", interactive:false, renderer:hiCanvas }));
+    measureLayer.addLayer(L.polyline(all, { color:"#1b3f95", weight:5, lineCap:"round", interactive:false, renderer:hiCanvas }));
+  }
+  sPts.forEach(function(pt, i){
+    measureLayer.addLayer(L.circleMarker(pt.ll, { radius:i === 0 || i === sPts.length - 1 ? 6 : 4.5, color:"#1b3f95", weight:3, fillColor:"#ffffff", fillOpacity:1, interactive:false, renderer:ringCanvas }));
+  });
+  $("mDist").textContent = sPts.length > 1 ? lenText(total) : (sPts.length ? "Click a second point" : "Click a stream");
+}
+function streamClick(latlng){
+  if (!net){ status("The stream network is not loaded."); return; }
+  var snap = snapToStream(latlng);
+  if (!snap){ status("Click closer to a stream line to trace along it.", 2500); return; }
+  if (sPts.length){
+    var leg = streamPath(sPts[sPts.length - 1], snap);
+    if (!leg){ status("Those two points are not joined by the stream network."); return; }
+    sLegs.push(leg);
+  }
+  sPts.push(snap);
+  drawStreamMeasure();
+}
+function setMeasureMode(mode){
+  if (mode === "stream" && !net){ status("The stream network is not loaded, so tracing along streams is not available."); return; }
+  mMode = mode;
+  $("mLine").setAttribute("aria-pressed", String(mode === "line"));
+  $("mStream").setAttribute("aria-pressed", String(mode === "stream"));
+  $("mLabel").textContent = mode === "stream" ? "Along stream" : "Distance";
+  mClear();
+  if (measuring) status(mode === "stream" ? "Click along a stream. Each click extends the trace." : "Click the map to add points");
+}
+$("mLine").addEventListener("click", function(){ setMeasureMode("line"); });
+$("mStream").addEventListener("click", function(){ setMeasureMode("stream"); });
+$("mUndo").addEventListener("click", function(){
+  if (mMode === "stream"){ sPts.pop(); sLegs.pop(); drawStreamMeasure(); }
+  else { mPts.pop(); drawLineMeasure(); }
+});
+$("toolMeasure").addEventListener("click", function(){
+  measuring = !measuring;
+  this.setAttribute("aria-pressed", String(measuring));
+  $("measure").hidden = !measuring;
+  map.getContainer().style.cursor = measuring ? "crosshair" : "";
+  map.getContainer().classList.toggle("measuring", measuring);
+  if (!measuring) mClear(); else { $("mDist").textContent = mMode === "stream" ? "Click a stream" : "0 ft"; status(mMode === "stream" ? "Click along a stream. Each click extends the trace." : "Click the map to add points"); }
+});
+$("mClear").addEventListener("click", mClear);
+map.on("click", function(e){
+  if (!measuring){
+    // a click that missed every dot still picks the nearest barrier within 22 pixels
+    var pt = map.latLngToContainerPoint(e.latlng), best = null, bd = 22;
+    filtered.forEach(function(it){
+      var d = pt.distanceTo(map.latLngToContainerPoint(it.ll));
+      if (d < bd){ bd = d; best = it; }
+    });
+    if (best) selectItem(best, { from:"map", zoom:false });
+    return;
+  }
+  if (mMode === "stream") streamClick(e.latlng);
+  else { mPts.push(e.latlng); drawLineMeasure(); }
+});
+API.streamTools = { snap:snapToStream, path:streamPath, cut:cutLine, graph:function(){ return net.graph || (net.graph = buildGraph(net)); }, geom:segGeom };
+
+/* view helpers */
+function fitAll(){
+  var pts = (filtered.length ? filtered : items).map(function(it){ return it.ll; });
+  if (pts.length) map.fitBounds(L.latLngBounds(pts), { padding:[60, 60] });
+}
+function flyTo(ll, zoom){
+  if (reduce) map.setView(ll, zoom); else map.flyTo(ll, zoom, { duration:0.8 });
+}
+function panelPad(){
+  var wide = window.innerWidth > 900, tour = !$("tour").hidden;
+  if (wide) return { paddingTopLeft:[420, 80], paddingBottomRight:[430, 60 + (tour ? 220 : 0)], maxZoom:15 };   // keep the quick tour card clear of the network
+  var sheet = sheetHeights()[sheets[activeSheet()].state];                                              // the bottom sheet covers the lower part of the map
+  return { paddingTopLeft:[30, 80 + (tour ? 200 : 0)], paddingBottomRight:[30, sheet + 20], maxZoom:15 };
+}
+function ensureVisible(it){
+  var wide = window.innerWidth > 900, p = map.latLngToContainerPoint(it.ll), s = map.getSize();
+  if (p.x < (wide ? 410 : 20) || p.x > s.x - (wide ? 430 : 20) || p.y < 80 || p.y > s.y - 60) map.panTo(it.ll);
+}
+
+/* marks for the selected barrier */
+function on(id){
+  if (id === "tgUp" || id === "tgUb") return ov.us;
+  if (id === "tgDn" || id === "tgDb") return ov.ds;
+  if (id === "tgLim") return ov.lim;
+  return true;
+}
+function triIcon(fill, edge, up){
+  var pts = up ? "11,2 20,19 2,19" : "2,3 20,3 11,20";
+  return L.divIcon({ className:"tri-icon", iconSize:[22, 22], iconAnchor:[11, 11],
+    html:'<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><polygon points="' + pts + '" fill="' + fill + '" stroke="' + edge + '" stroke-width="2.2" stroke-linejoin="round"/></svg>' });
+}
+function limitIcon(fill, edge, up){
+  var pts = up ? "16,3 29,27 3,27" : "3,5 29,5 16,29";
+  return L.divIcon({ className:"lim-icon", iconSize:[32, 32], iconAnchor:[16, 16],
+    html:'<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><polygon points="' + pts + '" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="' + pts + '" fill="' + fill + '" stroke="' + edge + '" stroke-width="4" stroke-linejoin="round"/></svg>' });
+}
+function clusterIcon(n, up){
+  var pts = up ? "16,3 30,28 2,28" : "2,4 30,4 16,29", c = up ? "#0088ad" : "#6a1f8f", ty = up ? 23 : 15;
+  return L.divIcon({ className:"cl-icon", iconSize:[32, 32], iconAnchor:[16, 16],
+    html:'<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><polygon points="' + pts + '" fill="' + c + '" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><text x="16" y="' + ty + '" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="sans-serif">' + n + "</text></svg>" });
+}
+function arrowIcon(color, deg){
+  return L.divIcon({ className:"arrow-icon", iconSize:[16, 16], iconAnchor:[8, 8],
+    html:'<svg width="16" height="16" viewBox="0 0 16 16" style="transform:rotate(' + deg.toFixed(0) + 'deg)" aria-hidden="true"><path d="M2 3L14 8 2 13 5 8Z" fill="' + color + '" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>' });
+}
+function segLines(k){
+  var s = net.seg[k];
+  if (!s.ll) s.ll = s.lines.map(function(line){ return line.map(function(c){ return [c[1], c[0]]; }); });
+  return s.ll;
+}
+function segLatLngs(set){
+  var out = [];
+  Object.keys(set).forEach(function(k){ segLines(k).forEach(function(l){ out.push(l); }); });
+  return out;
+}
+function tipHtml(id, sub){ return "<b>" + esc(id) + '</b><br><span class="tsub">' + esc(sub) + "</span>"; }
+function nameMarker(m, text){
+  // keyboard and screen reader name, without a second native tooltip
+  m.on("add", function(){ var el = m.getElement && m.getElement(); if (el){ el.setAttribute("aria-label", text); el.setAttribute("role", "button"); } });
+}
+function connMarker(b, up){
+  var d = conn ? (up ? conn.upDist[b.id] : conn.dnDist[b.id]) : undefined;
+  var pass = passText(b.p.pass_pct);
+  var sub = (up ? "Upstream" : "Downstream") + ", " + pass + (d !== undefined ? ", " + distText(d, "").trim() : "");
+  var m = L.marker(b.ll, { icon:triIcon(b.tier.color, up ? "#0088ad" : "#6a1f8f", up), keyboard:true, riseOnHover:true });
+  m.bindTooltip(tipHtml(b.id, sub), { direction:"top", offset:[0, -8] });
+  nameMarker(m, (up ? "Upstream" : "Downstream") + " barrier " + b.id + ", " + pass + ". Activate to open it.");
+  m.on("click", function(e){ L.DomEvent.stop(e); selectItem(b, { zoom:false, from:"map" }); });
+  return m;
+}
+function clusterMarker(g){
+  var lat = 0, lng = 0, word = g.up ? "upstream" : "downstream";
+  g.items.forEach(function(b){ lat += b.ll[0]; lng += b.ll[1]; });
+  var m = L.marker([lat / g.items.length, lng / g.items.length], { icon:clusterIcon(g.items.length, g.up), keyboard:true });
+  m.bindTooltip(tipHtml(g.items.length + " " + word + " barriers", "Click to zoom in"), { direction:"top", offset:[0, -10] });
+  nameMarker(m, g.items.length + " " + word + " barriers close together. Activate to zoom in.");
+  m.on("click", function(e){
+    L.DomEvent.stop(e);
+    var b = L.latLngBounds(g.items.map(function(x){ return x.ll; }));
+    if (b.getNorthEast().equals(b.getSouthWest())) map.setView(b.getCenter(), Math.min(map.getZoom() + 3, 19));
+    else map.fitBounds(b, { padding:[90, 90], maxZoom:18 });
+  });
+  return m;
+}
+function drawConnMarkers(){
+  connMarkers.clearLayers();
+  if (!selected || !conn) return;
+  var groups = {}, CELL = 26, skip = {};
+  if (on("tgLim")){ if (conn.upLimit) skip[conn.upLimit.b.id] = true; if (conn.dnLimit) skip[conn.dnLimit.b.id] = true; }
+  function add(list, up){
+    list.forEach(function(b){
+      if (skip[b.id]) return;
+      var pt = map.latLngToLayerPoint(b.ll);
+      var key = (up ? "u" : "d") + Math.floor(pt.x / CELL) + "," + Math.floor(pt.y / CELL);
+      (groups[key] = groups[key] || { up:up, items:[] }).items.push(b);
+    });
+  }
+  if (on("tgUb")) add(conn.upBarriers, true);
+  if (on("tgDb")) add(conn.dnBarriers, false);
+  Object.keys(groups).forEach(function(k){
+    var g = groups[k];
+    connMarkers.addLayer(g.items.length === 1 ? connMarker(g.items[0], g.up) : clusterMarker(g));
+  });
+}
+function frac(k){
+  var h = 2166136261, str = String(k);
+  for (var i = 0; i < str.length; i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return ((h >>> 0) % 1000) / 1000;
+}
+function drawArrows(){
+  arrowLayer.clearLayers();
+  if (!selected || !conn || !net) return;
+  var SPACING = 130;   // about one arrow per 130 pixels of stream
+  [["tgUp", conn.upSegs, "#0088ad"], ["tgDn", conn.dnSegs, "#6a1f8f"]].forEach(function(spec){
+    if (!on(spec[0])) return;
+    var count = 0;
+    Object.keys(spec[1]).forEach(function(k){
+      if (count >= 220) return;
+      var line = segLines(k)[0];
+      if (!line || line.length < 2) return;
+      var pts = line.map(function(c){ return map.latLngToLayerPoint(c); }), total = 0, i;
+      for (i = 1; i < pts.length; i++) total += pts[i].distanceTo(pts[i - 1]);
+      if (total < 14) return;
+      var n = Math.floor(total / SPACING), spots = [], j;
+      if (n >= 1){ for (j = 0; j < n; j++) spots.push((j + 0.5) * total / n); }
+      else if (frac(k) < total / SPACING) spots.push(total / 2);   // short pieces share arrows by chance
+      spots.forEach(function(dist){
+        var acc = 0;
+        for (var v = 1; v < pts.length; v++){
+          var d = pts[v].distanceTo(pts[v - 1]);
+          if (acc + d >= dist){
+            var a = pts[v - 1], b = pts[v], t = (dist - acc) / (d || 1);
+            var at = L.point(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
+            var ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+            arrowLayer.addLayer(L.marker(map.layerPointToLatLng(at), { icon:arrowIcon(spec[2], ang), interactive:false, keyboard:false, zIndexOffset:-1000 }));
+            count++;
+            return;
+          }
+          acc += d;
+        }
+      });
+    });
+  });
+}
+function limitMarkers(){
+  limitLayer.clearLayers();
+  if (!selected || !conn || !on("tgLim")) return;
+  [[conn.dnLimit, false, "#6a1f8f", "downstream"], [conn.upLimit, true, "#0088ad", "upstream"]].forEach(function(x){
+    var lim = x[0];
+    if (!lim) return;
+    var m = L.marker(lim.b.ll, { icon:limitIcon(lim.b.tier.color, x[2], x[1]), keyboard:true, zIndexOffset:500 });
+    m.bindTooltip(tipHtml(lim.b.id, x[3].charAt(0).toUpperCase() + x[3].slice(1) + ": " + passText(lim.b.p.pass_pct) + ", " + distText(lim.d, "").trim()), { direction:"top", offset:[0, -14] });
+    nameMarker(m, "Lowest passability barrier " + x[3] + ", " + lim.b.id + ", " + passText(lim.b.p.pass_pct) + ", " + distText(lim.d, x[3]) + ". Activate to open it.");
+    m.on("click", function(e){ L.DomEvent.stop(e); selectItem(lim.b, { zoom:false, from:"map" }); });
+    limitLayer.addLayer(m);
+  });
+}
+function drawConnected(){
+  upLayer.clearLayers(); dnLayer.clearLayers();
+  if (!selected || !conn || !net){ connMarkers.clearLayers(); arrowLayer.clearLayers(); limitLayer.clearLayers(); return; }
+  if (on("tgUp")){
+    var u = segLatLngs(conn.upSegs);
+    if (u.length){
+      if (conn.upLimit && on("tgLim")) upLayer.addLayer(L.polyline(segLatLngs(conn.upLimit.path), { color:"#0088ad", weight:14, opacity:0.22, lineCap:"round", interactive:false, renderer:hiCanvas }));
+      upLayer.addLayer(L.polyline(u, { color:"#ffffff", weight:8, opacity:0.9, interactive:false, renderer:hiCanvas }));
+      upLayer.addLayer(L.polyline(u, { color:"#0088ad", weight:4.5, opacity:1, interactive:false, renderer:hiCanvas }));
+    }
+  }
+  if (on("tgDn")){
+    var d = segLatLngs(conn.dnSegs);
+    if (d.length){
+      if (conn.dnLimit && on("tgLim")) dnLayer.addLayer(L.polyline(segLatLngs(conn.dnLimit.path), { color:"#6a1f8f", weight:14, opacity:0.22, lineCap:"round", interactive:false, renderer:hiCanvas }));
+      dnLayer.addLayer(L.polyline(d, { color:"#ffffff", weight:8, opacity:0.9, interactive:false, renderer:hiCanvas }));
+      dnLayer.addLayer(L.polyline(d, { color:"#6a1f8f", weight:4.5, dashArray:"10 7", interactive:false, renderer:hiCanvas }));
+    }
+  }
+  drawConnMarkers(); drawArrows(); limitMarkers();
+}
+map.on("zoomend", function(){ if (selected && conn){ drawConnMarkers(); drawArrows(); } });
+var selMarker = null;
+function selIcon(id){
+  return L.divIcon({ className:"sel-icon", iconSize:[0, 0], iconAnchor:[0, 0],
+    html:'<div class="sel-ring"></div><div class="sel-tag">' + esc(id) + "</div>" });
+}
+// Put the ID label where it covers the least of the highlighted network, and keep it out from under the two panels.
+function placeSelTag(){
+  if (!selMarker || !selected) return;
+  var el = selMarker.getElement();
+  if (!el) return;
+  var c = map.latLngToContainerPoint(selected.ll), size = map.getSize(), wide = window.innerWidth > 900;
+  var w = 22 + String(selected.id).length * 7.4, h = 24;
+  var cands = [["e", 30, -13], ["w", -30 - w, -13], ["ne", 12, -47], ["nw", -12 - w, -47], ["se", 12, 22], ["sw", -12 - w, 22]];
+  var pts = [];
+  function addPt(ll){ var q = map.latLngToContainerPoint(ll), dx = q.x - c.x, dy = q.y - c.y; if (Math.abs(dx) < 260 && Math.abs(dy) < 110) pts.push([dx, dy]); }
+  if (conn && net){
+    if (ov.us){ Object.keys(conn.upSegs).forEach(function(k){ segLines(k).forEach(function(l){ l.forEach(addPt); }); }); conn.upBarriers.forEach(function(b){ addPt(b.ll); }); }
+    if (ov.ds){ Object.keys(conn.dnSegs).forEach(function(k){ segLines(k).forEach(function(l){ l.forEach(addPt); }); }); conn.dnBarriers.forEach(function(b){ addPt(b.ll); }); }
+    [conn.upLimit, conn.dnLimit].forEach(function(l){ if (l && ov.lim) addPt(l.b.ll); });
+  }
+  var leftLimit = wide ? 410 : 16, rightLimit = size.x - (wide && !$("detail").hidden ? 424 : 16);
+  var best = "e", bestScore = 1e9;
+  cands.forEach(function(cd){
+    var x0 = cd[1], y0 = cd[2], x1 = x0 + w, y1 = y0 + h, score = 0;
+    pts.forEach(function(q){ if (q[0] > x0 - 7 && q[0] < x1 + 7 && q[1] > y0 - 7 && q[1] < y1 + 7) score++; });
+    if (c.x + x1 > rightLimit || c.x + x0 < leftLimit) score += 1000;   // would sit under a panel
+    if (c.y + y0 < 70 || c.y + y1 > size.y - 20) score += 1000;        // would leave the map
+    if (score < bestScore){ bestScore = score; best = cd[0]; }
+  });
+  ["e", "w", "ne", "nw", "se", "sw"].forEach(function(n){ el.classList.remove("pos-" + n); });
+  el.classList.add("pos-" + best);
+}
+function drawRing(){
+  ringLayer.clearLayers();
+  selMarker = null;
+  if (!selected) return;
+  selMarker = L.marker(selected.ll, { icon:selIcon(selected.id), interactive:false, keyboard:false, zIndexOffset:1200 });
+  ringLayer.addLayer(selMarker);
+  placeSelTag();
+}
+map.on("moveend", placeSelTag);
+function outlineW(){ return document.body.classList.contains("hc") ? 2.4 : 1.25; }
+function applyDim(){
+  var keep = null;
+  if (selected && ov.dim && conn){
+    keep = {}; keep[selected.id] = true;
+    conn.upBarriers.concat(conn.dnBarriers).forEach(function(b){ keep[b.id] = true; });
+  }
+  Object.keys(markerById).forEach(function(id){
+    var m = markerById[id], dim = keep && !keep[id];
+    m.setStyle({ fillOpacity:dim ? 0.18 : 0.95, opacity:dim ? 0.22 : 1, weight:outlineW() });
+  });
+}
+
+/* selection */
+// WDFW site IDs are letters and digits only. IDs with spaces or dots come from other sources and have no report.
+function reportUrlFor(it){
+  if (it.p.form_url) return it.p.form_url;
+  if (CONFIG.reportUrlTemplate && /^[A-Za-z0-9_]+$/.test(it.id)) return CONFIG.reportUrlTemplate.replace("{id}", encodeURIComponent(it.id));
+  return "";
+}
+function currentView(){
+  var c = map.getCenter();
+  return c.lat.toFixed(4) + "," + c.lng.toFixed(4) + "," + map.getZoom();
+}
+var hashTimer = null;
+function writeHash(){
+  clearTimeout(hashTimer);
+  try {
+    var h = encodeState(st, { b:selected ? selected.id : null, sort:listMode, v:currentView() });
+    history.replaceState(null, "", "#" + h);
+  } catch (e) {}
+}
+function writeHashSoon(){ clearTimeout(hashTimer); hashTimer = setTimeout(writeHash, 350); }
+map.on("moveend", writeHashSoon);
+
+function fitSelected(){
+  if (!selected) return;
+  var b = L.latLngBounds([selected.ll]);
+  [upLayer, dnLayer].forEach(function(g){ g.eachLayer(function(l){ if (l.getBounds) b.extend(l.getBounds()); }); });
+  connMarkers.eachLayer(function(m){ b.extend(m.getLatLng()); });
+  var o = panelPad();
+  if (b.getNorthEast().equals(b.getSouthWest())){ flyTo(selected.ll, Math.max(map.getZoom(), 15)); return; }
+  if (reduce) map.fitBounds(b, o); else map.flyToBounds(b, Object.assign({ duration:0.8 }, o));
+}
+function updateStepper(){
+  var ord = orderItems(filtered, listMode), i = selected ? ord.indexOf(selected) : -1;
+  $("dPrev").disabled = !(i > 0);
+  $("dNext").disabled = !(i >= 0 && i < ord.length - 1);
+}
+function step(dir){
+  var ord = orderItems(filtered, listMode);
+  if (!ord.length) return;
+  var i = selected ? ord.indexOf(selected) : -1, n = ord[Math.max(0, Math.min(ord.length - 1, i + dir))];
+  if (n) selectItem(n, { from:"step", zoom:false });
+}
+/* phones: the list and the details are bottom sheets with three heights */
+var SHEET_ORDER = ["peek", "half", "full"], sheets = { finder:{ state:"half" }, detail:{ state:"half" } };
+function isPhone(){ return window.innerWidth <= 900; }
+function sheetHeights(){ var H = window.innerHeight; return { peek:132, half:Math.round(H * 0.5), full:Math.max(240, H - 76) }; }
+function activeSheet(){ return $("detail").hidden ? "finder" : "detail"; }
+function updateMapPad(){
+  if (!isPhone()){ document.body.style.removeProperty("--map-pad"); return; }
+  var name = activeSheet(), el = $(name === "detail" ? "detail" : "finder") || document.querySelector(".finder");
+  var h = el.getBoundingClientRect().height || sheetHeights()[sheets[name].state];
+  document.body.style.setProperty("--map-pad", Math.round(h + 14) + "px");
+}
+function applySheet(name, state, quiet){
+  var sh = sheets[name], el = name === "detail" ? $("detail") : document.querySelector(".finder");
+  sh.state = state; el.dataset.snap = state;
+  el.style.height = isPhone() ? sheetHeights()[state] + "px" : "";
+  var grab = el.querySelector(".grab");
+  if (grab) grab.setAttribute("aria-label", "Resize the " + (name === "detail" ? "details" : "list") + " panel. Now " + state + " height. Press Enter to change it.");
+  setTimeout(updateMapPad, 260); updateMapPad();
+  if (!quiet) say("Panel " + state + " height");
+}
+function bindGrab(name){
+  var el = name === "detail" ? $("detail") : document.querySelector(".finder"), grab = el.querySelector(".grab");
+  var startY = 0, startH = 0, lastY = 0, lastT = 0, vel = 0, dragging = false, moved = 0;
+  grab.addEventListener("pointerdown", function(e){
+    if (!isPhone()) return;
+    dragging = true; moved = 0; startY = lastY = e.clientY; lastT = Date.now(); vel = 0;
+    startH = el.getBoundingClientRect().height || sheetHeights()[sheets[name].state];
+    el.classList.add("dragging");
+    try { grab.setPointerCapture(e.pointerId); } catch (err) {}
+    e.preventDefault();
+  });
+  grab.addEventListener("pointermove", function(e){
+    if (!dragging) return;
+    var hs = sheetHeights(), h = Math.max(hs.peek, Math.min(hs.full, startH + (startY - e.clientY)));
+    el.style.height = h + "px"; moved = Math.max(moved, Math.abs(startY - e.clientY));
+    var now = Date.now(); vel = (lastY - e.clientY) / Math.max(1, now - lastT); lastY = e.clientY; lastT = now;
+    updateMapPad();
+  });
+  function end(){
+    if (!dragging) return;
+    dragging = false; el.classList.remove("dragging");
+    var hs = sheetHeights(), h = el.getBoundingClientRect().height, i = SHEET_ORDER.indexOf(sheets[name].state), target;
+    if (moved < 6) target = SHEET_ORDER[(i + 1) % 3];                                   // a tap steps to the next height
+    else if (Math.abs(vel) > 0.6) target = SHEET_ORDER[Math.max(0, Math.min(2, i + (vel > 0 ? 1 : -1)))];   // a quick flick moves one step
+    else target = SHEET_ORDER.reduce(function(b, k){ return Math.abs(hs[k] - h) < Math.abs(hs[b] - h) ? k : b; }, "half");
+    applySheet(name, target);
+  }
+  grab.addEventListener("pointerup", end);
+  grab.addEventListener("pointercancel", end);
+  grab.addEventListener("keydown", function(e){
+    var i = SHEET_ORDER.indexOf(sheets[name].state), t = null;
+    if (e.key === "Enter" || e.key === " ") t = SHEET_ORDER[(i + 1) % 3];
+    else if (e.key === "ArrowUp") t = SHEET_ORDER[Math.min(2, i + 1)];
+    else if (e.key === "ArrowDown") t = SHEET_ORDER[Math.max(0, i - 1)];
+    if (t){ e.preventDefault(); applySheet(name, t); }
+  });
+}
+bindGrab("finder"); bindGrab("detail");
+applySheet("finder", "half", true);
+window.addEventListener("resize", function(){
+  ["finder", "detail"].forEach(function(n){ applySheet(n, sheets[n].state, true); });
+  if (typeof placeSelTag === "function") placeSelTag();
+});
+API.sheets = { apply:applySheet, state:function(n){ return sheets[n].state; }, heights:sheetHeights };
+var compactTouched = false;
+function setCompact(on){
+  var f = document.querySelector(".finder");
+  f.classList.toggle("compact", on);
+  var btn = $("fCollapse");
+  btn.setAttribute("aria-expanded", String(!on));
+  btn.title = on ? "Show the list" : "Hide the list";
+  btn.setAttribute("aria-label", btn.title);
+}
+$("fCollapse").addEventListener("click", function(){ compactTouched = true; setCompact(!document.querySelector(".finder").classList.contains("compact")); });
+var printMap = null, savedTitle = null;
+function cleanupPrint(){
+  if (printMap){ printMap.remove(); printMap = null; }
+  $("printRoot").innerHTML = "";
+  if (savedTitle !== null){ document.title = savedTitle; savedTitle = null; }
+}
+function preparePrint(opt){
+  opt = opt || {};
+  if (!selected) return Promise.resolve(false);
+  cleanupPrint();
+  var it = selected, c = conn;
+  $("printRoot").innerHTML = printHtml(it, c, meta, location.href.split("#")[0] + "#b=" + encodeURIComponent(it.id), !!meta.demo, reportUrlFor(it));
+  var pm = L.map($("psMap"), { zoomSnap:0.25, zoomControl:false, attributionControl:true, zoomAnimation:false, fadeAnimation:false, markerZoomAnimation:false, inertia:false });
+  printMap = pm;
+  var bd = L.latLngBounds([it.ll]);
+  function addLine(set, color, dash){
+    var ll = segLatLngs(set);
+    if (!ll.length) return;
+    L.polyline(ll, { color:"#ffffff", weight:7, opacity:0.95, interactive:false }).addTo(pm);
+    var pl = L.polyline(ll, { color:color, weight:3.5, dashArray:dash || null, interactive:false }).addTo(pm);
+    bd.extend(pl.getBounds());
+  }
+  if (c){
+    addLine(c.upSegs, "#0088ad"); addLine(c.dnSegs, "#6a1f8f", "9 6");
+    var isLim = {};
+    if (c.upLimit) isLim[c.upLimit.b.id] = true;
+    if (c.dnLimit) isLim[c.dnLimit.b.id] = true;
+    c.upBarriers.forEach(function(b){ if (!isLim[b.id]) L.marker(b.ll, { icon:triIcon(b.tier.color, "#0088ad", true), interactive:false, keyboard:false }).addTo(pm); });
+    c.dnBarriers.forEach(function(b){ if (!isLim[b.id]) L.marker(b.ll, { icon:triIcon(b.tier.color, "#6a1f8f", false), interactive:false, keyboard:false }).addTo(pm); });
+    if (c.upLimit) L.marker(c.upLimit.b.ll, { icon:limitIcon(c.upLimit.b.tier.color, "#0088ad", true), interactive:false, keyboard:false, zIndexOffset:500 }).addTo(pm);
+    if (c.dnLimit) L.marker(c.dnLimit.b.ll, { icon:limitIcon(c.dnLimit.b.tier.color, "#6a1f8f", false), interactive:false, keyboard:false, zIndexOffset:500 }).addTo(pm);
+  }
+  L.circleMarker(it.ll, { radius:15, color:"#ffffff", weight:9, fill:false, interactive:false }).addTo(pm);
+  L.circleMarker(it.ll, { radius:15, color:"#142e6e", weight:4, fill:false, interactive:false }).addTo(pm);
+  L.marker(it.ll, { icon:L.divIcon({ className:"sel-icon", iconSize:[0, 0], iconAnchor:[0, 0], html:'<div class="sel-tag" style="left:22px;top:-11px">' + esc(it.id) + "</div>" }), interactive:false, keyboard:false, zIndexOffset:1200 }).addTo(pm);
+  if (bd.getNorthEast().equals(bd.getSouthWest())) pm.setView(it.ll, 15);
+  else pm.fitBounds(bd, { padding:[30, 30], maxZoom:16, animate:false });
+  L.control.scale({ position:"bottomleft", maxWidth:120, imperial:true, metric:true }).addTo(pm);
+  var bm = BASEMAPS.filter(function(x){ return x.id === (currentBase === "img" ? "topo" : currentBase); })[0] || BASEMAPS[0];
+  var tl = L.tileLayer(bm.url, { attribution:bm.attr, maxZoom:19, maxNativeZoom:bm.nat }).addTo(pm);
+  savedTitle = document.title;
+  document.title = "WRIA 14 barrier " + it.id;
+  return new Promise(function(resolve){
+    var done = false;
+    function fin(){ if (!done){ done = true; setTimeout(function(){ resolve(true); }, 150); } }
+    tl.on("load", fin);
+    setTimeout(fin, opt.wait || 6000);
+  });
+}
+function printSelected(){
+  if (!selected) return;
+  status("Preparing the summary", 6000);
+  preparePrint().then(function(ok){ $("status").hidden = true; if (ok) window.print(); });
+}
+window.addEventListener("afterprint", cleanupPrint);
+API.preparePrint = preparePrint;
+function setTab(name){
+  if (["overview", "score", "network"].indexOf(name) < 0) name = "overview";
+  detailTab = name;
+  document.querySelectorAll("#dTabs .tab").forEach(function(b){
+    var cur = b.dataset.tab === name;
+    b.setAttribute("aria-selected", String(cur)); b.tabIndex = cur ? 0 : -1;
+  });
+  document.querySelectorAll("#dBody .tabpanel").forEach(function(pn){ pn.hidden = pn.id !== "tab-" + name; });
+}
+$("dTabs").addEventListener("click", function(ev){
+  var b = ev.target.closest(".tab");
+  if (b){ setTab(b.dataset.tab); $("dBody").scrollTop = 0; }
+});
+$("dTabs").addEventListener("keydown", function(ev){
+  var order = ["overview", "score", "network"], i = order.indexOf(detailTab), n = null;
+  if (ev.key === "ArrowRight") n = order[(i + 1) % 3];
+  else if (ev.key === "ArrowLeft") n = order[(i + 2) % 3];
+  else if (ev.key === "Home") n = order[0];
+  else if (ev.key === "End") n = order[2];
+  if (n){ ev.preventDefault(); setTab(n); var btn = $("tabbtn-" + n); if (btn) btn.focus(); }
+});
+$("dBody").addEventListener("change", function(ev){
+  var t = ev.target;
+  if (!t || !t.id) return;
+  if (t.id === "tgUS") ov.us = t.checked;
+  else if (t.id === "tgDS") ov.ds = t.checked;
+  else if (t.id === "tgLim") ov.lim = t.checked;
+  else if (t.id === "tgDim") ov.dim = t.checked;
+  else return;
+  if (t.id === "tgDim") applyDim(); else drawConnected();
+});
+$("dFoot").addEventListener("click", function(ev){
+  if (ev.target.closest("#printBtn")) printSelected();
+  else if (ev.target.closest("#copyBtn2")) copyLink();
+});
+var hintShown = false;
+function selectItem(it, opt){
+  opt = opt || {};
+  selected = it;
+  conn = (net && hasNet(it)) ? connected(net, it) : null;
+  $("dTitle").innerHTML = '<span class="sr">Barrier </span>' + esc(it.id);
+  $("dSub").textContent = [it.p.stream || "Unnamed", it.p.trib ? "tributary to " + it.p.trib : ""].filter(Boolean).join(", ");
+  var dir = listDir;
+  if (conn){
+    if (dir === "up" && !conn.upBarriers.length && conn.dnBarriers.length) dir = "dn";
+    if (dir === "dn" && !conn.dnBarriers.length && conn.upBarriers.length) dir = "up";
+    listDir = dir;
+  }
+  var rUrl = reportUrlFor(it);
+  $("dBody").innerHTML = detailHtml(it, conn, net ? (hasNet(it) ? true : null) : false, rUrl, { tab:detailTab, ov:ov, dir:listDir });
+  $("dFoot").innerHTML = footHtml(rUrl);
+  setTab(detailTab);
+  $("dBody").scrollTop = 0;
+  var wasHidden = $("detail").hidden;
+  $("detail").hidden = false;
+  document.body.classList.add("has-detail");
+  if (wasHidden && isPhone()) applySheet("detail", "half", true); else updateMapPad();
+  if (!compactTouched && window.innerWidth < 1500 && window.innerWidth > 900) setCompact(true);
+  drawRing(); drawConnected(); applyDim(); updateStepper();
+  if (opt.zoom !== false){
+    if (conn) fitSelected(); else flyTo(it.ll, Math.max(map.getZoom(), 15));
+  } else if (opt.from === "step" || opt.from === "detail") ensureVisible(it);
+  document.querySelectorAll(".item").forEach(function(b){
+    var cur = b.dataset.id === it.id;
+    if (cur) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+    if (cur && opt.from !== "list") b.scrollIntoView({ block:"nearest" });
+  });
+  writeHash();
+  hintShown = true; $("status").hidden = true;
+  var msg = "Barrier " + it.id + ", score " + (isNum(it.p.total) ? it.p.total : "not available") + ", rank " + it.rank + ", " + it.tier.label + ".";
+  if (conn){
+    msg += " " + miles(conn.upMi) + " upstream, " + plural(conn.upBarriers.length, "barrier", "barriers") + " upstream, " + plural(conn.dnBarriers.length, "barrier", "barriers") + " downstream.";
+    if (conn.dnLimit) msg += " Lowest passability downstream: barrier " + conn.dnLimit.b.id + ", " + passText(conn.dnLimit.b.p.pass_pct) + ", " + distText(conn.dnLimit.d, "along the stream") + ".";
+    if (conn.upLimit) msg += " Lowest passability upstream: barrier " + conn.upLimit.b.id + ", " + passText(conn.upLimit.b.p.pass_pct) + ", " + distText(conn.upLimit.d, "along the stream") + ".";
+  }
+  say(msg);
+  if (opt.from === "map") $("dTitle").focus({ preventScroll:true });
+}
+function clearSelection(){
+  selected = null; conn = null;
+  $("detail").hidden = true;
+  document.body.classList.remove("has-detail");
+  updateMapPad();
+  upLayer.clearLayers(); dnLayer.clearLayers(); connMarkers.clearLayers(); arrowLayer.clearLayers(); ringLayer.clearLayers(); limitLayer.clearLayers();
+  applyDim();
+  document.querySelectorAll(".item[aria-current]").forEach(function(b){ b.removeAttribute("aria-current"); });
+  writeHash();
+}
+$("dClose").addEventListener("click", function(){ clearSelection(); $("q").focus(); });
+$("dPrev").addEventListener("click", function(){ step(-1); });
+$("dNext").addEventListener("click", function(){ step(1); });
+$("dBody").addEventListener("click", function(ev){
+  if (ev.target.closest("#fitSel")){ fitSelected(); return; }
+  var dl = ev.target.closest("button[data-dl]");
+  if (dl && selected && conn && net){
+    var base = "wria14_barrier_" + safeName(selected.id) + "_network";
+    if (dl.dataset.dl === "csv") downloadText(networkCsv(selected, conn), "text/csv", base + ".csv");
+    else downloadText(JSON.stringify(networkGeoJson(selected, conn, net, meta)), "application/geo+json", base + ".geojson");
+    status("Downloaded " + base + "." + (dl.dataset.dl === "csv" ? "csv" : "geojson"));
+    return;
+  }
+  var go = ev.target.closest("button[data-go]");
+  if (go){ setTab(go.dataset.go); $("dBody").scrollTop = 0; var tb = $("tabbtn-" + go.dataset.go); if (tb) tb.focus(); return; }
+  var sg = ev.target.closest("button[data-dir]");
+  if (sg && conn){
+    listDir = sg.dataset.dir;
+    document.querySelectorAll("#dBody .seg button").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.dir === listDir)); });
+    $("connListBox").innerHTML = connListHtml(conn, listDir);
+    return;
+  }
+  var lb = ev.target.closest("button[data-limit]");
+  if (lb && conn){
+    var lim = lb.dataset.limit === "dn" ? conn.dnLimit : conn.upLimit;
+    if (lim){
+      var bb = L.latLngBounds([selected.ll, lim.b.ll]);
+      segLatLngs(lim.path).forEach(function(l){ bb.extend(l); });
+      var o = panelPad();
+      if (reduce) map.fitBounds(bb, o); else map.flyToBounds(bb, Object.assign({ duration:0.8 }, o));
+    }
+    return;
+  }
+  var b = ev.target.closest("button[data-id]");
+  if (!b) return;
+  var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
+  if (it) selectItem(it, { from:"detail", zoom:false });
+});
+
+/* markers and list */
+function drawMarkers(){
+  barrierLayer.clearLayers();
+  markerById = {};
+  var order = filtered.slice().sort(function(a, b){ return a.pct - b.pct; });
+  order.forEach(function(it){
+    var m = L.circleMarker(it.ll, { renderer:canvas, radius:it.tier.radius, fillColor:it.tier.color, fillOpacity:0.95, color:"#16212b", weight:outlineW() });
+    m.on("click", function(e){ if (measuring) return; L.DomEvent.stop(e); selectItem(it, { from:"map", zoom:false }); });
+    m.bindTooltip(tipHtml(it.id, "Rank " + it.rank + ", score " + (isNum(it.p.total) ? it.p.total : "n/a")), { direction:"top" });
+    barrierLayer.addLayer(m);
+    markerById[it.id] = m;
+  });
+  applyDim();
+}
+function scoreBg(it){
+  var f = isNum(it.p.total) ? Math.max(0, Math.min(1, it.p.total / CONFIG.maxScore)) : 0;
+  return "linear-gradient(90deg,#d2ebf3 " + Math.round(f * 100) + "%,#f3f6f8 " + Math.round(f * 100) + "%)";
+}
+function drawList(){
+  var ul = $("list"); ul.innerHTML = "";
+  if (!filtered.length){ ul.innerHTML = '<li class="empty">No barriers match these filters.</li>'; return; }
+  var frag = document.createDocumentFragment();
+  orderItems(filtered, listMode).forEach(function(it){
+    var li = document.createElement("li");
+    var sub = [it.p.stream || "Unnamed", it.p.trib ? "tributary to " + it.p.trib : ""].filter(Boolean).join(", ");
+    if (listMode === "newest" || listMode === "oldest") sub = (it.p.survey_date ? "Surveyed " + it.p.survey_date : "No survey date") + ". " + sub;
+    li.innerHTML = '<button type="button" class="item" data-id="' + esc(it.id) + '"' + (selected && selected.id === it.id ? ' aria-current="true"' : "") + ">" +
+      '<span class="rk"><span class="sr">Rank </span>' + it.rank + '</span><span class="nm">' + esc(it.id) + "</span>" +
+      '<span class="sc" style="background:' + scoreBg(it) + '"><span class="swatch" style="background:' + it.tier.color + '" title="' + esc(it.tier.label) + '"></span><span class="sr">' + esc(it.tier.label) + ", score </span>" + (isNum(it.p.total) ? it.p.total : "n/a") + "</span>" +
+      '<span class="sub">' + esc(sub) + "</span></button>";
+    frag.appendChild(li);
+  });
+  ul.appendChild(frag);
+}
+$("list").addEventListener("click", function(ev){
+  var b = ev.target.closest("button[data-id]");
+  if (!b) return;
+  var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
+  if (it) selectItem(it, { from:"list" });
+});
+$("list").addEventListener("keydown", function(ev){
+  if (ev.key !== "ArrowDown" && ev.key !== "ArrowUp") return;
+  var btns = Array.prototype.slice.call(document.querySelectorAll("#list .item"));
+  var i = btns.indexOf(document.activeElement);
+  if (i < 0) return;
+  ev.preventDefault();
+  var n = btns[i + (ev.key === "ArrowDown" ? 1 : -1)];
+  if (n) n.focus();
+});
+$("sortSel").addEventListener("change", function(){ listMode = this.value; drawList(); updateStepper(); writeHash(); });
+
+/* table */
+function drawTable(){
+  var rows = sortItems(filtered, sortKey, sortDir);
+  var head = "<thead><tr>" + TABLE_COLS.map(function(c){
+    var cur = c[0] === sortKey ? (sortDir === "asc" ? "ascending" : "descending") : "none";
+    return '<th scope="col" aria-sort="' + cur + '"' + (c[2] ? ' class="num"' : "") + '><button type="button" data-sort="' + c[0] + '">' + esc(c[1]) + (cur === "none" ? "" : (cur === "ascending" ? " (up)" : " (down)")) + "</button></th>";
+  }).join("") + "</tr></thead>";
+  var body = "<tbody>" + rows.map(function(it){
+    return "<tr>" + TABLE_COLS.map(function(c, ci){
+      var v = cellValue(it, c[0]);
+      var txt = v === null ? "" : esc(c[0] === "pass_pct" ? passText(v) : v);
+      return "<td" + (c[2] ? ' class="num"' : "") + ">" + (ci === 1 ? '<button type="button" data-id="' + esc(it.id) + '">' + txt + "</button>" : txt) + "</td>";
+    }).join("") + "</tr>";
+  }).join("") + "</tbody>";
+  $("tbl").innerHTML = head + body;
+  $("tcount").textContent = filtered.length + " of " + items.length + " barriers";
+}
+$("tbl").addEventListener("click", function(ev){
+  var s = ev.target.closest("button[data-sort]");
+  if (s){
+    var k = s.dataset.sort;
+    if (k === sortKey) sortDir = sortDir === "asc" ? "desc" : "asc"; else { sortKey = k; sortDir = k === "total" ? "desc" : "asc"; }
+    drawTable(); return;
+  }
+  var b = ev.target.closest("button[data-id]");
+  if (b){
+    var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
+    if (it) selectItem(it, { from:"table" });
+  }
+});
+function toggleTable(open){
+  var d = $("drawer");
+  d.hidden = open === undefined ? !d.hidden : !open;
+  $("btnTable").setAttribute("aria-pressed", String(!d.hidden));
+  if (!d.hidden) drawTable();
+}
+$("btnTable").addEventListener("click", function(){ toggleTable(); });
+$("closeTable").addEventListener("click", function(){ toggleTable(false); $("btnTable").focus(); });
+function downloadText(text, mime, name){
+  var blob = new Blob([text], { type:mime });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+}
+$("csvBtn").addEventListener("click", function(){
+  downloadText(csvOf(sortItems(filtered, sortKey, sortDir)), "text/csv", "wria14_barriers_filtered.csv");
+});
+
+/* filters: state, controls, chips */
+var refreshTimer = null;
+function refresh(){
+  filtered = applyFilters(items, st);
+  var n = filtered.length;
+  $("count").textContent = n + " of " + items.length + " barriers";
+  var nf = activeFilterCount(st);
+  $("fCount").hidden = !nf; $("fCount").textContent = nf;
+  $("sheetDone").textContent = n === 1 ? "Show 1 barrier" : "Show " + n + " barriers";
+  drawChips(); drawMarkers(); drawList(); updateStepper();
+  if (!$("drawer").hidden) drawTable();
+  writeHash();
+}
+function refreshSoon(){ clearTimeout(refreshTimer); refreshTimer = setTimeout(refresh, 120); }
+function drawChips(){
+  var box = $("chips"), chips = activeChips(st);
+  box.innerHTML = "";
+  chips.forEach(function(c){
+    var el = document.createElement("span"); el.className = "fchip";
+    el.innerHTML = "<span>" + esc(c.label) + '</span><button type="button" data-chip="' + c.key + '" aria-label="Remove filter: ' + esc(c.label) + '"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10"/></svg></button>';
+    box.appendChild(el);
+  });
+  if (chips.length > 1){
+    var b = document.createElement("button"); b.type = "button"; b.className = "clearall"; b.dataset.chip = "all"; b.textContent = "Clear all";
+    box.appendChild(b);
+  }
+}
+function clearFilter(key){
+  var d = defaultFilters();
+  if (key === "all") st = d;
+  else if (key === "tier") st.tiers = d.tiers;
+  else if (key === "score"){ st.min = null; st.max = null; }
+  else if (key === "own") st.ownersOff = {};
+  else if (key === "survey") st.sPreset = "";
+  else if (key === "dates"){ st.sFrom = null; st.sTo = null; }
+  else if (key === "pot") st.pot = {};
+  else if (key === "use") st.use = {};
+  else if (key === "fill"){ st.fMin = null; st.fMax = null; }
+  else if (key === "ftype") st.ftype = "";
+  syncUi(); refresh();
+}
+$("chips").addEventListener("click", function(ev){
+  var b = ev.target.closest("button[data-chip]");
+  if (b) clearFilter(b.dataset.chip);
+});
+function syncUi(){
+  $("q").value = st.q;
+  updatePlaceBox();
+  $("smin").value = st.min === null ? "" : st.min; $("smax").value = st.max === null ? "" : st.max;
+  $("ftype").value = st.ftype;
+  $("sPreset").value = st.sPreset;
+  $("sFrom").value = st.sFrom === null ? "" : isoOf(st.sFrom); $("sTo").value = st.sTo === null ? "" : isoOf(st.sTo);
+  $("fMin").value = st.fMin === null ? "" : st.fMin; $("fMax").value = st.fMax === null ? "" : st.fMax;
+  document.querySelectorAll("#tierBox input").forEach(function(i){ i.checked = !!st.tiers[i.dataset.key]; });
+  document.querySelectorAll("#ownerBox input").forEach(function(i){ i.checked = !st.ownersOff[i.dataset.key]; });
+  document.querySelectorAll("#potBox input").forEach(function(i){ i.checked = !!st.pot[i.dataset.key]; });
+  document.querySelectorAll("#useBox input").forEach(function(i){ i.checked = !!st.use[i.dataset.key]; });
+  $("sortSel").value = listMode;
+}
+function chkRow(host, key, labelHtml, countText, checked, onchange){
+  var lab = document.createElement("label"); lab.className = "chk";
+  lab.innerHTML = '<input type="checkbox"' + (checked ? " checked" : "") + ' data-key="' + esc(key) + '">' + labelHtml + (countText !== null ? '<span class="n">' + countText + "</span>" : "");
+  lab.firstChild.addEventListener("change", onchange);
+  host.appendChild(lab);
+}
+function buildFilterUi(){
+  TIERS.forEach(function(t){
+    var n = items.filter(function(it){ return it.tier.key === t.key; }).length;
+    chkRow($("tierBox"), t.key, '<span class="swatch" style="background:' + t.color + '"></span><span>' + esc(t.label) + "</span>", n, true, function(){ st.tiers[t.key] = this.checked; refresh(); });
+  });
+  var counts = {};
+  items.forEach(function(it){ var o = it.p.owner || "Unknown"; counts[o] = (counts[o] || 0) + 1; });
+  Object.keys(counts).sort(function(a, b){ return counts[b] - counts[a]; }).forEach(function(o){
+    chkRow($("ownerBox"), o, "<span>" + esc(o) + "</span>", counts[o], true, function(){ st.ownersOff[o] = !this.checked; refresh(); });
+  });
+  var ft = {};
+  items.forEach(function(it){ if (it.p.ftype) ft[it.p.ftype] = (ft[it.p.ftype] || 0) + 1; });
+  Object.keys(ft).sort(function(a, b){ return ft[b] - ft[a]; }).forEach(function(f){
+    var op = document.createElement("option"); op.value = f; op.textContent = f + " (" + ft[f] + ")"; $("ftype").appendChild(op);
+  });
+  ["chinook","coho","steelhead","chum","cutthroat"].forEach(function(s){
+    chkRow($("useBox"), s, "<span>" + s.charAt(0).toUpperCase() + s.slice(1) + "</span>", null, false, function(){ st.use[s] = this.checked; refresh(); });
+  });
+  var pc = {}, pname = {};
+  items.forEach(function(it){ it.pot.forEach(function(x){ var k = x.toLowerCase(); pc[k] = (pc[k] || 0) + 1; if (!pname[k]) pname[k] = x; }); });
+  var pk = Object.keys(pc).sort(function(a, b){ return pc[b] - pc[a]; });
+  $("potGroup").hidden = !pk.length;
+  pk.forEach(function(k){
+    chkRow($("potBox"), k, "<span>" + esc(pname[k]) + "</span>", pc[k], false, function(){ st.pot[k] = this.checked; refresh(); });
+  });
+  $("surveyGroup").hidden = !items.some(function(it){ return it.survey !== null; });
+  var withFill = items.filter(function(it){ return it.fill !== null; });
+  $("fillGroup").hidden = !withFill.length;
+  if (withFill.length) $("fillNote").textContent = withFill.length + " of " + items.length + " barriers have road fill data. Barriers without it are hidden while this filter is set.";
+}
+$("q").addEventListener("input", function(){ st.q = this.value; updatePlaceBox(); refreshSoon(); });
+$("smin").addEventListener("input", function(){ st.min = this.value === "" ? null : Number(this.value); refreshSoon(); });
+$("smax").addEventListener("input", function(){ st.max = this.value === "" ? null : Number(this.value); refreshSoon(); });
+$("ftype").addEventListener("change", function(){ st.ftype = this.value; refresh(); });
+$("sPreset").addEventListener("change", function(){ st.sPreset = this.value; refresh(); });
+$("sFrom").addEventListener("change", function(){ st.sFrom = this.value ? parseDate(this.value) : null; refresh(); });
+$("sTo").addEventListener("change", function(){ st.sTo = this.value ? parseDate(this.value) + 864e5 - 1 : null; refresh(); });
+$("fMin").addEventListener("input", function(){ st.fMin = this.value === "" ? null : Number(this.value); refreshSoon(); });
+$("fMax").addEventListener("input", function(){ st.fMax = this.value === "" ? null : Number(this.value); refreshSoon(); });
+function openSheet(){ if (document.querySelector(".finder").classList.contains("compact")) setCompact(false); $("filters").hidden = false; $("fToggle").setAttribute("aria-expanded", "true"); var f = $("filters").querySelector("summary"); if (f) f.focus(); }
+function closeSheet(){ $("filters").hidden = true; $("fToggle").setAttribute("aria-expanded", "false"); $("fToggle").focus(); }
+$("fToggle").addEventListener("click", function(){ $("filters").hidden ? openSheet() : closeSheet(); });
+$("sheetDone").addEventListener("click", closeSheet);
+$("sheetReset").addEventListener("click", function(){ clearFilter("all"); });
+document.addEventListener("keydown", function(e){
+  if (e.key !== "Escape" || $("about").open) return;
+  if (!$("tour").hidden){ endTour(); return; }
+  if (!$("filters").hidden){ closeSheet(); return; }
+  if (!$("layersPop").hidden){ toggleLayers(false); return; }
+  if (selected) clearSelection();
+});
+
+/* map bar, layers, legend */
+function buildMapBar(){
+  $("tierkey").innerHTML = TIERS.map(function(t){
+    return '<span><i class="swatch" style="background:' + t.color + '"></i>' + esc(t.label) + "</span>";
+  }).join("");
+  $("symKey").innerHTML = '<h3>Selected barrier</h3>' +
+    '<div class="lg"><span class="key up"></span><span>Upstream stream</span></div>' +
+    '<div class="lg"><span class="key dn"></span><span>Downstream path</span></div>' +
+    '<div class="lg"><span class="key tri u"></span><span>Upstream barrier</span></div>' +
+    '<div class="lg"><span class="key tri d"></span><span>Downstream barrier</span></div>' +
+    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Lowest passability barrier (larger, bold outline)</span></div>' +
+    '<p class="note" style="margin:6px 0 0">Triangles take the fill color of their tier. Small arrows show the direction of flow. Hover a larger triangle for its distance.</p>';
+  $("baseBox").innerHTML = "";
+  BASEMAPS.forEach(function(b, i){
+    var lab = document.createElement("label"); lab.className = "chk";
+    lab.innerHTML = '<input type="radio" name="base" value="' + b.id + '"' + (i === 0 ? " checked" : "") + "><span>" + esc(b.name) + "</span>";
+    lab.firstChild.addEventListener("change", function(){ setBase(b.id); });
+    $("baseBox").appendChild(lab);
+  });
+}
+function toggleLayers(open){
+  var pop = $("layersPop");
+  pop.hidden = open === undefined ? !pop.hidden : !open;
+  $("layersBtn").setAttribute("aria-expanded", String(!pop.hidden));
+}
+$("layersBtn").addEventListener("click", function(){ toggleLayers(); });
+$("lyrStreams").addEventListener("change", function(){ this.checked ? map.addLayer(streamLayer) : map.removeLayer(streamLayer); });
+$("lyrBasin").addEventListener("change", function(){ this.checked ? map.addLayer(basinLayer) : map.removeLayer(basinLayer); });
+$("lyrHill").addEventListener("change", function(){
+  if (this.checked){
+    hillLayer = L.tileLayer(HILLSHADE.url, { attribution:HILLSHADE.attr, opacity:0.5, maxZoom:19, maxNativeZoom:HILLSHADE.nat }).addTo(map);
+  } else if (hillLayer){ map.removeLayer(hillLayer); hillLayer = null; }
+});
+
+function buildAbout(){
+  var h = '<img class="logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group">';
+  h += "<p>This map ranks fish passage barriers in WRIA 14 by the benefit of fixing them. Each barrier is scored on up to " + CONFIG.maxScore + " points across five groups of measures. A higher score is a higher priority. Map published by South Puget Sound Salmon Enhancement Group.</p>";
+  h += '<table><thead><tr><th scope="col">Group</th><th scope="col" class="num">Points</th></tr></thead><tbody>';
+  CATEGORIES.forEach(function(c){
+    h += "<tr><td><b>" + esc(c.name) + '</b><br><span style="color:var(--muted)">' + esc(c.metrics) + '</span></td><td class="num">' + c.max + "</td></tr>";
+  });
+  h += "</tbody></table><p><b>Connected barriers.</b> When you select a barrier, the map highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down, so they can be told apart without color. Arrows show the direction of flow.</p>";
+  if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review. Their upstream and downstream results may be wrong until the locations are checked.</p>";
+  var rows = [];
+  if (meta.run_label) rows.push(["Model run", meta.run_label]);
+  if (meta.network) rows.push(["Stream network", meta.network]);
+  if (meta.wdfw_pull) rows.push(["WDFW barrier data", meta.wdfw_pull]);
+  if (meta.generated) rows.push(["Last updated", meta.generated]);
+  rows.push(["Barriers shown", String(items.length)]);
+  h += "<table><tbody>" + rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
+  if (CONFIG.contactEmail) h += '<p>Questions or corrections: <a href="mailto:' + esc(CONFIG.contactEmail) + '">' + esc(CONFIG.contactEmail) + "</a></p>";
+  h += '<p><button type="button" class="btn" id="aboutTour">Take the quick tour</button></p>';
+  $("aboutBody").innerHTML = h;
+  $("aboutTour").addEventListener("click", function(){
+    if (typeof about.close === "function") about.close(); else about.removeAttribute("open");
+    startTour();
+  });
+}
+var about = $("about");
+$("btnAbout").addEventListener("click", function(){ typeof about.showModal === "function" ? about.showModal() : about.setAttribute("open", ""); });
+$("aboutClose").addEventListener("click", function(){ typeof about.close === "function" ? about.close() : about.removeAttribute("open"); $("btnAbout").focus(); });
+$("hcChk").addEventListener("change", function(){
+  document.body.classList.toggle("hc", this.checked);
+  if (this.checked){
+    setBase("gray");
+    var r = document.querySelector('input[name="base"][value="gray"]'); if (r) r.checked = true;
+  }
+  drawMarkers();
+});
+function copyLink(){
+  writeHash();
+  var url = location.href;
+  function done(){ status("Link copied. It reopens this barrier, these filters and this view."); }
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ window.prompt("Copy this link", url); });
+  else window.prompt("Copy this link", url);
+}
+$("btnCopy").addEventListener("click", copyLink);
+
+/* quick tour for first time visitors */
+var TOUR = [
+  { title:"Click a barrier", text:"Click any dot on the map, or any row in the list. The map then shows the stream above it, the path below it, and the barriers along both.", hl:".finder" },
+  { title:"Switch tabs", text:"Overview has the score, the site facts and the species. Score shows how the points add up. Network lists the connected barriers and the lowest passability ones.", hl:"#dTabs" },
+  { title:"Print or share", text:"Print summary makes a one page sheet with a map. Copy link reopens this barrier, these filters and this view. WDFW report opens the site report.", hl:"#dFoot" }
+];
+var tourStep = -1;
+function tourSeen(){ try { return localStorage.getItem("wria14_tour") === "1"; } catch (e) { return false; } }
+function tourMark(){ try { localStorage.setItem("wria14_tour", "1"); } catch (e) {} }
+function tourClearHl(){ document.querySelectorAll(".tour-hl").forEach(function(x){ x.classList.remove("tour-hl"); }); }
+function showTour(i){
+  tourStep = i;
+  var t = TOUR[i];
+  $("tour").hidden = false;
+  if (i >= 1 && !selected && items.length) selectItem(items[0], { from:"tour" });
+  if (i === 1) setTab("overview");
+  $("tourStep").textContent = (i + 1) + " of " + TOUR.length;
+  $("tourTitle").textContent = t.title; $("tourText").textContent = t.text;
+  $("tourBack").disabled = i === 0;
+  $("tourNext").textContent = i === TOUR.length - 1 ? "Done" : "Next";
+  tourClearHl();
+  var h = document.querySelector(t.hl); if (h && !(h.id === "dTabs" && $("detail").hidden)) h.classList.add("tour-hl");
+  say("Quick tour, step " + (i + 1) + " of " + TOUR.length + ". " + t.title + ". " + t.text);
+}
+function startTour(){ showTour(0); $("tourTitle").focus({ preventScroll:true }); }
+function endTour(){ $("tour").hidden = true; tourStep = -1; tourClearHl(); tourMark(); }
+$("tourNext").addEventListener("click", function(){ if (tourStep >= TOUR.length - 1) endTour(); else showTour(tourStep + 1); });
+$("tourBack").addEventListener("click", function(){ if (tourStep > 0) showTour(tourStep - 1); });
+$("tourSkip").addEventListener("click", endTour);
+API.tour = { start:startTour, step:function(){ return tourStep; }, seen:tourSeen };
+
+/* find a place */
+var placeLayer = L.layerGroup().addTo(map), places = [], placeBusy = false;
+function pinIcon(){
+  return L.divIcon({ className:"pin-icon", iconSize:[28, 36], iconAnchor:[14, 34], popupAnchor:[0, -34],
+    html:'<svg width="28" height="36" viewBox="0 0 28 36" aria-hidden="true"><path d="M14 1C7 1 2 6.200 2 12.800 2 21.500 14 35 14 35s12-13.500 12-22.200C26 6.200 21 1 14 1z" fill="#1b3f95" stroke="#ffffff" stroke-width="2"/><circle cx="14" cy="12.500" r="4.500" fill="#ffffff"/></svg>' });
+}
+function updatePlaceBox(){
+  var q = st.q.trim(), show = q.length >= 3;
+  $("placeBox").hidden = !show;
+  $("placeBtnText").textContent = show ? "Find the place \u201c" + q + "\u201d" : "Find a place";
+  if (!show){ $("placeList").innerHTML = ""; $("placeMsg").hidden = true; places = []; }
+}
+function placeMsg(text){ $("placeMsg").textContent = text; $("placeMsg").hidden = !text; }
+function clearPlace(){ placeLayer.clearLayers(); }
+function findPlace(q){
+  if (placeBusy || q.length < 3) return Promise.resolve();
+  placeBusy = true; placeMsg("Searching places"); $("placeList").innerHTML = "";
+  var url = CONFIG.geocoderUrl + "?format=jsonv2&limit=5&countrycodes=us&viewbox=" + CONFIG.geocoderViewbox + "&q=" + encodeURIComponent(q);
+  return fetch(url, { headers:{ "Accept":"application/json" } }).then(function(r){ if (!r.ok) throw new Error("status " + r.status); return r.json(); }).then(function(res){
+    places = res || [];
+    if (!places.length){ placeMsg("No place found. Try adding a town or street name."); return; }
+    if (places.length === 1){ placeMsg(""); goToPlace(places[0]); return; }
+    placeMsg("Choose a place");
+    $("placeList").innerHTML = places.map(function(r, i){
+      var parts = String(r.display_name).split(",");
+      return '<li><button type="button" data-p="' + i + '">' + esc(parts.slice(0, 2).join(",")) + '<span class="s">' + esc(parts.slice(2).join(",").trim()) + "</span></button></li>";
+    }).join("");
+  }).catch(function(){ placeMsg("Place search is not available right now. Check the connection and try again."); })
+    .then(function(){ setTimeout(function(){ placeBusy = false; }, 1100); });   // the free service asks for one search per second
+}
+function goToPlace(r){
+  var lat = parseFloat(r.lat), lng = parseFloat(r.lon);
+  if (!isFinite(lat) || !isFinite(lng)) return;
+  clearPlace();
+  // the typed words were a place name, not a barrier search, so stop filtering barriers by them
+  if (st.q){ st.q = ""; $("q").value = ""; updatePlaceBox(); refresh(); }
+  var shown = applyFilters(items, st), near = nearestBarriers(shown, lat, lng), name = shortPlace(r.display_name);
+  var m = L.marker([lat, lng], { icon:pinIcon(), keyboard:true, zIndexOffset:900 });
+  nameMarker(m, "Place found: " + name + ". Activate to see nearby barriers.");
+  m.bindPopup(placePopupHtml(r.display_name, near, activeFilterCount(st) > 0), { maxWidth:300, autoPanPadding:[30, 30] });
+  placeLayer.addLayer(m);
+  placeMarker = m;
+  flyTo([lat, lng], 14);
+  setTimeout(function(){ if (placeMarker === m) m.openPopup(); }, reduce ? 50 : 900);
+  var within = near.filter(function(n){ return n.mi <= 1; }).length;
+  say(name + ". " + plural(within, "barrier", "barriers") + " within 1 mile.");
+  placeMsg(""); $("placeList").innerHTML = "";
+}
+var placeMarker = null;
+API.getPlaceMarker = function(){ return placeMarker; };
+$("placeBtn").addEventListener("click", function(){ findPlace(st.q.trim()); });
+$("placeList").addEventListener("click", function(ev){
+  var b = ev.target.closest("button[data-p]");
+  if (b && places[+b.dataset.p]) goToPlace(places[+b.dataset.p]);
+});
+$("q").addEventListener("keydown", function(ev){
+  if (ev.key === "Enter" && st.q.trim().length >= 3 && !applyFilters(items, st).length) findPlace(st.q.trim());
+});
+document.addEventListener("click", function(ev){
+  var b = ev.target.closest && ev.target.closest(".pp button");
+  if (!b) return;
+  if (b.dataset.clearplace){ clearPlace(); map.closePopup(); return; }
+  var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
+  if (it){ map.closePopup(); selectItem(it, { from:"map" }); }
+});
+
+/* loading */
+function getJson(url){
+  return fetch(url, { cache:"no-cache" }).then(function(r){ if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
+}
+function loadStreams(url){
+  return getJson(url).then(function(g){
+    net = buildNet(g, items);
+    L.geoJSON(g, { renderer:L.canvas(), style:{ color:"#9db0bd", weight:1, opacity:0.95 }, interactive:false }).addTo(streamLayer);
+  }).catch(function(){ net = null; });
+}
+function start(fc, isDemo, streamsUrl){
+  meta = fc.meta || {};
+  applyMaxPoints(meta.max_points);
+  items = buildModel(fc);
+  if (!items.length) throw new Error("No barrier points in the file");
+  if (isDemo || meta.demo){
+    $("banner").textContent = "Demo data: locations are placeholders.";
+    $("banner").hidden = false;
+  } else if (meta.draft){
+    $("banner").textContent = "Draft results: some barrier locations have not been checked.";
+    $("banner").hidden = false;
+  }
+  if (CONFIG.spreadsheetUrl){ $("dl").href = CONFIG.spreadsheetUrl; $("dl").hidden = false; }
+  buildFilterUi(); buildMapBar(); buildAbout();
+  var init = decodeState(location.hash);
+  st = init.st; listMode = init.sort;
+  syncUi();
+  refresh();
+  if (init.v) map.setView([init.v[0], init.v[1]], init.v[2]); else fitAll();
+  getJson(CONFIG.basinUrl).then(function(g){
+    L.geoJSON(g, { style:{ color:"#142e6e", weight:2.5, dashArray:"2 6", fill:false }, interactive:false }).addTo(basinLayer);
+  }).catch(function(){});
+  return loadStreams(streamsUrl).then(function(){
+    if (init.b){
+      var it = items.filter(function(x){ return x.id === init.b; })[0];
+      if (it) selectItem(it, { from:"hash", zoom:!init.v });
+    } else if (!tourSeen()) startTour();
+  });
+}
+function fail(msg){
+  $("count").textContent = "No data loaded";
+  $("list").innerHTML = '<li class="empty">' + esc(msg) + "</li>";
+}
+$("list").innerHTML = '<li class="empty"><span class="spin" aria-hidden="true"></span>Loading barriers</li>';
+getJson(CONFIG.dataUrl).then(function(fc){ return start(fc, false, CONFIG.streamsUrl); }).catch(function(){
+  getJson(CONFIG.demoUrl).then(function(fc){ return start(fc, true, CONFIG.demoStreamsUrl); }).catch(function(){
+    fail("Could not load barriers.geojson. Run export_webapp_data.py in ArcGIS Pro, save the files next to index.html, and serve the folder from a web server such as GitHub Pages.");
+  });
+});
+})();
+</script>
+</body>
+</html>
