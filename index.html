@@ -97,11 +97,21 @@ button{cursor:pointer}
 #aboutBody ul{margin:6px 0 10px;padding-left:20px}
 #aboutBody li{margin-bottom:6px}
 #aboutBody th[scope="row"]{text-align:left;font-weight:600}
+.fsub{margin:2px 0 6px;font-size:.78rem;font-weight:700;letter-spacing:.02em;color:var(--muted)}
+#natRow{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .hbtns{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 6px}
 .habcard{position:absolute;z-index:940;left:412px;bottom:78px;padding:10px 12px;width:max-content;max-width:480px}
 .basegrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
-#symBox{padding:0}
-#symBox > summary{padding:10px 0;font-size:.8rem;color:var(--muted)}
+#symBox,#moveDet{padding:0}
+#symBox > summary,#moveDet > summary{padding:10px 0;font-size:.8rem;color:var(--muted)}
+#moveDet > div{padding-bottom:8px}
+.lchips{display:flex;flex-wrap:wrap;gap:6px}
+.lchips .chk{position:relative;min-height:0;padding:6px 12px;gap:0;border:1px solid var(--line);border-radius:999px;background:var(--soft);font-size:.86rem;line-height:1.2;transition:background .15s,border-color .15s}
+.lchips .chk[hidden]{display:none}
+.lchips .chk input{position:absolute;opacity:0;width:0;height:0;margin:0}
+.lchips .chk:hover{border-color:var(--faint)}
+.lchips .chk:has(input:checked){background:var(--tint);border-color:var(--accent);color:var(--brand-ink);font-weight:600}
+.lchips .chk:has(input:focus-visible){outline:2px solid var(--brand);outline-offset:2px}
 .mini > summary{padding:8px 2px;font-size:.84rem;color:var(--brand);font-weight:600}
 .mini .drow{font-size:.86rem}
 .habcard[hidden]{display:none}
@@ -272,6 +282,8 @@ details.dd[open] > summary .fsum{display:none}
 details.dd > summary::-webkit-details-marker{display:none}
 details.dd > summary::after{content:"";flex:none;margin-left:auto;width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s;margin-right:4px}
 details.dd[open] > summary::after{transform:rotate(-135deg)}
+details.fg-fixed > summary{cursor:default}
+details.fg-fixed > summary::after{display:none}
 .conn{list-style:none;margin:0 0 10px;padding:0}
 .conn button{text-align:left;background:none;border:0;padding:8px 8px;margin:0 -8px;width:calc(100% + 16px);display:grid;grid-template-columns:1fr auto;gap:0 10px;border-radius:10px}
 .conn button:hover{background:var(--soft)}
@@ -352,6 +364,38 @@ table.net{border-collapse:collapse;width:100%;font-size:.9rem}
 .net thead th,.net thead td{border-top:0;font-size:.8rem;color:var(--muted);font-weight:600;padding-top:2px}
 .net tbody th{font-weight:400;color:var(--muted);padding-left:0;width:32%}
 .net td{font-weight:600}
+.hov-ring{width:34px;height:34px;box-sizing:border-box;border-radius:50%;border:3px solid #16212b;box-shadow:0 0 0 3px rgba(255,255,255,.9),0 0 10px rgba(0,136,173,.75)}
+.lim-icon svg{transition:transform .12s;transform-origin:center}
+.lim-icon.hot svg{transform:scale(1.4);filter:drop-shadow(0 0 4px rgba(0,136,173,.9))}
+.leaflet-tooltip.pill{padding:2px 9px;border-radius:99px;font-size:.78rem}
+.stops{margin-top:10px}
+.stops caption{text-align:left;font-size:.78rem;font-weight:700;color:var(--muted);padding:4px 0}
+.stops thead th{font-size:.76rem;color:var(--muted);font-weight:600;padding-top:2px}
+.stops tbody tr[data-kb]{cursor:pointer}
+.stops tbody tr:hover{background:var(--soft)}
+.s2{font-weight:400;color:var(--muted);font-size:.84rem}
+.kb-box{margin:0 0 6px}
+.kb-sub{margin:8px 0 0;font-size:.78rem;color:var(--muted)}
+.kb-h{display:flex;justify-content:space-between;margin:12px 0 2px;font-size:.76rem;font-weight:700;letter-spacing:.02em;color:var(--muted)}
+.kb-list{list-style:none;margin:0;padding:0}
+.kb{display:grid;grid-template-columns:1fr auto;gap:1px 10px;width:calc(100% + 16px);margin:0 -8px;padding:7px 8px;text-align:left;background:none;border:0;border-radius:10px}
+.kb:hover,.kb:focus-visible{background:var(--soft)}
+.kb-l{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+.kb-tag{padding:1px 7px;border-radius:99px;background:var(--tint);color:var(--brand-ink);font-size:.7rem;font-weight:700}
+.kb-p{font-weight:700;text-align:right}
+.kb-s{grid-column:1 / -1;color:var(--muted);font-size:.82rem}
+.kb-none{margin:2px 0;color:var(--faint);font-size:.88rem}
+.netcount{margin:10px 0 12px;color:var(--muted);font-size:.84rem}
+details.allb{margin-top:12px}
+.gain{margin:6px 0 14px;padding:12px 14px;border-radius:12px;background:var(--tint);border:1px solid var(--tint2)}
+.gain-top b{font-size:1.15rem;color:var(--brand-ink)}
+.gain-top span{color:var(--muted);font-size:.88rem}
+.gain-bar{height:8px;border-radius:99px;background:#fff;margin:8px 0 6px;overflow:hidden}
+.gain-bar i{display:block;height:100%;border-radius:99px;background:#0088ad}
+.gain-note{margin:0;font-size:.84rem;color:var(--muted)}
+.gain-sub{font-size:.76rem;font-weight:700;letter-spacing:.02em;color:var(--muted);margin:10px 0 2px}
+.gain-list button:hover{background:#fff}
+.gain-tag{display:inline-block;margin-left:4px;padding:1px 7px;border-radius:99px;background:#fff;color:var(--brand-ink);font-size:.7rem;font-weight:700;vertical-align:1px}
 .limbtn{background:none;border:0;padding:2px 6px;margin:-2px -6px;text-align:left;border-radius:8px;display:block}
 .limbtn:hover{background:var(--tint)}
 .limbtn b{display:block}
@@ -598,7 +642,7 @@ dialog td.num,dialog th.num{text-align:right}
     <div class="sheet" id="filters" role="dialog" aria-label="Filters" hidden>
       <div class="sheet-head"><h2>Filters</h2><button type="button" class="linkbtn" id="sheetReset">Reset all</button></div>
       <div class="sheet-body">
-        <details class="dd fg" open><summary><span class="ft">Priority tier</span><span class="fsum" data-fsum="tier" hidden></span></summary><div class="fgb" id="tierBox"></div></details>
+        <details class="dd fg fg-fixed" open><summary><span class="ft">Priority tier</span><span class="fsum" data-fsum="tier" hidden></span></summary><div class="fgb" id="tierBox"></div></details>
         <details class="dd fg"><summary><span class="ft">Total score</span><span class="fsum" data-fsum="score" hidden></span></summary><div class="fgb">
           <div class="hist" id="scoreHist">
             <div class="hist-bars"><svg id="histSvg" viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true"></svg></div>
@@ -606,11 +650,54 @@ dialog td.num,dialog th.num{text-align:right}
               <input id="smin" type="range" min="0" max="100" step="1" value="0" aria-label="Minimum score">
               <input id="smax" type="range" min="0" max="100" step="1" value="100" aria-label="Maximum score"></div>
             <div class="hist-read" id="histRead" aria-live="polite"></div>
+            <div class="row2" style="margin-top:10px;align-items:flex-end">
+              <div class="grow"><label class="lbl" for="sminNum">Lowest score</label><input id="sminNum" type="number" inputmode="numeric" step="1" aria-describedby="histRead"></div>
+              <div class="grow"><label class="lbl" for="smaxNum">Highest score</label><input id="smaxNum" type="number" inputmode="numeric" step="1" aria-describedby="histRead"></div>
+            </div>
           </div></div></details>
         <details class="dd fg" id="passGroup"><summary><span class="ft">Passability</span><span class="fsum" data-fsum="pass" hidden></span></summary><div class="fgb">
           <div id="passBox"></div>
           <div class="note">Unknown has no passability rating. Not applicable (N/A) means the table gives none. Modeled as 33% means the model assumed a value, as it did for natural barriers.</div></div></details>
-        <details class="dd fg"><summary><span class="ft">Ownership</span><span class="fsum" data-fsum="own" hidden></span></summary><div class="fgb" id="ownerBox"></div></details>
+        <details class="dd fg" id="netGroup"><summary><span class="ft">Network</span><span class="fsum" data-fsum="net" hidden></span></summary><div class="fgb">
+          <div id="dsBlock">
+            <div class="fsub">Downstream barriers</div>
+            <label class="chk"><input type="radio" name="dsOpt" value="" checked><span>Any</span></label>
+            <label class="chk"><input type="radio" name="dsOpt" value="none"><span>None downstream</span><span class="n" id="dsNoneN"></span></label>
+            <label class="chk"><input type="radio" name="dsOpt" value="some"><span>One or more downstream</span><span class="n" id="dsSomeN"></span></label>
+            <div class="note">From the model's count. With none downstream, a fix opens habitat right away.</div>
+          </div>
+          <div id="uhBlock" style="margin-top:14px">
+            <div class="fsub">Upstream habitat, at least</div>
+            <label class="lbl" for="uhMin">Stream miles upstream</label>
+            <input id="uhMin" type="number" min="0" step="any" inputmode="decimal" placeholder="Miles">
+            <label class="lbl" for="u0Min" style="margin-top:10px">Miles up to the next total barrier</label>
+            <input id="u0Min" type="number" min="0" step="any" inputmode="decimal" placeholder="Miles">
+            <div class="note" id="uhNote"></div>
+          </div></div></details>
+        <details class="dd fg" id="ftGroup"><summary><span class="ft">Feature type</span><span class="fsum" data-fsum="ftype" hidden></span></summary><div class="fgb">
+          <label class="chk" id="natRow" title="Natural features such as waterfalls. They are ranked for the habitat they block but may not be project candidates."><input type="checkbox" id="hideNat"><span>Hide natural barriers</span><span class="n" id="natN"></span></label>
+          <div class="mcombo" id="ftCombo">
+            <div class="mc-chips" id="ftChips"></div>
+            <div class="mc-field"><input id="ftInput" type="text" role="combobox" aria-expanded="false" aria-controls="ftList" aria-autocomplete="list" aria-label="Feature types. Type to search and pick one or more." placeholder="All feature types" autocomplete="off"><button type="button" class="mc-toggle" id="ftToggle" tabindex="-1" aria-label="Show or hide the feature type list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg></button></div>
+            <ul class="mc-list" id="ftList" role="listbox" aria-multiselectable="true" aria-label="Feature types" hidden></ul>
+          </div>
+          <div class="note">Combined types such as Culvert, Fishway count under each part.</div>
+          <div id="fillGroup" hidden style="margin-top:14px"><div class="fsub">Road fill</div>
+            <div class="row2">
+              <input id="fMin" type="number" inputmode="decimal" step="any" placeholder="Min" aria-label="Minimum road fill">
+              <span>to</span>
+              <input id="fMax" type="number" inputmode="decimal" step="any" placeholder="Max" aria-label="Maximum road fill">
+            </div>
+            <div class="note" id="fillNote"></div></div></div></details>
+        <details class="dd fg" id="areaGroup" hidden><summary><span class="ft">Watershed and subbasin</span><span class="fsum" data-fsum="area" hidden></span></summary><div class="fgb">
+          <div id="wsBlock" hidden><div class="fsub">Watershed</div><div id="wsBox" style="max-height:220px;overflow:auto"></div></div>
+          <div id="sbBlock" hidden style="margin-top:14px"><div class="fsub">Subbasin (HUC12)</div><div id="sbBox" style="max-height:220px;overflow:auto"></div></div>
+        </div></details>
+        <details class="dd fg" id="spGroup"><summary><span class="ft">Species</span><span class="fsum" data-fsum="sp" hidden></span></summary><div class="fgb">
+          <div id="potGroup"><div class="fsub">Potential species</div><div class="note" style="margin-top:0">Barriers with any selected species.</div><div id="potBox"></div></div>
+          <div id="useBlock" style="margin-top:14px"><div class="fsub">Fish use recorded</div><div class="note" style="margin-top:0">From SWIFD. Barriers with any selected species.</div><div id="useBox"></div></div>
+        </div></details>
+        <details class="dd fg" id="ownGroup"><summary><span class="ft">Ownership</span><span class="fsum" data-fsum="own" hidden></span></summary><div class="fgb" id="ownerBox"></div></details>
         <details class="dd fg" id="surveyGroup"><summary><span class="ft">Last surveyed</span><span class="fsum" data-fsum="survey" hidden></span></summary><div class="fgb">
           <label class="lbl" for="sPreset">Surveyed</label>
           <select id="sPreset">
@@ -625,24 +712,6 @@ dialog td.num,dialog th.num{text-align:right}
             <div class="grow"><label class="lbl" for="sFrom">From</label><input id="sFrom" type="date"></div>
             <div class="grow"><label class="lbl" for="sTo">To</label><input id="sTo" type="date"></div>
           </div></div></details>
-        <details class="dd fg" id="potGroup"><summary><span class="ft">Potential species</span><span class="fsum" data-fsum="pot" hidden></span></summary><div class="fgb">
-          <div class="note" style="margin-top:0">Barriers with any selected species.</div><div id="potBox"></div></div></details>
-        <details class="dd fg"><summary><span class="ft">Fish use recorded</span><span class="fsum" data-fsum="use" hidden></span></summary><div class="fgb">
-          <div class="note" style="margin-top:0">From SWIFD. Barriers with any selected species.</div><div id="useBox"></div></div></details>
-        <details class="dd fg" id="fillGroup" hidden><summary><span class="ft">Road fill</span><span class="fsum" data-fsum="fill" hidden></span></summary><div class="fgb">
-          <div class="row2">
-            <input id="fMin" type="number" inputmode="decimal" step="any" placeholder="Min" aria-label="Minimum road fill">
-            <span>to</span>
-            <input id="fMax" type="number" inputmode="decimal" step="any" placeholder="Max" aria-label="Maximum road fill">
-          </div>
-          <div class="note" id="fillNote"></div></div></details>
-        <details class="dd fg" id="ftGroup"><summary><span class="ft">Feature type</span><span class="fsum" data-fsum="ftype" hidden></span></summary><div class="fgb">
-          <div class="mcombo" id="ftCombo">
-            <div class="mc-chips" id="ftChips"></div>
-            <div class="mc-field"><input id="ftInput" type="text" role="combobox" aria-expanded="false" aria-controls="ftList" aria-autocomplete="list" aria-label="Feature types. Type to search and pick one or more." placeholder="All feature types" autocomplete="off"><button type="button" class="mc-toggle" id="ftToggle" tabindex="-1" aria-label="Show or hide the feature type list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg></button></div>
-            <ul class="mc-list" id="ftList" role="listbox" aria-multiselectable="true" aria-label="Feature types" hidden></ul>
-          </div>
-          <div class="note">Combined types such as Culvert, Fishway count under each part.</div></div></details>
       </div>
       <div class="sheet-foot"><button type="button" class="primary" id="sheetDone">Show barriers</button></div>
     </div>
@@ -675,14 +744,15 @@ dialog td.num,dialog th.num{text-align:right}
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg>Map options</button>
   </div>
   <div class="popover card" id="layersPop" hidden>
-    <div class="sec"><h3>Layers</h3>
+    <div class="sec"><h3>Layers</h3><div class="lchips">
       <label class="chk" id="wsLayerBox" hidden><input type="checkbox" id="lyrWs"><span>Watersheds</span></label>
       <label class="chk" id="habLayerBox" hidden><input type="checkbox" id="lyrHab"><span>Habitat strategy reaches</span></label>
       <label class="chk"><input type="checkbox" id="lyrStreams" checked><span>Streams</span></label>
       <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
       <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
-    </div>
-    <div class="sec"><h3>Basemap</h3><div id="baseBox" class="basegrid" role="radiogroup" aria-label="Basemap"></div></div>
+    </div></div>
+    <div class="sec"><h3>Basemap</h3><div id="baseBox" class="lchips" role="radiogroup" aria-label="Basemap"></div></div>
+    <details class="dd sec" id="moveDet"><summary>When clicking a barrier</summary><div id="moveBox" role="radiogroup" aria-label="How the map moves when you click a barrier"></div></details>
     <details class="dd sec" id="symBox"><summary>Map symbols</summary><div id="symKey"></div></details>
   </div>
 
@@ -749,6 +819,7 @@ var CONFIG = {
   basinUrl: "basin.geojson",       // optional
   habitatUrl: "habitat.geojson",   // optional: reach polygons with restoration and conservation priority
   watershedsUrl: "watersheds.geojson", // optional: watershed polygons
+  subbasinsUrl: "subbasins.geojson",   // optional: HUC12 subbasin polygons (properties name and huc12)
   // the Habitat Prioritization app (Mason Conservation District); a barrier's location is added to the address so it opens there
   habitatAppUrl: "https://masoncd.maps.arcgis.com/apps/webappviewer/index.html?id=8dc1e29d09334b199fa69fb8a54c1098",
   demoUrl: "demo_barriers.geojson",
@@ -975,8 +1046,48 @@ function connected(net, it){
   var upL = limiting(upB, upDist), dnL = limiting(dnB, dnDist);
   if (upL) upL.path = pathTo(U.prev, upSeg[upL.b.id]);
   if (dnL) dnL.path = pathTo(D.prev, dnSeg[dnL.b.id]);
+  var gain = gainOf(net, it, ub, upDist, upSeg, U, upMi);
+  var firstUp = firstUpOf(net, it, ub, upDist, upSeg, U), firstDn = dnB.length ? { b:dnB[0], d:dnDist[dnB[0].id], path:pathTo(D.prev, dnSeg[dnB[0].id]) } : null;
+  if (firstDn && firstDn.d === undefined) firstDn = null;
+  if (gain.firsts.length) upL = { b:gain.firsts[0].b, d:gain.firsts[0].d, path:gain.firsts[0].path };   // the first total barrier that holds back the most stream
   return { upSegs:up, dnSegs:dn, upMi:upMi, dnMi:dnMi, upBarriers:upB, dnBarriers:dnB,
-           upDist:upDist, dnDist:dnDist, upLimit:upL, dnLimit:dnL };
+           upDist:upDist, dnDist:dnDist, upLimit:upL, dnLimit:dnL, gain:gain, firstUp:firstUp, firstDn:firstDn };
+}
+// walk up every branch from the selected barrier and stop at the first barrier that stopFn accepts
+function frontier(net, it, stopFn){
+  var seen = {}, stack = [], firsts = {}, openMi = 0;
+  it.p.su.forEach(function(s){ if (net.seg[s] && !seen[s]){ seen[s] = true; stack.push(s); } });
+  while (stack.length){
+    var s = stack.pop(), cur = net.seg[s], blocked = {};
+    openMi += cur.mi;
+    (net.bySd[s] || []).forEach(function(b){
+      if (b === it || !stopFn(b)) return;
+      firsts[b.id] = b;
+      b.p.su.forEach(function(x){ blocked[x] = true; });
+    });
+    cur.parents.forEach(function(n){ if (net.seg[n] && !seen[n] && !blocked[n]){ seen[n] = true; stack.push(n); } });
+  }
+  return { seen:seen, firsts:firsts, openMi:openMi };
+}
+function withAbove(net, fr, upDist, upSeg, U){
+  return Object.keys(fr.firsts).filter(function(id){ return upDist[id] !== undefined; }).map(function(id){
+    var b = fr.firsts[id], segs = walk(net, b.p.su, "up"), mi = 0;
+    Object.keys(segs).forEach(function(k){ if (!fr.seen[k]) mi += net.seg[k].mi; });
+    return { b:b, d:upDist[id], above:mi, path:pathTo(U.prev, upSeg[id]) };
+  }).sort(function(a, c){ return (c.above - a.above) || (a.d - c.d); });
+}
+// stream that opens if this barrier is fixed: stop at the first total barrier (0 percent passable) on each branch
+function gainOf(net, it, ub, upDist, upSeg, U, upMi){
+  var fr = frontier(net, it, function(b){ return isNum(b.p.pass_pct) && b.p.pass_pct === 0; });
+  var list = withAbove(net, fr, upDist, upSeg, U);
+  var partial = Object.keys(ub).filter(function(id){ return upSeg[id] !== undefined && fr.seen[upSeg[id]] && !fr.firsts[id]; }).length;
+  return { openMi:fr.openMi, blockedMi:Math.max(0, upMi - fr.openMi), openSegs:fr.seen, firsts:list, partial:partial };
+}
+// the first barrier of any passability on each upstream branch; with a fork, the one holding back the most stream
+function firstUpOf(net, it, ub, upDist, upSeg, U){
+  var fr = frontier(net, it, function(){ return true; });
+  var list = withAbove(net, fr, upDist, upSeg, U);
+  return list.length ? { b:list[0].b, d:list[0].d, above:list[0].above, path:list[0].path, others:list.length - 1 } : null;
 }
 function hasNet(it){ return it.p.su.length + it.p.sd.length > 0; }
 
@@ -1011,9 +1122,10 @@ function passKeyP(p){
   return passKey(p.pass_pct);
 }
 var NO_WS = "Not in a mapped watershed";
+var sbPolys = [], sbNames = {};
 function defaultFilters(){
   return { q:"", tiers:{top:true,high:true,med:true,low:true}, min:null, max:null, ownersOff:{}, ftypes:{}, pass:{}, ws:{}, rc:{}, rest:{}, cons:{}, use:{},
-           pot:{}, sPreset:"", sFrom:null, sTo:null, fMin:null, fMax:null };
+           pot:{}, sPreset:"", sFrom:null, sTo:null, fMin:null, fMax:null, nat:false, ds:"", uh:null, u0:null, sb:{} };
 }
 function onKeys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
 function activeChips(st){
@@ -1044,6 +1156,12 @@ function activeChips(st){
   var uk = onKeys(st.use);
   if (uk.length) c.push({ key:"use", label:"Fish use: " + uk.map(function(k){ return k.charAt(0).toUpperCase() + k.slice(1); }).join(", ") });
   if (st.fMin !== null || st.fMax !== null) c.push({ key:"fill", label:"Road fill " + (st.fMax === null ? st.fMin + " " + CONFIG.roadFillUnit + " or more" : (st.fMin === null ? "up to " + st.fMax + " " + CONFIG.roadFillUnit : st.fMin + " to " + st.fMax + " " + CONFIG.roadFillUnit)) });
+  if (st.ds) c.push({ key:"ds", label:st.ds === "none" ? "None downstream" : "Has downstream barriers" });
+  if (st.uh !== null) c.push({ key:"uh", label:"Upstream " + st.uh + " mi or more" });
+  if (st.u0 !== null) c.push({ key:"u0", label:"Next total barrier " + st.u0 + " mi or more" });
+  if (st.nat) c.push({ key:"nat", label:"Natural barriers hidden" });
+  var sbk = onKeys(st.sb);
+  if (sbk.length) c.push({ key:"sb", label:"Subbasin: " + (sbk.length <= 2 ? sbk.map(function(k){ return sbNames[k] || k; }).join(" or ") : sbk.length + " subbasins") });
   var fk = onKeys(st.ftypes);
   if (fk.length) c.push({ key:"ftype", label:"Type: " + (fk.length <= 2 ? fk.join(" or ") : fk.length + " types") });
   return c;
@@ -1052,7 +1170,7 @@ function activeFilterCount(st){ return activeChips(st).length; }
 function applyFilters(items, st, now){
   now = now || Date.now();
   var yr = 365.25 * 864e5;
-  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use), ftKeys = onKeys(st.ftypes), paKeys = onKeys(st.pass), rsKeys = onKeys(st.rest), cnKeys = onKeys(st.cons), wsKeys = onKeys(st.ws), rcKeys = onKeys(st.rc);
+  var potKeys = onKeys(st.pot), useKeys = onKeys(st.use), ftKeys = onKeys(st.ftypes), paKeys = onKeys(st.pass), rsKeys = onKeys(st.rest), cnKeys = onKeys(st.cons), wsKeys = onKeys(st.ws), rcKeys = onKeys(st.rc), sbKeys = onKeys(st.sb);
   var q = st.q.trim().toLowerCase();
   return items.filter(function(it){
     var p = it.p;
@@ -1064,6 +1182,11 @@ function applyFilters(items, st, now){
     if (paKeys.length && !st.pass[passKeyP(p)]) return false;
     if (wsKeys.length && !st.ws[p.watershed || NO_WS]) return false;
     if (rcKeys.length && !(it.reach && st.rc[reachKey(it.reach)])) return false;
+    if (sbKeys.length && !st.sb[p.huc12 || ""]) return false;
+    if (st.nat && it.natural) return false;
+    if (st.ds){ if (!isNum(p.ds_count)) return false; if (st.ds === "none" ? p.ds_count !== 0 : p.ds_count === 0) return false; }
+    if (st.uh !== null && !(isNum(p.us_dist) && p.us_dist >= st.uh)) return false;
+    if (st.u0 !== null && !(isNum(p.us_dist_0pass) && p.us_dist_0pass >= st.u0)) return false;
     if (rsKeys.length && !(it.reach && st.rest[lvKey(it.reach.rest)])) return false;
     if (cnKeys.length && !(it.reach && st.cons[lvKey(it.reach.prot)])) return false;
     if (useKeys.length && !useKeys.some(function(k){ return isNum(p["use_" + k]) && p["use_" + k] > 0; })) return false;
@@ -1120,6 +1243,11 @@ function encodeState(st, extra){
   if (st.sTo !== null) p.set("sto", isoOf(st.sTo));
   if (st.fMin !== null) p.set("fmin", String(st.fMin));
   if (st.fMax !== null) p.set("fmax", String(st.fMax));
+  if (st.nat) p.set("nn", "1");
+  if (st.ds) p.set("ds", st.ds);
+  if (st.uh !== null) p.set("uh", String(st.uh));
+  if (st.u0 !== null) p.set("u0", String(st.u0));
+  var sbl = onKeys(st.sb); if (sbl.length) p.set("sb", sbl.join("|"));
   if (extra.sort && extra.sort !== "rank") p.set("sort", extra.sort);
   if (extra.v) p.set("v", extra.v);
   return p.toString();
@@ -1145,6 +1273,10 @@ function decodeState(str){
   var sf = parseDate(p.get("sf")); if (sf !== null) st.sFrom = sf;
   var sto = parseDate(p.get("sto")); if (sto !== null) st.sTo = sto + 864e5 - 1;
   st.fMin = num("fmin"); st.fMax = num("fmax");
+  st.nat = p.get("nn") === "1";
+  var dsv = p.get("ds"); if (dsv === "none" || dsv === "some") st.ds = dsv;
+  st.uh = num("uh"); st.u0 = num("u0");
+  (p.get("sb") || "").split("|").forEach(function(k){ if (k) st.sb[k] = true; });
   var sort = p.get("sort"); if (sort && SORTS[sort]) out.sort = sort;
   var v = (p.get("v") || "").split(",").map(Number);
   if (v.length === 3 && v.every(isFinite)) out.v = v;
@@ -1185,14 +1317,21 @@ function sortItems(list, key, dir){
   });
   return out;
 }
-function csvOf(list){
+function filterSummary(st){
+  if (!st) return "";
+  var parts = activeChips(st).map(function(c){ return c.label; });
+  if (st.q && String(st.q).trim()) parts.unshift("Search: " + String(st.q).trim());
+  return parts.length ? parts.join("; ") : "None (all barriers)";
+}
+function csvOf(list, st){
   var scoreKeys = [].concat.apply([], CATEGORIES.map(function(c){ return c.keys; }));
   var keys = ["id","rank","total","pct"].concat(FIELDS.map(function(f){ return f[0]; })).concat(scoreKeys).concat(["pass_class"]);
-  var labels = ["Barrier ID","Rank","Total score","Percentile"].concat(FIELDS.map(function(f){ return f[1]; })).concat(scoreKeys.map(function(k){ return "Score " + k.slice(2); })).concat(["Passability class"]);
+  var fsum = st ? filterSummary(st) : null;
+  var labels = ["Barrier ID","Rank","Total score","Percentile"].concat(FIELDS.map(function(f){ return f[1]; })).concat(scoreKeys.map(function(k){ return "Score " + k.slice(2); })).concat(["Passability class"]).concat(st ? ["Filters applied"] : []);
   function q(v){ v = (v === null || v === undefined) ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
   var lines = [labels.map(q).join(",")];
   list.forEach(function(it){
-    lines.push(keys.map(function(k){ return k === "id" ? q(it.id) : (k === "rank" ? q(it.rank) : (k === "pass_class" ? q(passClassP(it.p)) : q(it.p[k]))); }).join(","));
+    lines.push(keys.map(function(k){ return k === "id" ? q(it.id) : (k === "rank" ? q(it.rank) : (k === "pass_class" ? q(passClassP(it.p)) : q(it.p[k]))); }).concat(st ? [q(fsum)] : []).join(","));
   });
   return lines.join("\r\n");
 }
@@ -1234,7 +1373,7 @@ function fieldVal(f, p){
 function distText(d, dir){ return d === undefined ? "" : (d < 0.1 ? Math.round(d * 5280).toLocaleString() + " ft " : d.toFixed(1) + " mi ") + dir; }
 function connRow(b, d, dir){
   var pass = passTextP(b.p);
-  return '<li><button type="button" data-id="' + esc(b.id) + '"><span><b>' + esc(b.id) + '</b><br><span class="s">' +
+  return '<li><button type="button" data-id="' + esc(b.id) + '" data-hov="' + esc(b.id) + '" data-hd="' + (dir === "upstream" ? "up" : "dn") + '"><span><b>' + esc(b.id) + '</b><br><span class="s">' +
     esc(b.p.ftype || "Barrier") + ", " + esc(pass) + '</span></span><span class="s" style="text-align:right">' + esc(distText(d, dir)) + "<br>Rank " + b.rank + "</span></button></li>";
 }
 function symSvg(kind){
@@ -1243,7 +1382,7 @@ function symSvg(kind){
     dn:'<svg width="20" height="10" aria-hidden="true"><line x1="2" y1="5" x2="18" y2="5" stroke="#6a1f8f" stroke-width="4" stroke-linecap="round" stroke-dasharray="5 3"/></svg>',
     ub:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><polygon points="7,1.5 12.5,12 1.5,12" fill="#0088ad"/></svg>',
     db:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><polygon points="1.5,2 12.5,2 7,12.5" fill="#6a1f8f"/></svg>',
-    lim:'<svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><polygon points="16,3 29,27 3,27" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="16,3 29,27 3,27" fill="#e8590c" stroke="#16212b" stroke-width="4" stroke-linejoin="round"/></svg>',
+    lim:'<svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><polygon points="16,3 29,27 3,27" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="16,3 29,27 3,27" fill="#e8590c" stroke="#16212b" stroke-width="4" stroke-linejoin="round"/><line x1=\"10\" y1=\"19\" x2=\"22\" y2=\"19\" stroke=\"#16212b\" stroke-width=\"3.6\" stroke-linecap=\"round\"/></svg>',
     ups:'<svg width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><line x1="2" y1="7" x2="16" y2="7" stroke="#0088ad" stroke-width="4" stroke-linecap="round"/><polygon points="22,1.5 27.5,12 16.5,12" fill="#0088ad"/></svg>',
     dns:'<svg width="28" height="14" viewBox="0 0 28 14" aria-hidden="true"><line x1="2" y1="7" x2="16" y2="7" stroke="#6a1f8f" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 3"/><polygon points="16.5,2 27.5,2 22,12.5" fill="#6a1f8f"/></svg>',
     dim:'<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="#aab7c0" opacity=".6"/></svg>'
@@ -1253,12 +1392,24 @@ function symSvg(kind){
 function tchip(id, kind, label, checked){
   return '<label class="tchip"><input type="checkbox" id="' + id + '"' + (checked === false ? "" : " checked") + '><span class="box">' + symSvg(kind) + esc(label) + "</span></label>";
 }
-function limCell(lim, dir){
-  if (!lim) return '<span class="nodata">None known</span>';
-  var d = dir === "dn" ? "downstream" : "upstream";
-  return '<button type="button" class="limbtn" data-limit="' + dir + '" aria-label="Zoom to the stretch to ' + d + " barrier " + esc(lim.b.id) + ", " + esc(passTextP(lim.b.p)) + ", " + esc(distText(lim.d, d)) + '"><b>' +
-    esc(lim.b.id) + '</b><span class="s">' + esc(passTextP(lim.b.p)) + '</span><span class="s">' + esc(distText(lim.d, "").trim()) + "</span></button>";
+function passLabel(p){
+  var k = passKeyP(p), v = p.pass_pct;
+  if (k === "na") return "n/a";
+  if (k === "unknown") return "Unknown";
+  if (k === "assumed") return "~" + v + "%";
+  return v + "%";
 }
+function habMax(p){
+  var m = null;
+  ["chinook", "coho", "steelhead", "chum", "cutthroat"].forEach(function(sp){ var v = p["hab_" + sp]; if (isNum(v) && (m === null || v > m)) m = v; });
+  return m;
+}
+// one label for every barrier tooltip on the map: ID and type, passability, distance and rank, then upstream habitat
+function labelHtml(b, d, dirWord){
+  var p = b.p, k = passKeyP(p), ph = (k === "unknown" || k === "na") ? "passability unknown" : passLabel(p) + " passable";
+  return "<b>" + esc(b.id) + "</b>" + (p.ftype ? ' <span class="tsub">' + esc(p.ftype) + "</span>" : "") + '<br><span class="tsub">' + esc(ph + " \u00b7 " + distText(d, dirWord).trim()) + "</span>";
+}
+function pillHtml(b){ return "<b>" + esc(b.id) + '</b> <span class="tsub">' + esc(passLabel(b.p)) + "</span>"; }
 function shortName(c){ return c.short.charAt(0).toUpperCase() + c.short.slice(1); }
 function scoreCardHtml(it){
   var p = it.p, total = isNum(p.total) ? p.total : null;
@@ -1290,7 +1441,7 @@ function habitatTabHtml(it){
     habRow("Anadromous stream length", isNum(r.anad) ? r.anad.toFixed(1) + " mi" : null));
   h += sec("Reach condition", habRow("Reach area", isNum(r.area) ? r.area.toFixed(2) + " sq mi" : null) + habRow("Stream temperature", cap1(r.temp)) + habRow("Sediment", cap1(r.sed)) +
     habRow("Stream complexity", cap1(r.cx)) + habRow("303(d) listing", cap1(r.t303)));
-  h += '<div class="hbtns"><button type="button" class="btn" data-showreach="1">Show this reach on the map</button>' + link + "</div>";
+  h += '<div class="hbtns"><button type="button" class="btn" data-showreach="1">Zoom to this reach</button>' + link + "</div>";
   return h + '<p class="rnote">From the WRIA 14 freshwater prioritization tool, by reach.</p>';
 }
 function overviewHtml(it, conn){
@@ -1301,7 +1452,7 @@ function overviewHtml(it, conn){
   if (it.snap === "poc_nearest") h += '<p class="warnbox"><b>Location not checked.</b> This barrier was placed on the nearest stream line without review. Its upstream and downstream results may be wrong.</p>';
   if (conn) h += '<div class="glance2"><button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("ups") + ' Upstream</span><b>' + miles(conn.upMi) + '</b><span class="s">' + plural(conn.upBarriers.length, "other barrier", "other barriers") + "</span></button>" +
     '<button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("dns") + ' Downstream</span><b>' + miles(conn.dnMi) + '</b><span class="s">' + plural(conn.dnBarriers.length, "barrier", "barriers") + "</span></button></div>";
-  var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS) + (p.watershed ? detailRows(p, ["watershed"], [], OV_LABELS) : "");
+  var site = detailRows(p, ["ftype", "owner", "pass_pct", "survey_date", "snap_status", "road_fill"], missing, OV_LABELS) + (p.watershed ? detailRows(p, ["watershed"], [], OV_LABELS) : "") + (p.subbasin ? detailRows(p, ["subbasin"], [], OV_LABELS) : "");
   if (site) h += '<section class="dsec"><h4>Site</h4>' + site + "</section>";
   if (it.reach){
     var rr = it.reach, tp = habRow("Reach", rr.reach) + habLevel("Restoration priority", rr.rest, "rest") + habLevel("Conservation priority", rr.prot, "cons");
@@ -1318,20 +1469,79 @@ function connListHtml(conn, dir){
   return '<ul class="conn">' + list.slice(0, cap).map(function(b){ return connRow(b, dm[b.id], up ? "upstream" : "downstream"); }).join("") + "</ul>" +
     (list.length > cap ? '<p class="note">And ' + (list.length - cap) + " more. Use the table for the full list.</p>" : "");
 }
+function keyRows(conn){
+  var firsts = conn.gain ? conn.gain.firsts : [], all = { up:[], dn:[] }, iso = {};
+  firsts.forEach(function(f){ iso[f.b.id] = f.above; });
+  function mk(dir, b, d, path, isolated, others){
+    if (!b || d === undefined) return null;
+    var r = { dir:dir, b:b, d:d, path:path, iso:isolated === undefined ? null : isolated, others:others || 0 };
+    all[dir].push(r);
+    return r;
+  }
+  var out = { all:all, upNext:null, upStops:[], upStopN:firsts.length, upLow:null, dnNext:null, dnLow:null };
+  if (conn.firstUp) out.upNext = mk("up", conn.firstUp.b, conn.firstUp.d, conn.firstUp.path, iso[conn.firstUp.b.id], conn.firstUp.others);
+  firsts.forEach(function(f){
+    if (out.upNext && out.upNext.b === f.b || out.upStops.length >= 6) return;
+    out.upStops.push(mk("up", f.b, f.d, f.path, f.above, 0));
+  });
+  if (!firsts.length && conn.upLimit && (!out.upNext || out.upNext.b !== conn.upLimit.b)) out.upLow = mk("up", conn.upLimit.b, conn.upLimit.d, conn.upLimit.path, null, 0);
+  if (conn.firstDn) out.dnNext = mk("dn", conn.firstDn.b, conn.firstDn.d, conn.firstDn.path, null, 0);
+  if (conn.dnLimit && (!out.dnNext || out.dnNext.b !== conn.dnLimit.b)) out.dnLow = mk("dn", conn.dnLimit.b, conn.dnLimit.d, conn.dnLimit.path, null, 0);
+  return out;
+}
+function keyHtml(conn){
+  var k = keyRows(conn), g = conn.gain;
+  function cell(r, isNext){
+    if (!r) return '<span class="nodata">None known</span>';
+    var up = r.dir === "up", l2 = [passLabel(r.b.p), distText(r.d, "").trim()], l3 = [];
+    if (up){
+      if (r.iso !== null) l3.push(r.iso < 0.05 ? "Headwater" : miles(r.iso) + " isolated");
+      var hm = habMax(r.b.p);
+      if (hm !== null && (hm >= 0.05 || isNext)) l3.push(hm < 0.05 ? "No habitat" : miles(hm) + " habitat");
+      if (r.others) l3.push("+" + plural(r.others, "branch", "branches"));
+    }
+    return '<button type="button" class="limbtn" data-kb="' + r.dir + "|" + esc(r.b.id) + '" data-hov="' + esc(r.b.id) + '" data-hd="' + r.dir + '"><b>' + esc(r.b.id) + '</b><span class="s">' + esc(l2.join(" \u00b7 ")) + "</span>" +
+      (l3.length ? '<span class="s">' + esc(l3.join(" \u00b7 ")) + "</span>" : "") + "</button>";
+  }
+  var upLow = k.upLow ? cell(k.upLow, false) : (k.upStops.length ? '<span class="s2">0%, listed below</span>' : (k.upNext ? '<span class="s2">Same as next</span>' : '<span class="nodata">None known</span>'));
+  var dnLow = k.dnLow ? cell(k.dnLow, false) : (k.dnNext ? '<span class="s2">Same as next</span>' : '<span class="nodata">None known</span>');
+  var h = '<table class="net"><thead><tr><td></td><th scope="col">Upstream</th><th scope="col">Downstream</th></tr></thead><tbody>' +
+    '<tr><th scope="row">Stream</th><td>' + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
+    '<tr><th scope="row">Barriers</th><td>' + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
+    '<tr><th scope="row">Next</th><td>' + cell(k.upNext, true) + "</td><td>" + cell(k.dnNext, true) + "</td></tr>" +
+    '<tr><th scope="row">Lowest</th><td>' + upLow + "</td><td>" + dnLow + "</td></tr></tbody></table>";
+  if (k.upStops.length){
+    var more = k.upStopN - (k.upNext && g.firsts.some(function(f){ return f.b === k.upNext.b; }) ? 1 : 0) - k.upStops.length;
+    h += '<table class="net stops"><caption>Gain ends at ' + plural(k.upStopN, "barrier", "barriers") + " with 0% passability</caption>" +
+      '<thead><tr><th scope="col">Barrier</th><th scope="col">Distance</th><th scope="col">Isolated</th></tr></thead><tbody>' +
+      k.upStops.map(function(r){
+        return '<tr data-kb="up|' + esc(r.b.id) + '" data-hov="' + esc(r.b.id) + '" data-hd="up"><td><button type="button" class="limbtn" data-kb="up|' + esc(r.b.id) + '"><b>' + esc(r.b.id) + "</b></button></td><td>" +
+          esc(distText(r.d, "").trim()) + "</td><td>" + (r.iso < 0.05 ? "Headwater" : esc(miles(r.iso))) + "</td></tr>";
+      }).join("") + "</tbody></table>" + (more > 0 ? '<p class="note">' + more + " more, shown on the map.</p>" : "");
+  }
+  return h;
+}
+function gainHtml(conn){
+  var g = conn.gain, tot = conn.upMi;
+  if (!g) return "";
+  if (tot < 0.05) return '<div class="gain"><p class="gain-note" style="margin:0">No stream upstream of this barrier.</p></div>';
+  var open = g.firsts.length ? g.openMi : tot, pct = Math.max(0, Math.min(100, Math.round(100 * open / tot)));
+  return '<div class="gain"><div class="gain-top"><b>' + miles(open) + "</b><span> of " + miles(tot) + " upstream reconnected (" + pct + '%)</span></div>' +
+    '<div class="gain-bar" role="img" aria-label="' + pct + ' percent of the upstream stream is reconnected"><i style="width:' + pct + '%"></i></div>' +
+    '<p class="gain-note">' + (g.firsts.length ? miles(g.blockedMi) + " isolated above 0% passable barriers" : "No 0% passable barriers upstream") + "</p></div>";
+}
 function networkHtml(conn, hasNetwork, o){
   if (hasNetwork === false) return '<p class="note">The stream network is not loaded, so connected barriers and upstream stream cannot be shown.</p>';
   if (!(hasNetwork === true && conn)) return '<p class="note">This barrier is not connected to the stream network in this model run.</p>';
   var ov = o.ov, dir = o.dir;
-  var h = '<div class="nethead"><h3>Connected network</h3><button type="button" class="linkbtn" id="fitSel">Zoom to network</button></div>';
-  h += '<table class="net"><thead><tr><td></td><th scope="col">Upstream</th><th scope="col">Downstream</th></tr></thead><tbody>' +
-    '<tr><th scope="row">Stream</th><td>' + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
-    '<tr><th scope="row">Barriers</th><td>' + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
-    '<tr><th scope="row"><span aria-hidden="true">Lowest</span><span class="sr">Lowest passability barrier</span></th><td>' + limCell(conn.upLimit, "up") + "</td><td>" + limCell(conn.dnLimit, "dn") + "</td></tr></tbody></table>";
-  h += '<div class="tchips" role="group" aria-label="Show on the map">' + tchip("tgUS", "ups", "Upstream", ov.us) + tchip("tgDS", "dns", "Downstream", ov.ds) +
-       tchip("tgLim", "lim", "Lowest passability", ov.lim) + tchip("tgDim", "dim", "Fade others", ov.dim) + "</div>";
+  var h = '<div class="tchips" role="group" aria-label="Show on the map">' + tchip("tgUS", "ups", "Upstream", ov.us) + tchip("tgDS", "dns", "Downstream", ov.ds) +
+       tchip("tgLim", "lim", "Key barriers", ov.lim) + tchip("tgDim", "dim", "Fade others", ov.dim) + "</div>";
+  h += '<div class="nethead"><h3>Connected network</h3><button type="button" class="linkbtn" id="fitSel">Zoom to network</button></div>';
+  h += gainHtml(conn) + keyHtml(conn);
+  h += '<details class="dd allb"><summary>All barriers (' + conn.upBarriers.length + " up, " + conn.dnBarriers.length + " down)</summary>";
   h += '<div class="seg" role="group" aria-label="Barriers to list"><button type="button" data-dir="up" aria-pressed="' + (dir === "up") + '">Upstream (' + conn.upBarriers.length +
        ')</button><button type="button" data-dir="dn" aria-pressed="' + (dir === "dn") + '">Downstream (' + conn.dnBarriers.length + ")</button></div>";
-  h += '<div id="connListBox">' + connListHtml(conn, dir) + "</div>";
+  h += '<div id="connListBox">' + connListHtml(conn, dir) + "</div></details>";
   h += '<div class="dlrow"><span class="dlt">Download this network</span><button type="button" class="btn" data-dl="geojson">GeoJSON</button><button type="button" class="btn" data-dl="csv">CSV</button></div>';
   return h;
 }
@@ -1670,7 +1880,7 @@ function networkGeoJson(it, conn, net, meta){
 var API = { CONFIG:CONFIG, TIERS:TIERS, CATEGORIES:CATEGORIES, FIELDS:FIELDS, buildModel:buildModel, buildNet:buildNet, connected:connected,
   walk:walk, activeChips:activeChips, activeFilterCount:activeFilterCount, parseDate:parseDate, defaultFilters:defaultFilters,
   applyFilters:applyFilters, orderItems:orderItems, encodeState:encodeState, decodeState:decodeState, whySentence:whySentence,
-  passText:passText, passClass:passClass, typeTokens:typeTokens, passKey:passKey, passKeyP:passKeyP, passTextP:passTextP, parsePass:parsePass, RULES:RULES, ruleCardHtml:ruleCardHtml, reachAt:reachAt, watershedAt:watershedAt, zoomToWatersheds:zoomToWatersheds, accessReaches:accessReaches, habitatTabHtml:habitatTabHtml, cap1:cap1, finishGeo:finishGeo, geoClick:geoClick, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, catScore:catScore, tierOf:tierOf };
+  passText:passText, passClass:passClass, typeTokens:typeTokens, passKey:passKey, passKeyP:passKeyP, passTextP:passTextP, parsePass:parsePass, RULES:RULES, ruleCardHtml:ruleCardHtml, reachAt:reachAt, watershedAt:watershedAt, zoomToWatersheds:zoomToWatersheds, setMoveMode:setMoveMode, moveMode:function(){ return mapMoveMode; }, finishSubbasins:finishSubbasins, accessReaches:accessReaches, habitatTabHtml:habitatTabHtml, cap1:cap1, finishGeo:finishGeo, geoClick:geoClick, nearestBarriers:nearestBarriers, placePopupHtml:placePopupHtml, MEASURES:MEASURES, breakdownHtml:breakdownHtml, scoreTabHtml:scoreTabHtml, overviewHtml:overviewHtml, networkCsv:networkCsv, networkGeoJson:networkGeoJson, safeName:safeName, detailHtml:detailHtml, footHtml:footHtml, connListHtml:connListHtml, printHtml:printHtml, distances:distances, limiting:limiting, sortItems:sortItems, csvOf:csvOf, filterSummary:filterSummary, catScore:catScore, tierOf:tierOf };
 if (typeof window !== "undefined") window.__barrierApp = API;
 if (typeof L === "undefined") return;
 
@@ -1681,6 +1891,7 @@ var items = [], filtered = [], meta = {}, net = null, st = defaultFilters(), lis
 var selected = null, conn = null, sortKey = "rank", sortDir = "asc", measuring = false;
 var ov = { us:true, ds:true, lim:true, dim:true }, detailTab = "overview", listDir = "up";
 var markerById = {};
+API.liveItems = function(){ return items; };     // for the tests
 
 var map = L.map("map", { zoomControl:false, preferCanvas:true, minZoom:6, zoomSnap:0.5, keyboard:true }).setView(CONFIG.center, CONFIG.zoom);
 API.map = map;
@@ -2009,10 +2220,10 @@ function triIcon(fill, edge, up){
   return L.divIcon({ className:"tri-icon", iconSize:[22, 22], iconAnchor:[11, 11],
     html:'<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><polygon points="' + pts + '" fill="' + fill + '" stroke="' + edge + '" stroke-width="2.2" stroke-linejoin="round"/></svg>' });
 }
-function limitIcon(fill, edge, up){
-  var pts = up ? "16,3 29,27 3,27" : "3,5 29,5 16,29";
-  return L.divIcon({ className:"lim-icon", iconSize:[32, 32], iconAnchor:[16, 16],
-    html:'<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><polygon points="' + pts + '" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="' + pts + '" fill="' + fill + '" stroke="' + edge + '" stroke-width="4" stroke-linejoin="round"/></svg>' });
+function limitIcon(fill, edge, up, small, bar){
+  var pts = up ? "16,3 29,27 3,27" : "3,5 29,5 16,29", z = small ? 24 : 32;
+  return L.divIcon({ className:"lim-icon", iconSize:[z, z], iconAnchor:[z / 2, z / 2],
+    html:'<svg width="' + z + '" height="' + z + '" viewBox="0 0 32 32" aria-hidden="true"><polygon points="' + pts + '" fill="#fff" stroke="#fff" stroke-width="9" stroke-linejoin="round"/><polygon points="' + pts + '" fill="' + fill + '" stroke="' + edge + '" stroke-width="4" stroke-linejoin="round"/>' + (bar && up ? '<line x1="10" y1="19" x2="22" y2="19" stroke="#16212b" stroke-width="3.6" stroke-linecap="round"/>' : '') + '</svg>' });
 }
 function clusterIcon(n, up){
   var pts = up ? "16,3 30,28 2,28" : "2,4 30,4 16,29", c = up ? "#0088ad" : "#6a1f8f", ty = up ? 23 : 15;
@@ -2066,7 +2277,11 @@ function drawConnMarkers(){
   connMarkers.clearLayers();
   if (!selected || !conn) return;
   var groups = {}, CELL = 26, skip = {};
-  if (on("tgLim")){ if (conn.upLimit) skip[conn.upLimit.b.id] = true; if (conn.dnLimit) skip[conn.dnLimit.b.id] = true; }
+  if (on("tgLim")){
+    if (conn.gain && conn.gain.firsts.length) conn.gain.firsts.forEach(function(f){ skip[f.b.id] = true; });
+    else if (conn.upLimit) skip[conn.upLimit.b.id] = true;
+    if (conn.dnLimit) skip[conn.dnLimit.b.id] = true;
+  }
   function add(list, up){
     list.forEach(function(b){
       if (skip[b.id]) return;
@@ -2122,10 +2337,40 @@ function drawArrows(){
     });
   });
 }
+var hoverMarker = null;
+// ring and label on the map for a barrier the pointer is over in the sidebar list, whether or not it is clustered
+function hoverBarrier(b, dist, dirWord){
+  if (hoverMarker){ map.removeLayer(hoverMarker); hoverMarker = null; permTip(true); }
+  if (!b) return;
+  hoverMarker = L.marker(b.ll, { icon:L.divIcon({ className:"hov-icon", iconSize:[34, 34], iconAnchor:[17, 17], html:'<div class="hov-ring"></div>' }), interactive:false, keyboard:false, zIndexOffset:900 }).addTo(map);
+  hoverMarker.bindTooltip(labelHtml(b, dist, dirWord), { permanent:true, direction:"auto", offset:[16, 0] }).openTooltip();
+  permTip(false);
+}
+function permTip(show){
+  Object.keys(firstMarkers).forEach(function(k){
+    var r = firstMarkers[k];
+    if (!r.perm || !r.m._map) return;
+    if (show) r.m.openTooltip(); else r.m.closeTooltip();
+  });
+}
+var firstMarkers = {};
 function limitMarkers(){
   limitLayer.clearLayers();
   if (!selected || !conn || !on("tgLim")) return;
-  [[conn.dnLimit, false, "#6a1f8f", "downstream"], [conn.upLimit, true, "#0088ad", "upstream"]].forEach(function(x){
+  var g = conn.gain;
+  firstMarkers = {};
+  if (g && g.firsts.length){
+    g.firsts.forEach(function(f, i){
+      var big = i === 0, m = L.marker(f.b.ll, { icon:limitIcon(f.b.tier.color, "#0088ad", true, !big, true), keyboard:true, zIndexOffset:big ? 500 : 400 });
+      var blocks = distText(f.d, "upstream").trim() + (f.above < 0.05 ? ", headwater" : ", " + miles(f.above) + " isolated");
+      m.bindTooltip(big ? pillHtml(f.b) : labelHtml(f.b, f.d, "upstream"), { direction:"auto", offset:[big ? 14 : 11, 0], permanent:big, className:big ? "pill" : "" });
+      nameMarker(m, "First total barrier upstream, " + f.b.id + ", " + blocks + ". Activate to open it.");
+      m.on("click", function(e){ L.DomEvent.stop(e); selectItem(f.b, { from:"map" }); });
+      firstMarkers[f.b.id] = { m:m, perm:i === 0 };
+      limitLayer.addLayer(m);
+    });
+  }
+  [[conn.dnLimit, false, "#6a1f8f", "downstream"], [g && g.firsts.length ? null : conn.upLimit, true, "#0088ad", "upstream"]].forEach(function(x){
     var lim = x[0];
     if (!lim) return;
     var m = L.marker(lim.b.ll, { icon:limitIcon(lim.b.tier.color, x[2], x[1]), keyboard:true, zIndexOffset:500 });
@@ -2136,10 +2381,20 @@ function limitMarkers(){
   });
 }
 function drawConnected(){
+  hoverBarrier(null);
   upLayer.clearLayers(); dnLayer.clearLayers();
   if (!selected || !conn || !net){ connMarkers.clearLayers(); arrowLayer.clearLayers(); limitLayer.clearLayers(); return; }
   if (on("tgUp")){
-    var u = segLatLngs(conn.upSegs);
+    var g = conn.gain, split = !!(g && g.firsts.length), openSet = {}, blockSet = {};
+    Object.keys(conn.upSegs).forEach(function(k){ (split && !g.openSegs[k] ? blockSet : openSet)[k] = true; });
+    if (split){
+      var bl = segLatLngs(blockSet);
+      if (bl.length){
+        upLayer.addLayer(L.polyline(bl, { color:"#ffffff", weight:6, opacity:0.55, interactive:false, renderer:hiCanvas }));
+        upLayer.addLayer(L.polyline(bl, { color:"#0088ad", weight:3, opacity:0.5, dashArray:"2 7", lineCap:"round", interactive:false, renderer:hiCanvas }));
+      }
+    }
+    var u = segLatLngs(openSet);
     if (u.length){
       if (conn.upLimit && on("tgLim")) upLayer.addLayer(L.polyline(segLatLngs(conn.upLimit.path), { color:"#0088ad", weight:14, opacity:0.22, lineCap:"round", interactive:false, renderer:hiCanvas }));
       upLayer.addLayer(L.polyline(u, { color:"#ffffff", weight:8, opacity:0.9, interactive:false, renderer:hiCanvas }));
@@ -2234,11 +2489,37 @@ function writeHash(){
 function writeHashSoon(){ clearTimeout(hashTimer); hashTimer = setTimeout(writeHash, 350); }
 map.on("moveend", writeHashSoon);
 
-function fitSelected(){
-  if (!selected) return;
+function networkBounds(){
   var b = L.latLngBounds([selected.ll]);
   [upLayer, dnLayer].forEach(function(g){ g.eachLayer(function(l){ if (l.getBounds) b.extend(l.getBounds()); }); });
   connMarkers.eachLayer(function(m){ b.extend(m.getLatLng()); });
+  return b;
+}
+/* how the map moves when a barrier is clicked on the map (the list always frames the whole network):
+   smart  = stay put when the network is already in view, otherwise move gently, never more than one zoom level
+   always = frame the whole network every time
+   stay   = never move, except to bring the barrier back into view */
+var MOVE_KEY = "wria14_mapmove", mapMoveMode = "smart";
+try { var mvSaved = localStorage.getItem(MOVE_KEY); if (mvSaved === "always" || mvSaved === "stay" || mvSaved === "smart") mapMoveMode = mvSaved; } catch (e) {}
+function setMoveMode(v){ mapMoveMode = v; try { localStorage.setItem(MOVE_KEY, v); } catch (e) {} }
+function smartFit(){
+  if (!selected) return;
+  var b = networkBounds(), o = panelPad(), size = map.getSize(), tl = L.point(o.paddingTopLeft), br = L.point(o.paddingBottomRight);
+  var usable = L.bounds(tl, size.subtract(br)), cur = map.getZoom();
+  var net = L.bounds(map.latLngToContainerPoint(b.getNorthWest()), map.latLngToContainerPoint(b.getSouthEast()));
+  var zFit = map.getBoundsZoom(b, false, tl.add(br));
+  if (usable.contains(net) && zFit - cur <= 2) return;                       // already in view and not a speck: do not move
+  var z = Math.max(cur - 1, Math.min(cur + 1, zFit, o.maxZoom || 15));       // at most one level per click
+  var us = usable.getSize(), centre = map.project(b.getCenter(), z), bp = map.project(selected.ll, z), m = 48;
+  var lo = centre.subtract(us.divideBy(2)).add([m, m]), hi = centre.add(us.divideBy(2)).subtract([m, m]);
+  var shift = L.point(Math.min(0, bp.x - lo.x) + Math.max(0, bp.x - hi.x), Math.min(0, bp.y - lo.y) + Math.max(0, bp.y - hi.y));
+  centre = centre.add(shift);                                                // keep the clicked barrier comfortably inside the clear area
+  var view = centre.subtract(usable.getCenter().subtract(size.divideBy(2)));
+  map.setView(map.unproject(view, z), z, reduce ? { animate:false } : { animate:true, duration:0.35 });
+}
+function fitSelected(){
+  if (!selected) return;
+  var b = networkBounds();
   var o = panelPad();
   if (b.getNorthEast().equals(b.getSouthWest())){ flyTo(selected.ll, Math.max(map.getZoom(), 15)); return; }
   if (reduce) map.fitBounds(b, o); else map.flyToBounds(b, Object.assign({ duration:0.8 }, o));
@@ -2393,6 +2674,7 @@ function setTab(name){
     b.setAttribute("aria-selected", String(cur)); b.tabIndex = cur ? 0 : -1;
   });
   document.querySelectorAll("#dBody .tabpanel").forEach(function(pn){ pn.hidden = pn.id !== "tab-" + name; });
+  syncHabitatTab();
 }
 $("dTabs").addEventListener("click", function(ev){
   var b = ev.target.closest(".tab");
@@ -2444,9 +2726,11 @@ function selectItem(it, opt){
   document.body.classList.add("has-detail");
   if (wasHidden && isPhone()) applySheet("detail", "half", true); else updateMapPad();
   if (!compactTouched && window.innerWidth < 1500 && window.innerWidth > 900) setCompact(true);
-  drawRing(); drawConnected(); drawAccess(); applyDim(); updateStepper();
+  drawRing(); drawConnected(); drawAccess(); syncHabitatTab(); applyDim(); updateStepper();
   if (opt.zoom !== false){
-    if (conn) fitSelected(); else flyTo(it.ll, Math.max(map.getZoom(), 15));
+    if (opt.from === "map" && mapMoveMode !== "always"){
+      if (mapMoveMode === "smart" && conn) smartFit(); else ensureVisible(it);
+    } else if (conn) fitSelected(); else flyTo(it.ll, Math.max(map.getZoom(), 15));
   } else if (opt.from === "step" || opt.from === "detail") ensureVisible(it);
   document.querySelectorAll(".item").forEach(function(b){
     var cur = b.dataset.id === it.id;
@@ -2466,7 +2750,7 @@ function selectItem(it, opt){
 }
 function clearSelection(){
   closeFly();
-  selected = null; conn = null; accNow = []; drawAccess();
+  selected = null; conn = null; accNow = []; drawAccess(); syncHabitatTab();
   $("detail").hidden = true;
   document.body.classList.remove("has-detail");
   updateMapPad();
@@ -2478,6 +2762,15 @@ function clearSelection(){
 $("dClose").addEventListener("click", function(){ clearSelection(); $("q").focus(); });
 $("dPrev").addEventListener("click", function(){ step(-1); });
 $("dNext").addEventListener("click", function(){ step(1); });
+function hovFrom(el, on){
+  if (!on || !conn){ hoverBarrier(null); return; }
+  var id = el.dataset.hov, up = el.dataset.hd === "up", it = items.filter(function(x){ return x.id === id; })[0];
+  if (it) hoverBarrier(it, (up ? conn.upDist : conn.dnDist)[id], up ? "upstream" : "downstream");
+}
+$("dBody").addEventListener("mouseover", function(ev){ var c = ev.target.closest("[data-hov]"); if (c) hovFrom(c, true); });
+$("dBody").addEventListener("mouseout", function(ev){ var c = ev.target.closest("[data-hov]"); if (c && !c.contains(ev.relatedTarget)) hovFrom(c, false); });
+$("dBody").addEventListener("focusin", function(ev){ var c = ev.target.closest("[data-hov]"); if (c) hovFrom(c, true); });
+$("dBody").addEventListener("focusout", function(ev){ var c = ev.target.closest("[data-hov]"); if (c) hovFrom(c, false); });
 $("dBody").addEventListener("click", function(ev){
   if (ev.target.closest("#fitSel")){ fitSelected(); return; }
   if (ev.target.closest("button[data-showreach]") && selected && selected.reach){
@@ -2509,6 +2802,19 @@ $("dBody").addEventListener("click", function(ev){
     listDir = sg.dataset.dir;
     document.querySelectorAll("#dBody .seg button").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.dir === listDir)); });
     $("connListBox").innerHTML = connListHtml(conn, listDir);
+    hoverBarrier(null);
+    return;
+  }
+  var kb = ev.target.closest("[data-kb]");
+  if (kb && conn){
+    var cut = kb.dataset.kb.indexOf("|"), kd = kb.dataset.kb.slice(0, cut), kid = kb.dataset.kb.slice(cut + 1);
+    var kr = keyRows(conn).all[kd].filter(function(r){ return r.b.id === kid; })[0];
+    if (kr){
+      var kbb = L.latLngBounds([selected.ll, kr.b.ll]);
+      segLatLngs(kr.path).forEach(function(l){ kbb.extend(l); });
+      var ko = panelPad();
+      if (reduce) map.fitBounds(kbb, ko); else map.flyToBounds(kbb, Object.assign({ duration:0.8 }, ko));
+    }
     return;
   }
   var lb = ev.target.closest("button[data-limit]");
@@ -2625,7 +2931,9 @@ function downloadText(text, mime, name){
   setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
 }
 $("csvBtn").addEventListener("click", function(){
-  downloadText(csvOf(sortItems(filtered, sortKey, sortDir)), "text/csv", "wria14_barriers_filtered.csv");
+  var d = new Date(), z = function(n){ return (n < 10 ? "0" : "") + n; };
+  var stamp = d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + "_" + z(d.getHours()) + z(d.getMinutes());
+  downloadText(csvOf(sortItems(filtered, sortKey, sortDir), st), "text/csv", "wria14_barriers_" + (activeFilterCount(st) || (st.q && String(st.q).trim()) ? "filtered" : "all") + "_" + stamp + ".csv");
 });
 
 /* filters: state, controls, chips */
@@ -2642,11 +2950,11 @@ function refresh(){
   writeHash();
 }
 function refreshSoon(){ clearTimeout(refreshTimer); refreshTimer = setTimeout(refresh, 120); }
-var FG_MAP = { tier:"tier", score:"score", pass:"pass", own:"own", survey:"survey", dates:"survey", pot:"pot", use:"use", fill:"fill", ftype:"ftype", ws:"ws", rc:"hab", rest:"hab", cons:"hab" };
+var FG_MAP = { tier:"tier", score:"score", pass:"pass", own:"own", survey:"survey", dates:"survey", pot:"sp", use:"sp", fill:"ftype", ftype:"ftype", ws:"area", rc:"hab", rest:"hab", cons:"hab", ds:"net", uh:"net", u0:"net", nat:"ftype", sb:"area" };
 function chipValue(c){ return c.label.replace(/^[^:]*:\s*/, "").replace(/^(Score|Road fill|Surveyed)\s+/, ""); }
 function updateGroupSummaries(){
   var by = {};
-  activeChips(st).forEach(function(c){ var g = FG_MAP[c.key]; if (g) (by[g] = by[g] || []).push(chipValue(c)); });
+  activeChips(st).forEach(function(c){ var g = FG_MAP[c.key]; if (g) (by[g] = by[g] || []).push(g === "sp" || g === "area" ? c.label : chipValue(c)); });   // these groups hold two lists, so keep the names
   document.querySelectorAll("#filters .fsum").forEach(function(el){ var v = by[el.dataset.fsum]; el.textContent = v ? v.join("; ") : ""; el.hidden = !v; });
 }
 function drawChips(){
@@ -2673,6 +2981,11 @@ function clearFilter(key){
   else if (key === "pot") st.pot = {};
   else if (key === "use") st.use = {};
   else if (key === "fill"){ st.fMin = null; st.fMax = null; }
+  else if (key === "ds") st.ds = "";
+  else if (key === "uh") st.uh = null;
+  else if (key === "u0") st.u0 = null;
+  else if (key === "nat") st.nat = false;
+  else if (key === "sb") st.sb = {};
   else if (key === "ftype") st.ftypes = {};
   else if (key === "pass") st.pass = {};
   else if (key === "ws") st.ws = {};
@@ -2697,6 +3010,10 @@ function syncUi(){
   $("sPreset").value = st.sPreset;
   $("sFrom").value = st.sFrom === null ? "" : isoOf(st.sFrom); $("sTo").value = st.sTo === null ? "" : isoOf(st.sTo);
   $("fMin").value = st.fMin === null ? "" : st.fMin; $("fMax").value = st.fMax === null ? "" : st.fMax;
+  $("hideNat").checked = !!st.nat;
+  document.querySelectorAll('input[name="dsOpt"]').forEach(function(r){ r.checked = r.value === st.ds; });
+  $("uhMin").value = st.uh === null ? "" : st.uh; $("u0Min").value = st.u0 === null ? "" : st.u0;
+  document.querySelectorAll("#sbBox input").forEach(function(i){ i.checked = !!st.sb[i.dataset.key]; });
   document.querySelectorAll("#tierBox input").forEach(function(i){ i.checked = !!st.tiers[i.dataset.key]; });
   document.querySelectorAll("#ownerBox input").forEach(function(i){ i.checked = !st.ownersOff[i.dataset.key]; });
   document.querySelectorAll("#potBox input").forEach(function(i){ i.checked = !!st.pot[i.dataset.key]; });
@@ -2724,7 +3041,7 @@ function buildFilterUi(){
   PASS_OPTIONS.filter(function(o){ return pcount[o[0]] > 0; }).forEach(function(o){
     chkRow($("passBox"), o[0], "<span>" + esc(o[1]) + "</span>", pcount[o[0]], false, function(){ st.pass[o[0]] = this.checked; refresh(); });
   });
-  buildFtCombo(); buildHist();
+  buildFtCombo(); buildHist(); buildExtraFilters();
   ["chinook","coho","steelhead","chum","cutthroat"].forEach(function(s){
     chkRow($("useBox"), s, "<span>" + s.charAt(0).toUpperCase() + s.slice(1) + "</span>", null, false, function(){ st.use[s] = this.checked; refresh(); });
   });
@@ -2761,6 +3078,8 @@ function histBins(){
 function syncHist(){
   var d = histDomain, lo = st.min === null ? d.min : Math.max(d.min, st.min), hi = st.max === null ? d.max : Math.min(d.max, st.max);
   $("smin").value = lo; $("smax").value = hi;
+  if (document.activeElement !== $("sminNum")) $("sminNum").value = lo;      // do not fight the person who is typing
+  if (document.activeElement !== $("smaxNum")) $("smaxNum").value = hi;
   $("smin").setAttribute("aria-valuetext", "Minimum score " + lo); $("smax").setAttribute("aria-valuetext", "Maximum score " + hi);
   var hb = histBins(), mx = Math.max.apply(null, hb.bins) || 1, W = 300, H = 56, w = W / hb.bins.length, svg = "";
   hb.bins.forEach(function(c, i){
@@ -2779,6 +3098,23 @@ function histInput(which){
   st.min = a <= d.min ? null : a; st.max = b >= d.max ? null : b;
   syncHist(); refreshSoon();
 }
+// typed values: clamp to the scores that exist, keep min at or below max, and blank means no limit
+function histTyped(which){
+  var d = histDomain, el = $(which === "min" ? "sminNum" : "smaxNum"), v = el.value.trim();
+  var lo = Number($("smin").value), hi = Number($("smax").value);
+  if (v === "" || isNaN(Number(v))) v = which === "min" ? d.min : d.max;
+  v = Math.round(Math.max(d.min, Math.min(d.max, Number(v))));
+  if (which === "min"){ lo = v; if (lo > hi) hi = lo; } else { hi = v; if (hi < lo) lo = hi; }
+  $("smin").value = lo; $("smax").value = hi;
+  $("sminNum").value = lo; $("smaxNum").value = hi;
+  histInput(which);
+}
+["sminNum", "smaxNum"].forEach(function(id){
+  var which = id === "sminNum" ? "min" : "max";
+  $(id).addEventListener("focus", function(){ var el = this; setTimeout(function(){ try { el.select(); } catch (e) {} }, 0); });   // typing replaces the number
+  $(id).addEventListener("change", function(){ histTyped(which); });
+  $(id).addEventListener("keydown", function(ev){ if (ev.key === "Enter"){ ev.preventDefault(); histTyped(which); } });
+});
 $("smin").addEventListener("input", function(){ histInput("min"); });
 $("smax").addEventListener("input", function(){ histInput("max"); });
 
@@ -2851,6 +3187,34 @@ document.addEventListener("click", function(ev){ if (!ev.target.isConnected) ret
 $("sPreset").addEventListener("change", function(){ st.sPreset = this.value; refresh(); });
 $("sFrom").addEventListener("change", function(){ st.sFrom = this.value ? parseDate(this.value) : null; refresh(); });
 $("sTo").addEventListener("change", function(){ st.sTo = this.value ? parseDate(this.value) + 864e5 - 1 : null; refresh(); });
+/* the filter groups work like an accordion: Priority tier stays open, and opening any other group closes the rest */
+$("filters").addEventListener("click", function(ev){
+  var sm = ev.target.closest("details.fg > summary");
+  if (!sm) return;
+  ev.preventDefault();
+  var g = sm.parentNode;
+  if (g.classList.contains("fg-fixed")) return;
+  var willOpen = !g.open;
+  document.querySelectorAll("#filters details.fg:not(.fg-fixed)").forEach(function(o){ o.open = false; });
+  g.open = willOpen;
+  if (willOpen) setTimeout(function(){ g.scrollIntoView({ block:"nearest" }); }, 0);
+});
+function buildExtraFilters(){
+  var nat = items.filter(function(it){ return it.natural; }).length;
+  $("natRow").hidden = !nat; $("natN").textContent = nat;
+  var withDs = items.filter(function(it){ return isNum(it.p.ds_count); });
+  $("dsBlock").hidden = !withDs.length;
+  $("dsNoneN").textContent = withDs.filter(function(it){ return it.p.ds_count === 0; }).length;
+  $("dsSomeN").textContent = withDs.filter(function(it){ return it.p.ds_count > 0; }).length;
+  var withUp = items.filter(function(it){ return isNum(it.p.us_dist); }).length;
+  $("uhBlock").hidden = !withUp;
+  $("netGroup").hidden = !withDs.length && !withUp;
+  if (withUp) $("uhNote").textContent = "From the model run. " + withUp + " of " + items.length + " barriers have a value. Barriers without one are hidden while a minimum is set.";
+}
+$("hideNat").addEventListener("change", function(){ st.nat = this.checked; refresh(); });
+document.querySelectorAll('input[name="dsOpt"]').forEach(function(r){ r.addEventListener("change", function(){ if (this.checked){ st.ds = this.value; refresh(); } }); });
+$("uhMin").addEventListener("input", function(){ st.uh = this.value === "" || !isFinite(Number(this.value)) ? null : Math.max(0, Number(this.value)); refreshSoon(); });
+$("u0Min").addEventListener("input", function(){ st.u0 = this.value === "" || !isFinite(Number(this.value)) ? null : Math.max(0, Number(this.value)); refreshSoon(); });
 $("fMin").addEventListener("input", function(){ st.fMin = this.value === "" ? null : Number(this.value); refreshSoon(); });
 $("fMax").addEventListener("input", function(){ st.fMax = this.value === "" ? null : Number(this.value); refreshSoon(); });
 function openSheet(){ if (document.querySelector(".finder").classList.contains("compact")) setCompact(false); $("filters").hidden = false; $("fToggle").setAttribute("aria-expanded", "true"); var f = $("filters").querySelector("summary"); if (f) f.focus(); }
@@ -2868,6 +3232,16 @@ document.addEventListener("keydown", function(e){
 });
 
 /* map bar, layers, legend */
+function buildMoveBox(){
+  var opts = [["smart", "Move only when needed"], ["always", "Always frame its stream network"], ["stay", "Never move the map"]];
+  $("moveBox").innerHTML = "";
+  opts.forEach(function(o){
+    var lab = document.createElement("label"); lab.className = "chk";
+    lab.innerHTML = '<input type="radio" name="mapmove" value="' + o[0] + '"' + (o[0] === mapMoveMode ? " checked" : "") + "><span>" + esc(o[1]) + "</span>";
+    lab.firstChild.addEventListener("change", function(){ if (this.checked) setMoveMode(o[0]); });
+    $("moveBox").appendChild(lab);
+  });
+}
 function buildMapBar(){
   $("tierkey").innerHTML = TIERS.map(function(t){
     return '<span><i class="swatch" style="background:' + t.color + '"></i>' + esc(t.label) + "</span>";
@@ -2877,7 +3251,7 @@ function buildMapBar(){
     '<div class="lg"><span class="key dn"></span><span>Downstream path</span></div>' +
     '<div class="lg"><span class="key tri u"></span><span>Upstream barrier</span></div>' +
     '<div class="lg"><span class="key tri d"></span><span>Downstream barrier</span></div>' +
-    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Lowest passability barrier (larger, bold outline)</span></div>';
+    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Key barrier (bar across the triangle is 0% passable; larger isolates the most stream)</span></div>';
   $("baseBox").innerHTML = "";
   BASEMAPS.forEach(function(b, i){
     var lab = document.createElement("label"); lab.className = "chk";
@@ -3101,6 +3475,26 @@ function geoClick(ll){
 }
 /* reaches the upstream streams touch: outlined while a barrier is selected and the reaches are on, to show what access a fix could open */
 var accLayer = null, accCache = {}, accNow = [];
+var habAutoOn = false, habInternal = false, tabHi = false;
+function setHabLayer(on, auto){
+  var cb = $("lyrHab");
+  if (!cb || cb.checked === on) return;
+  habInternal = true; cb.checked = on; cb.dispatchEvent(new Event("change", { bubbles:true })); habInternal = false;
+  habAutoOn = !!(on && auto);
+}
+// while the Habitat tab is open the reaches are drawn and the barrier's own reach is outlined; leaving the tab puts the map back
+function syncHabitatTab(){
+  if (!habPolys || !habPolys.length || !$("tabbtn-habitat")) return;
+  var tabOn = !!(selected && detailTab === "habitat" && !$("tabbtn-habitat").hidden);
+  if (tabOn){
+    if (!$("lyrHab").checked) setHabLayer(true, true);
+    if (selected.reach) highlightPolys(habPolys.filter(function(pl){ return pl.props === selected.reach; })); else clearGeoHi();
+    tabHi = true;
+  } else {
+    if (tabHi){ clearGeoHi(); tabHi = false; }
+    if (habAutoOn) setHabLayer(false, false);
+  }
+}
 function segReachProps(k){
   if (accCache[k] !== undefined) return accCache[k];
   var out = [];
@@ -3148,7 +3542,7 @@ function highlightPolys(list){
   if (!list || !list.length) return;
   geoHi = L.featureGroup(list.map(function(pl){ return L.polygon(pl.rings.map(function(r){ return r.map(function(c){ return [c[1], c[0]]; }); }), { pane:"habitat", color:"#1b3f95", weight:3, fill:false, interactive:false }); })).addTo(map);
 }
-map.on("popupclose", clearGeoHi);
+map.on("popupclose", function(){ clearGeoHi(); syncHabitatTab(); });
 // light color fill by default; when the reaches are drawn, the watersheds become an outline so the two do not blend
 function wsRestyle(){
   if (!wsLayer) return;
@@ -3180,6 +3574,33 @@ function zoomToWatersheds(){
 function loadGeo(url){ return getJson(url).then(function(g){ return g; }).catch(function(){ return null; }); }
 function loadHabitat(){ return loadGeo(CONFIG.habitatUrl); }
 function loadWatersheds(){ return loadGeo(CONFIG.watershedsUrl); }
+function loadSubbasins(){ return loadGeo(CONFIG.subbasinsUrl); }
+function finishSubbasins(g){
+  sbPolys = parsePolys(g);
+  if (!sbPolys.length) return;
+  sbPolys.forEach(function(pl){
+    var pr = pl.props;
+    pr.huc12 = String(pr.huc12 || pr.HUC12 || pr.code || "");
+    pr.name = String(pr.name || pr.NAME || pr.huc12 || "");
+  });
+  items.forEach(function(it){
+    var pl = polyAt(sbPolys, it.ll[0], it.ll[1]);
+    if (pl && pl.props.huc12){ it.p.huc12 = pl.props.huc12; it.p.subbasin = pl.props.name; }
+  });
+  var counts = {}, names = {};
+  items.forEach(function(it){ if (it.p.huc12){ counts[it.p.huc12] = (counts[it.p.huc12] || 0) + 1; names[it.p.huc12] = it.p.subbasin; } });
+  var codes = Object.keys(counts);
+  if (!codes.length) return;
+  var seenName = {};
+  codes.forEach(function(c){ seenName[names[c]] = (seenName[names[c]] || 0) + 1; });
+  codes.forEach(function(c){ sbNames[c] = seenName[names[c]] > 1 ? names[c] + " (" + c.slice(-4) + ")" : names[c]; });
+  codes.sort(function(a, b){ return sbNames[a].localeCompare(sbNames[b]); });
+  FIELDS.push(["subbasin", "Subbasin"], ["huc12", "HUC12"]); TABLE_COLS.push(["subbasin", "Subbasin"]);
+  $("areaGroup").hidden = false; $("sbBlock").hidden = false;
+  codes.forEach(function(c){ chkRow($("sbBox"), c, "<span>" + esc(sbNames[c]) + "</span>", counts[c], !!st.sb[c], function(){ st.sb[c] = this.checked; refresh(); }); });
+  syncUi(); refresh();
+  if (selected) selectItem(selected, { from:"map", zoom:false });
+}
 function finishGeo(habG, wsG){
   habPolys = parsePolys(habG);
   wsPolys = parsePolys(wsG);
@@ -3214,11 +3635,9 @@ function finishGeo(habG, wsG){
   buildGeoUi(habG, wsG, haveWs);
 }
 function buildGeoUi(habG, wsG, haveWs){
-  var body = $("filters").querySelector(".sheet-body"), before = $("ftGroup");
+  var body = $("filters").querySelector(".sheet-body"), before = $("spGroup");   // habitat strategy sits after the watershed group and before species
   if (haveWs){
-    var wg = document.createElement("details"); wg.className = "dd fg"; wg.id = "wsGroup";
-    wg.innerHTML = '<summary><span class="ft">Watershed</span><span class="fsum" data-fsum="ws" hidden></span></summary><div class="fgb"><div id="wsBox" style="max-height:280px;overflow:auto"></div></div>';
-    body.insertBefore(wg, before);
+    $("areaGroup").hidden = false; $("wsBlock").hidden = false;
     var counts = {};
     items.forEach(function(it){ var n = it.p.watershed || NO_WS; counts[n] = (counts[n] || 0) + 1; });
     Object.keys(counts).sort(function(a, b){ if (a === NO_WS) return 1; if (b === NO_WS) return -1; return a.localeCompare(b); }).forEach(function(n){
@@ -3240,7 +3659,7 @@ function buildGeoUi(habG, wsG, haveWs){
     habRestyle();
     $("habLayerBox").hidden = false;
     $("tabbtn-habitat").hidden = false;
-    $("lyrHab").addEventListener("change", function(){ if (this.checked) habLayer.addTo(map); else { map.removeLayer(habLayer); map.closePopup(); } $("habCard").hidden = !this.checked; wsRestyle(); drawAccess(); });
+    $("lyrHab").addEventListener("change", function(){ if (!habInternal) habAutoOn = false; if (this.checked) habLayer.addTo(map); else { map.removeLayer(habLayer); map.closePopup(); } $("habCard").hidden = !this.checked; wsRestyle(); drawAccess(); });
     document.querySelectorAll("#habCard .hc-seg button").forEach(function(b){ b.addEventListener("click", function(){ habBy = this.dataset.by; habRestyle(); }); });
   }
   if (wsPolys.length){
@@ -3397,7 +3816,7 @@ function start(fc, isDemo, streamsUrl){
     $("banner").hidden = false;
   }
   if (CONFIG.spreadsheetUrl){ $("dl").href = CONFIG.spreadsheetUrl; $("dl").hidden = false; }
-  buildFilterUi(); buildMapBar(); buildAbout();
+  buildFilterUi(); buildMapBar(); buildMoveBox(); buildAbout();
   var init = decodeState(location.hash);
   st = init.st; listMode = init.sort;
   syncUi();
@@ -3406,7 +3825,7 @@ function start(fc, isDemo, streamsUrl){
   getJson(CONFIG.basinUrl).then(function(g){
     L.geoJSON(g, { style:{ color:"#142e6e", weight:2.5, dashArray:"2 6", fill:false }, interactive:false }).addTo(basinLayer);
   }).catch(function(){});
-  Promise.all([loadHabitat(), loadWatersheds()]).then(function(r){ finishGeo(r[0], r[1]); });
+  Promise.all([loadHabitat(), loadWatersheds(), loadSubbasins()]).then(function(r){ finishGeo(r[0], r[1]); finishSubbasins(r[2]); });
   return loadStreams(streamsUrl).then(function(){
     if (init.b){
       var it = items.filter(function(x){ return x.id === init.b; })[0];
@@ -3421,7 +3840,7 @@ function fail(msg){
 $("list").innerHTML = '<li class="empty"><span class="spin" aria-hidden="true"></span>Loading barriers</li>';
 getJson(CONFIG.dataUrl).then(function(fc){ return start(fc, false, CONFIG.streamsUrl); }).catch(function(){
   getJson(CONFIG.demoUrl).then(function(fc){ return start(fc, true, CONFIG.demoStreamsUrl); }).catch(function(){
-    fail("Could not load barriers.geojson. Run export_webapp_data.py in ArcGIS Pro, save the files next to index.html, and serve the folder from a web server such as GitHub Pages.");
+    fail("The barrier data could not be loaded. Try refreshing the page. If it still does not load, contact SPSSEG at gis@spsseg.org.");
   });
 });
 })();
