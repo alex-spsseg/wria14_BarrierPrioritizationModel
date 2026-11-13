@@ -105,8 +105,9 @@ button{cursor:pointer}
 #symBox,#moveDet{padding:0}
 #symBox > summary,#moveDet > summary{padding:10px 0;font-size:.8rem;color:var(--muted)}
 #moveDet > div{padding-bottom:8px}
-.lchips{display:flex;flex-wrap:wrap;gap:6px}
-.lchips .chk{position:relative;min-height:0;padding:6px 12px;gap:0;border:1px solid var(--line);border-radius:999px;background:var(--soft);font-size:.86rem;line-height:1.2;transition:background .15s,border-color .15s}
+.lchips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lchips.one{grid-template-columns:1fr}
+.lchips .chk{position:relative;min-height:0;padding:6px 10px;gap:0;justify-content:center;text-align:center;border:1px solid var(--line);border-radius:999px;background:var(--soft);font-size:.86rem;line-height:1.2;transition:background .15s,border-color .15s}
 .lchips .chk[hidden]{display:none}
 .lchips .chk input{position:absolute;opacity:0;width:0;height:0;margin:0}
 .lchips .chk:hover{border-color:var(--faint)}
@@ -330,6 +331,7 @@ table.kv{border-collapse:collapse;width:100%;font-size:.9rem;margin-bottom:8px}
 .ibtn-demo{cursor:default;vertical-align:-3px}
 .rulecard{margin:2px 0 8px;padding:10px 12px;border-radius:10px;background:#f3f7fb;border:1px solid #d3dfec;font-size:.84rem;color:var(--ink)}
 .rulecard p{margin:0 0 8px}
+.rulecard a{color:var(--brand);text-decoration:underline}
 .rulecard p:last-child{margin-bottom:0}
 .rtab{width:100%;border-collapse:collapse;margin:2px 0 8px;font-size:.82rem}
 .rtab th,.rtab td{padding:4px 6px;text-align:left;border-top:1px solid #dbe5ef;font-weight:400}
@@ -338,9 +340,10 @@ table.kv{border-collapse:collapse;width:100%;font-size:.9rem;margin-bottom:8px}
 .rtab td{white-space:nowrap}
 .rtab tr.cur th,.rtab tr.cur td,.rtab td.cur{background:#dff0f7;font-weight:700;color:var(--brand-ink)}
 .rtab .here,.rnone .here{color:var(--brand);font-weight:700;font-size:.74rem}
-.rtab td.here{text-align:right}
+.rtab tr.cur th{box-shadow:inset 3px 0 0 var(--brand)}
+.rtab td.cur{box-shadow:inset 0 0 0 2px var(--brand)}
 .rmx td{text-align:center}
-.rnone.cur{background:#dff0f7;border-radius:6px;padding:3px 6px;color:var(--brand-ink)}
+.rnone.cur{background:#dff0f7;border-radius:6px;padding:3px 6px;color:var(--brand-ink);box-shadow:inset 3px 0 0 var(--brand)}
 .rnote{color:var(--muted);font-size:.78rem}
 .bd{margin-top:2px}
 .bdtotal{border-top:0;padding-top:0;font-size:1rem;display:flex !important}
@@ -390,8 +393,11 @@ details.allb{margin-top:12px}
 .gain{margin:6px 0 14px;padding:12px 14px;border-radius:12px;background:var(--tint);border:1px solid var(--tint2)}
 .gain-top b{font-size:1.15rem;color:var(--brand-ink)}
 .gain-top span{color:var(--muted);font-size:.88rem}
-.gain-bar{height:8px;border-radius:99px;background:#fff;margin:8px 0 6px;overflow:hidden}
+.gain-bar{height:8px;border-radius:99px;background:#fff;margin:4px 0 6px;overflow:hidden}
 .gain-bar i{display:block;height:100%;border-radius:99px;background:#0088ad}
+.gain-bar.b1 i{background:#00566e}
+.gb{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:.84rem;color:var(--muted)}
+.gb b{color:var(--brand-ink);font-weight:700}
 .gain-note{margin:0;font-size:.84rem;color:var(--muted)}
 .gain-sub{font-size:.76rem;font-weight:700;letter-spacing:.02em;color:var(--muted);margin:10px 0 2px}
 .gain-list button:hover{background:#fff}
@@ -435,6 +441,13 @@ body.has-detail .leaflet-bottom.leaflet-right{right:416px}
 .popover{position:absolute;z-index:950;left:412px;bottom:84px;width:290px;padding:14px 16px;max-height:70vh;overflow:auto;border-radius:14px}
 .popover[hidden]{display:none}
 .popover h3{margin:0 0 6px;font-size:.8rem;color:var(--muted);font-weight:600}
+.popover details.dd{border:0}
+.popover details.dd > summary{padding:2px 0;font-size:.8rem;color:var(--muted);font-weight:600}
+.popover details.dd[open] > summary{margin-bottom:8px}
+#symKey{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+#symKey h3,#symKey .wide{grid-column:1 / -1}
+#symKey .lg{margin:4px 0;font-size:.82rem}
+#symKey .lnote{margin:2px 0 0;font-size:.76rem;color:var(--muted)}
 .popover .sec + .sec{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
 .lg{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:.86rem}
 .lg .key:not(.tri){width:28px;flex:none}
@@ -530,6 +543,20 @@ dialog td.num,dialog th.num{text-align:right}
 .ps-net thead th,.ps-list thead th{font-size:8pt;color:#555}
 .ps-net tbody th{font-weight:400;color:#555;width:30%}
 .ps-list .r{text-align:right}
+.ps-gain{margin:0 0 5pt}
+.ps-gt{font-size:8.6pt;margin-bottom:2pt}
+.ps-gb{display:flex;justify-content:space-between;font-size:8pt;color:#444;margin-top:2pt}
+.ps-gb b{color:#111}
+.ps-bar{height:5pt;background:#dde4e8;border-radius:3pt;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ps-bar i{display:block;height:100%;background:var(--brand);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ps-gn{font-size:8pt;color:#555;margin-top:2pt}
+.ps-list caption{text-align:left;font-size:8pt;font-weight:700;color:#555;padding:4pt 0 1pt}
+.ps-sd{column-count:2;column-gap:18pt;font-size:8pt;line-height:1.2}
+.ps-sdc{break-inside:avoid;margin-bottom:5pt}
+.ps-sdc h3{margin:0 0 1pt;font-size:8.5pt;color:var(--brand-ink);display:flex;justify-content:space-between}
+.ps-sdc > div{display:grid;grid-template-columns:1fr auto 30pt;gap:6pt;padding:1pt 0;border-bottom:.5pt solid #ddd}
+.ps-sdc .v{color:#555;text-align:right}
+.ps-sdc .pt{text-align:right;font-weight:600}
 .ps-cats{list-style:none;margin:0;padding:0}
 .ps-cats li{display:grid;grid-template-columns:105pt 1fr 38pt;gap:6pt;align-items:center;font-size:9pt;margin:3pt 0}
 .ps-cats .bar{height:7pt;background:#dde4e8;border-radius:4pt;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -752,7 +779,7 @@ dialog td.num,dialog th.num{text-align:right}
       <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
     </div></div>
     <div class="sec"><h3>Basemap</h3><div id="baseBox" class="lchips" role="radiogroup" aria-label="Basemap"></div></div>
-    <details class="dd sec" id="moveDet"><summary>When clicking a barrier</summary><div id="moveBox" role="radiogroup" aria-label="How the map moves when you click a barrier"></div></details>
+    <details class="dd sec" id="moveDet"><summary>Zoom extent on click</summary><div id="moveBox" role="radiogroup" aria-label="How the map extent and zoom change when you click a barrier"></div></details>
     <details class="dd sec" id="symBox"><summary>Map symbols</summary><div id="symKey"></div></details>
   </div>
 
@@ -845,6 +872,7 @@ var CATEGORIES = [
   { name:"Water quality", short:"water quality", max:20, keys:["s_road","s_wq","s_temp","s_canopy"], metrics:"Road density, 303d listing, stream temperature, canopy cover" },
   { name:"Future conditions", short:"future conditions", max:15, keys:["s_ftemp","s_flood","s_flow"], metrics:"Future stream temperature, future flood events, future summer low flow" }
 ];
+CATEGORIES.sort(function(x, y){ return y.max - x.max; });   // heaviest category first; ties keep the model order
 var FIELDS = [
   ["trib","Tributary to"],["owner","Ownership (owner type)"],["ftype","Feature type"],["survey_date","Last surveyed"],["snap_status","Location check"],["pot_species","Potential species"],["species","Species recorded"],["road_fill","Road fill (" + CONFIG.roadFillUnit + ")",1],
   ["pass_pct","Barrier passability",0],
@@ -1081,7 +1109,8 @@ function gainOf(net, it, ub, upDist, upSeg, U, upMi){
   var fr = frontier(net, it, function(b){ return isNum(b.p.pass_pct) && b.p.pass_pct === 0; });
   var list = withAbove(net, fr, upDist, upSeg, U);
   var partial = Object.keys(ub).filter(function(id){ return upSeg[id] !== undefined && fr.seen[upSeg[id]] && !fr.firsts[id]; }).length;
-  return { openMi:fr.openMi, blockedMi:Math.max(0, upMi - fr.openMi), openSegs:fr.seen, firsts:list, partial:partial };
+  var nx = frontier(net, it, function(){ return true; });
+  return { openMi:fr.openMi, nextMi:nx.openMi, blockedMi:Math.max(0, upMi - fr.openMi), openSegs:fr.seen, firsts:list, partial:partial };
 }
 // the first barrier of any passability on each upstream branch; with a fork, the one holding back the most stream
 function firstUpOf(net, it, ub, upDist, upSeg, U){
@@ -1406,8 +1435,8 @@ function habMax(p){
 }
 // one label for every barrier tooltip on the map: ID and type, passability, distance and rank, then upstream habitat
 function labelHtml(b, d, dirWord){
-  var p = b.p, k = passKeyP(p), ph = (k === "unknown" || k === "na") ? "passability unknown" : passLabel(p) + " passable";
-  return "<b>" + esc(b.id) + "</b>" + (p.ftype ? ' <span class="tsub">' + esc(p.ftype) + "</span>" : "") + '<br><span class="tsub">' + esc(ph + " \u00b7 " + distText(d, dirWord).trim()) + "</span>";
+  var p = b.p, dw = dirWord === "upstream" ? "Upstream" : "Downstream";
+  return "<b>" + esc(b.id) + "</b>" + (p.ftype ? ' <span class="tsub">' + esc(p.ftype) + "</span>" : "") + '<br><span class="tsub">' + esc((d !== undefined ? distText(d, dw).trim() + ", " : dw + ", ") + passTextP(p)) + "</span>";
 }
 function pillHtml(b){ return "<b>" + esc(b.id) + '</b> <span class="tsub">' + esc(passLabel(b.p)) + "</span>"; }
 function shortName(c){ return c.short.charAt(0).toUpperCase() + c.short.slice(1); }
@@ -1472,47 +1501,38 @@ function connListHtml(conn, dir){
 function keyRows(conn){
   var firsts = conn.gain ? conn.gain.firsts : [], all = { up:[], dn:[] }, iso = {};
   firsts.forEach(function(f){ iso[f.b.id] = f.above; });
-  function mk(dir, b, d, path, isolated, others){
+  function mk(dir, b, d, path, isolated){
     if (!b || d === undefined) return null;
-    var r = { dir:dir, b:b, d:d, path:path, iso:isolated === undefined ? null : isolated, others:others || 0 };
+    var r = { dir:dir, b:b, d:d, path:path, iso:isolated === undefined ? null : isolated };
     all[dir].push(r);
     return r;
   }
   var out = { all:all, upNext:null, upStops:[], upStopN:firsts.length, upLow:null, dnNext:null, dnLow:null };
-  if (conn.firstUp) out.upNext = mk("up", conn.firstUp.b, conn.firstUp.d, conn.firstUp.path, iso[conn.firstUp.b.id], conn.firstUp.others);
-  firsts.forEach(function(f){
-    if (out.upNext && out.upNext.b === f.b || out.upStops.length >= 6) return;
-    out.upStops.push(mk("up", f.b, f.d, f.path, f.above, 0));
-  });
-  if (!firsts.length && conn.upLimit && (!out.upNext || out.upNext.b !== conn.upLimit.b)) out.upLow = mk("up", conn.upLimit.b, conn.upLimit.d, conn.upLimit.path, null, 0);
-  if (conn.firstDn) out.dnNext = mk("dn", conn.firstDn.b, conn.firstDn.d, conn.firstDn.path, null, 0);
-  if (conn.dnLimit && (!out.dnNext || out.dnNext.b !== conn.dnLimit.b)) out.dnLow = mk("dn", conn.dnLimit.b, conn.dnLimit.d, conn.dnLimit.path, null, 0);
+  if (conn.firstUp) out.upNext = mk("up", conn.firstUp.b, conn.firstUp.d, conn.firstUp.path, iso[conn.firstUp.b.id]);
+  if (conn.upLimit) out.upLow = mk("up", conn.upLimit.b, conn.upLimit.d, conn.upLimit.path, iso[conn.upLimit.b.id]);
+  firsts.slice(0, 6).forEach(function(f){ out.upStops.push(mk("up", f.b, f.d, f.path, f.above)); });
+  if (conn.firstDn) out.dnNext = mk("dn", conn.firstDn.b, conn.firstDn.d, conn.firstDn.path, null);
+  if (conn.dnLimit) out.dnLow = mk("dn", conn.dnLimit.b, conn.dnLimit.d, conn.dnLimit.path, null);
   return out;
 }
 function keyHtml(conn){
-  var k = keyRows(conn), g = conn.gain;
-  function cell(r, isNext){
+  var k = keyRows(conn);
+  function cell(r){
     if (!r) return '<span class="nodata">None known</span>';
-    var up = r.dir === "up", l2 = [passLabel(r.b.p), distText(r.d, "").trim()], l3 = [];
-    if (up){
-      if (r.iso !== null) l3.push(r.iso < 0.05 ? "Headwater" : miles(r.iso) + " isolated");
-      var hm = habMax(r.b.p);
-      if (hm !== null && (hm >= 0.05 || isNext)) l3.push(hm < 0.05 ? "No habitat" : miles(hm) + " habitat");
-      if (r.others) l3.push("+" + plural(r.others, "branch", "branches"));
-    }
-    return '<button type="button" class="limbtn" data-kb="' + r.dir + "|" + esc(r.b.id) + '" data-hov="' + esc(r.b.id) + '" data-hd="' + r.dir + '"><b>' + esc(r.b.id) + '</b><span class="s">' + esc(l2.join(" \u00b7 ")) + "</span>" +
-      (l3.length ? '<span class="s">' + esc(l3.join(" \u00b7 ")) + "</span>" : "") + "</button>";
+    var l3 = [];
+    if (r.dir === "up" && r.iso !== null) l3.push(r.iso < 0.05 ? "Headwater" : miles(r.iso) + " isolated");
+    return '<button type="button" class="limbtn" data-kb="' + r.dir + "|" + esc(r.b.id) + '" data-hov="' + esc(r.b.id) + '" data-hd="' + r.dir + '"><b>' + esc(r.b.id) + '</b><span class="s">' +
+      esc([passLabel(r.b.p), distText(r.d, "").trim()].join(" \u00b7 ")) + "</span>" + (l3.length ? '<span class="s">' + esc(l3.join(" \u00b7 ")) + "</span>" : "") + "</button>";
   }
-  var upLow = k.upLow ? cell(k.upLow, false) : (k.upStops.length ? '<span class="s2">0%, listed below</span>' : (k.upNext ? '<span class="s2">Same as next</span>' : '<span class="nodata">None known</span>'));
-  var dnLow = k.dnLow ? cell(k.dnLow, false) : (k.dnNext ? '<span class="s2">Same as next</span>' : '<span class="nodata">None known</span>');
+  var sameCell = '<span class="s2"><span aria-hidden="true">\u2191 </span>Next barrier</span>';
   var h = '<table class="net"><thead><tr><td></td><th scope="col">Upstream</th><th scope="col">Downstream</th></tr></thead><tbody>' +
     '<tr><th scope="row">Stream</th><td>' + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
     '<tr><th scope="row">Barriers</th><td>' + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
-    '<tr><th scope="row">Next</th><td>' + cell(k.upNext, true) + "</td><td>" + cell(k.dnNext, true) + "</td></tr>" +
-    '<tr><th scope="row">Lowest</th><td>' + upLow + "</td><td>" + dnLow + "</td></tr></tbody></table>";
-  if (k.upStops.length){
-    var more = k.upStopN - (k.upNext && g.firsts.some(function(f){ return f.b === k.upNext.b; }) ? 1 : 0) - k.upStops.length;
-    h += '<table class="net stops"><caption>Gain ends at ' + plural(k.upStopN, "barrier", "barriers") + " with 0% passability</caption>" +
+    '<tr><th scope="row">Next barrier</th><td>' + cell(k.upNext) + "</td><td>" + cell(k.dnNext) + "</td></tr>" +
+    '<tr><th scope="row">Lowest passability barrier</th><td>' + (k.upLow && k.upNext && k.upLow.b === k.upNext.b ? sameCell : cell(k.upLow)) + "</td><td>" + (k.dnLow && k.dnNext && k.dnLow.b === k.dnNext.b ? sameCell : cell(k.dnLow)) + "</td></tr></tbody></table>";
+  if (k.upStopN > 1){
+    var more = k.upStopN - k.upStops.length;
+    h += '<table class="net stops"><caption>Total barriers ending the gain (' + k.upStopN + ")</caption>" +
       '<thead><tr><th scope="col">Barrier</th><th scope="col">Distance</th><th scope="col">Isolated</th></tr></thead><tbody>' +
       k.upStops.map(function(r){
         return '<tr data-kb="up|' + esc(r.b.id) + '" data-hov="' + esc(r.b.id) + '" data-hd="up"><td><button type="button" class="limbtn" data-kb="up|' + esc(r.b.id) + '"><b>' + esc(r.b.id) + "</b></button></td><td>" +
@@ -1525,10 +1545,15 @@ function gainHtml(conn){
   var g = conn.gain, tot = conn.upMi;
   if (!g) return "";
   if (tot < 0.05) return '<div class="gain"><p class="gain-note" style="margin:0">No stream upstream of this barrier.</p></div>';
-  var open = g.firsts.length ? g.openMi : tot, pct = Math.max(0, Math.min(100, Math.round(100 * open / tot)));
-  return '<div class="gain"><div class="gain-top"><b>' + miles(open) + "</b><span> of " + miles(tot) + " upstream reconnected (" + pct + '%)</span></div>' +
-    '<div class="gain-bar" role="img" aria-label="' + pct + ' percent of the upstream stream is reconnected"><i style="width:' + pct + '%"></i></div>' +
-    '<p class="gain-note">' + (g.firsts.length ? miles(g.blockedMi) + " isolated above 0% passable barriers" : "No 0% passable barriers upstream") + "</p></div>";
+  var hasFirst = g.firsts.length > 0, stop = hasFirst ? g.openMi : tot, next = Math.min(g.nextMi, stop);
+  function pc(v){ return Math.max(0, Math.min(100, Math.round(100 * v / tot))); }
+  function bar(label, v, cls){
+    return '<div class="gb"><span>' + label + "</span><b>" + miles(v) + " (" + pc(v) + '%)</b></div><div class="gain-bar ' + cls + '" role="img" aria-label="' + esc(label) + ", " + pc(v) + ' percent of the upstream stream"><i style="width:' + pc(v) + '%"></i></div>';
+  }
+  var h = '<div class="gain"><div class="gain-top"><b>Upstream gain</b><span> of ' + miles(tot) + " potential habitat</span></div>";
+  if (Math.abs(stop - next) < 0.05) h += bar(hasFirst ? "To next barrier (total)" : "To upstream end", stop, "b2");
+  else h += bar("To next barrier", next, "b1") + bar(hasFirst ? (g.firsts.length > 1 ? "To first total barriers" : "To first total barrier") : "To upstream end", stop, "b2");
+  return h + '<p class="gain-note">' + (hasFirst ? miles(g.blockedMi) + " isolated above total barriers" : "No total barriers upstream") + "</p></div>";
 }
 function networkHtml(conn, hasNetwork, o){
   if (hasNetwork === false) return '<p class="note">The stream network is not loaded, so connected barriers and upstream stream cannot be shown.</p>';
@@ -1611,12 +1636,42 @@ function detailHtml(it, conn, hasNetwork, reportUrl, o){
          (habPolys.length ? tabPanel("habitat", tab !== "habitat", habitatTabHtml(it)) : "");
 }
 
-function psLim(lim){
-  if (!lim) return '<span style="color:#777">None known</span>';
-  return "<b>" + esc(lim.b.id) + "</b><br>" + esc(passTextP(lim.b.p)) + "<br>" + esc(distText(lim.d, "").trim());
+function psLim(f){
+  if (!f) return '<span style="color:#777">None known</span>';
+  var iso = f.iso !== undefined && f.iso !== null ? "<br>" + (f.iso < 0.05 ? "Headwater" : esc(miles(f.iso)) + " isolated") : "";
+  return "<b>" + esc(f.b.id) + "</b><br>" + esc(passLabel(f.b.p) + " \u00b7 " + distText(f.d, "").trim()) + iso;
+}
+function psGain(conn){
+  var g = conn.gain, tot = conn.upMi;
+  if (!g || tot < 0.05) return "";
+  var hasFirst = g.firsts.length > 0, stop = hasFirst ? g.openMi : tot, next = Math.min(g.nextMi, stop);
+  function pc(v){ return Math.max(0, Math.min(100, Math.round(100 * v / tot))); }
+  function bar(label, v){ return '<div class="ps-gb"><span>' + label + "</span><b>" + esc(miles(v)) + " (" + pc(v) + '%)</b></div><div class="ps-bar"><i style="width:' + pc(v) + '%"></i></div>'; }
+  var h = '<div class="ps-gain"><div class="ps-gt"><b>Upstream gain</b> of ' + esc(miles(tot)) + " potential habitat</div>";
+  h += Math.abs(stop - next) < 0.05 ? bar(hasFirst ? "To next barrier (total)" : "To upstream end", stop) : bar("To next barrier", next) + bar(hasFirst ? (g.firsts.length > 1 ? "To first total barriers" : "To first total barrier") : "To upstream end", stop);
+  return h + '<div class="ps-gn">' + (hasFirst ? esc(miles(g.blockedMi)) + " isolated above total barriers" : "No total barriers upstream") + "</div></div>";
+}
+function psStops(conn){
+  var k = keyRows(conn);
+  if (k.upStopN < 2) return "";
+  return '<table class="ps-list"><caption>Total barriers ending the gain (' + k.upStopN + ')</caption><thead><tr><th>Barrier</th><th class="r">Distance</th><th class="r">Isolated</th></tr></thead><tbody>' +
+    k.upStops.map(function(r){ return "<tr><td><b>" + esc(r.b.id) + '</b></td><td class="r">' + esc(distText(r.d, "").trim()) + '</td><td class="r">' + (r.iso < 0.05 ? "Headwater" : esc(miles(r.iso))) + "</td></tr>"; }).join("") + "</tbody></table>" +
+    (k.upStopN > k.upStops.length ? '<p style="margin:2pt 0;color:#666;font-size:8pt">' + (k.upStopN - k.upStops.length) + " more not listed.</p>" : "");
+}
+function psScoreDetail(p){
+  var h = '<div class="ps-sd">';
+  CATEGORIES.forEach(function(c){
+    h += '<div class="ps-sdc"><h3>' + esc(c.name) + " <span>" + catScore(p, c) + " / " + c.max + "</span></h3>";
+    MEASURES.filter(function(m){ return m.g === c.name; }).forEach(function(m){
+      var pts = isNum(p[m.key]) ? p[m.key] : 0;
+      h += "<div><span>" + esc(m.name) + '</span><span class="v">' + esc(m.raw(p)) + '</span><span class="pt">' + pts + " / " + m.max + "</span></div>";
+    });
+    h += "</div>";
+  });
+  return h + "</div>";
 }
 // shorter labels so each line of the printed details stays on one line
-var PS_LABELS = { reach_name:"Reach", rest_pri:"Restoration priority", cons_pri:"Conservation priority", owner:"Ownership", pass_pct:"Passability", n_species:"Species benefitting", us_dist:"Upstream stream (mi)", us_dist_0pass:"Upstream to 0% passable (mi)",
+var PS_LABELS = { reach_name:"Reach", rest_pri:"Restoration priority", cons_pri:"Conservation priority", owner:"Ownership", pass_pct:"Passability", n_species:"Species benefitting", us_dist:"Upstream potential habitat (mi)", us_dist_0pass:"Habitat to 0% passable (mi)",
   road_density:"Road density (mi/sq mi)", wq_303d:"303d listing", temp:"Stream temp, Aug mean (C)", temp_2040:"Future (2040) temp (C)", canopy:"Canopy cover (%)",
   flood_pct:"Future flood change (%)", flow_pct:"Future low flow change (%)" };
 function psRows(p, keys){
@@ -1656,14 +1711,16 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
        '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + "</div><div>of " + CONFIG.maxScore + " points</div><div><b>Rank " + it.rank + " of " + it.n +
        '</b></div><div><span class="swatch" style="display:inline-block;vertical-align:-1pt;background:' + it.tier.color + '"></span> ' + esc(it.tier.label) + "</div></div></div>";
   h += '<div class="ps-map" id="psMap"></div>';
-  h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Lowest passability barrier</span></div>";
+  h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Key barrier (bar = 0% passable)</span></div>";
   h += '<div class="ps-cols">';
   h += '<div class="ps-sec"><h2>Connected network</h2>';
   if (conn){
-    h += '<table class="ps-net"><thead><tr><td></td><th>Upstream</th><th>Downstream</th></tr></thead><tbody>' +
+    var kr = keyRows(conn), same = "<span style=\"color:#555\">\u2191 Next barrier</span>";
+    h += psGain(conn) + '<table class="ps-net"><thead><tr><td></td><th>Upstream</th><th>Downstream</th></tr></thead><tbody>' +
       "<tr><th>Stream</th><td>" + miles(conn.upMi) + "</td><td>" + miles(conn.dnMi) + "</td></tr>" +
       "<tr><th>Barriers</th><td>" + conn.upBarriers.length + "</td><td>" + conn.dnBarriers.length + "</td></tr>" +
-      "<tr><th>Lowest passability</th><td>" + psLim(conn.upLimit) + "</td><td>" + psLim(conn.dnLimit) + "</td></tr></tbody></table>";
+      "<tr><th>Next barrier</th><td>" + psLim(kr.upNext) + "</td><td>" + psLim(kr.dnNext) + "</td></tr>" +
+      "<tr><th>Lowest passability barrier</th><td>" + (kr.upLow && kr.upNext && kr.upLow.b === kr.upNext.b ? same : psLim(kr.upLow)) + "</td><td>" + (kr.dnLow && kr.dnNext && kr.dnLow.b === kr.dnNext.b ? same : psLim(kr.dnLow)) + "</td></tr></tbody></table>" + psStops(conn);
   } else h += '<p style="margin:2pt 0;color:#666">This barrier is not connected to the stream network in this model run.</p>';
   h += "</div>";
   h += '<div class="ps-sec"><h2>Score by group</h2><ul class="ps-cats">';
@@ -1677,6 +1734,7 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
          '<div class="ps-sec"><h2>Downstream barriers (' + conn.dnBarriers.length + ")</h2>" + psList(conn.dnBarriers, conn.dnDist) + "</div></div>";
   }
   h += '<div class="ps-sec"><h2>Barrier details</h2>' + psDetails(p) + "</div>";
+  h += '<div class="ps-sec"><h2>Score by criterion</h2>' + psScoreDetail(p) + "</div>";
   var src = [];
   if (meta && meta.run_label) src.push("Model run: " + meta.run_label);
   if (meta && meta.network) src.push("Stream network: " + meta.network);
@@ -1733,8 +1791,8 @@ function minCat(v){
 }
 function noData(pts){ return ["No data", pts, function(v){ return !isNum(v); }]; }
 var HAB_NOTE = "Habitat miles come from the stream network upstream of the barrier.";
-var SWIFD_NOTE = "SWIFD is the Statewide Washington Integrated Fish Distribution, the state's fish distribution layer.";
-var MIDDLE_NOTE = "A barrier with no value in the data gets 3 points, the middle score.";
+var SWIFD_NOTE = "SWIFD is the [Statewide Washington Integrated Fish Distribution](https://geodataservices.wdfw.wa.gov/arcgis/rest/services/MapServices/SWIFD/MapServer), the state's fish distribution layer.";
+var MIDDLE_NOTE = "No data scores 3 points, the middle score.";
 var MEASURES = [
   { g:"Habitat quantity gain", name:"Upstream habitat", key:"s_habtot", max:10, raw:function(p){ return rawNum(p.us_dist, " mi", 2); } },
   { g:"Habitat quantity gain", name:"Upstream habitat to 0% passable", key:"s_hab0", max:10, raw:function(p){ return rawNum(p.us_dist_0pass, " mi", 2); } },
@@ -1764,48 +1822,53 @@ function applyMaxPoints(mp){
   if (!any) return;
   CATEGORIES.forEach(function(c){ c.max = MEASURES.filter(function(m){ return m.g === c.name; }).reduce(function(t, m){ return t + m.max; }, 0); });
   CONFIG.maxScore = CATEGORIES.reduce(function(t, c){ return t + c.max; }, 0);
+  CATEGORIES.sort(function(x, y){ return y.max - x.max; });   // heaviest category first; ties keep the model order
 }
 var RULES = {
-  s_habtot:{ desc:"Stream miles upstream of the barrier, counting every connected stream. More habitat scores higher.", bands:habBands(function(p){ return p.us_dist; }), note:HAB_NOTE },
-  s_hab0:{ desc:"Stream miles upstream of the barrier until the next total barrier (0% passable). It shows how much habitat this barrier would open before the next blockage.", bands:habBands(function(p){ return p.us_dist_0pass; }), note:HAB_NOTE },
-  s_chinook:{ desc:"Miles of upstream stream where SWIFD records Chinook use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_chinook; }), note:SWIFD_NOTE },
-  s_coho:{ desc:"Miles of upstream stream where SWIFD records coho use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_coho; }), note:SWIFD_NOTE },
-  s_steelhead:{ desc:"Miles of upstream stream where SWIFD records steelhead use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_steelhead; }), note:SWIFD_NOTE },
-  s_chum:{ desc:"Miles of upstream stream where SWIFD records chum use. Same bands as the other habitat scores.", bands:habBands(function(p){ return p.hab_chum; }), note:SWIFD_NOTE },
-  s_cutthroat:{ desc:"Two points where SWIFD records cutthroat use on the barrier's stream, none where it does not.", bands:bandRows([["Cutthroat use recorded", 2, function(v){ return isNum(v) && v > 0; }], ["No cutthroat use recorded", 0, function(v){ return isNum(v) && v <= 0; }]], function(p){ return p.use_cutthroat; }), note:SWIFD_NOTE },
-  s_species:{ desc:"One point for each species that would benefit, up to five. Species are counted from SWIFD.", bands:bandRows([0, 1, 2, 3, 4, 5].map(function(n){ return [n === 1 ? "1 species" : n + " species", n, function(v){ return isNum(v) && v === n; }]; }), function(p){ return p.n_species; }) },
-  s_pass:{ desc:"How much of the fish that reach the barrier it blocks, from the WDFW passability rating. The less passable it is, the more points fixing it earns.",
+  s_habtot:{ desc:"Miles of potential habitat upstream of the barrier, counting every connected stream. More habitat scores higher.", bands:habBands(function(p){ return p.us_dist; }), note:HAB_NOTE },
+  s_hab0:{ desc:"Miles of potential habitat upstream until the next total barrier (0% passable). It shows how much habitat fixing this barrier would open.", bands:habBands(function(p){ return p.us_dist_0pass; }), note:HAB_NOTE },
+  s_chinook:{ desc:"Miles of upstream potential habitat where SWIFD records Chinook use.", bands:habBands(function(p){ return p.hab_chinook; }), note:SWIFD_NOTE },
+  s_coho:{ desc:"Miles of upstream potential habitat where SWIFD records coho use.", bands:habBands(function(p){ return p.hab_coho; }), note:SWIFD_NOTE },
+  s_steelhead:{ desc:"Miles of upstream potential habitat where SWIFD records steelhead use.", bands:habBands(function(p){ return p.hab_steelhead; }), note:SWIFD_NOTE },
+  s_chum:{ desc:"Miles of upstream potential habitat where SWIFD records chum use.", bands:habBands(function(p){ return p.hab_chum; }), note:SWIFD_NOTE },
+  s_cutthroat:{ desc:"Two points where SWIFD records cutthroat use on the barrier's stream.", bands:bandRows([["Cutthroat use recorded", 2, function(v){ return isNum(v) && v > 0; }], ["No cutthroat use recorded", 0, function(v){ return isNum(v) && v <= 0; }]], function(p){ return p.use_cutthroat; }), note:SWIFD_NOTE },
+  s_species:{ desc:"One point for each species that would benefit from barrier correction, up to five. Species are counted from SWIFD.", bands:bandRows([0, 1, 2, 3, 4, 5].map(function(n){ return [n === 1 ? "1 species" : n + " species", n, function(v){ return isNum(v) && v === n; }]; }), function(p){ return p.n_species; }) },
+  s_pass:{ desc:"Barrier determinations are based on the ability of adult salmonids to migrate through, around, or over an instream feature, from the WDFW passability rating. Percent passability is a qualitative indicator of the barrier severity during fish passage flows. It considers water surface drop, velocity, and/or depth, depending on the feature type and barrier criteria. The more severe the barrier status, the higher the need for barrier correction. See the [WDFW Fish Passage Inventory, Assessment, and Prioritization Manual](https://wdfw.wa.gov/publications/02061).",
     bands:[{ label:"0% passable, a total barrier", pts:15, hit:function(p){ return passKeyP(p) === "total"; } },
            { label:"33% passable", pts:10, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct <= 50; } },
            { label:"Unknown, modeled as 33% passable", pts:10, hit:function(p){ return passKeyP(p) === "assumed"; } },
            { label:"67% passable", pts:5, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct > 50; } },
-           { label:"Unknown", pts:5, hit:function(p){ return passKeyP(p) === "unknown"; } },
+           { label:"Unknown passability", pts:5, hit:function(p){ return passKeyP(p) === "unknown"; } },
            { label:"Not applicable (N/A)", pts:0, hit:function(p){ return passKeyP(p) === "na"; } }],
-    note:"In this run, natural barriers were modeled as 33% passable and scored 10 points." },
-  s_ds:{ desc:"Barriers between this barrier and the sea. Fewer, and more passable, downstream barriers score higher, because fish can reach this one. The count and the worst passability among them set the score.",
+    note:"Natural barriers were modeled as 33% passable and scored 10 points." },
+  s_ds:{ desc:"Barriers between this barrier and Puget Sound. Fewer and more passable downstream barriers score higher. The count and the worst passability among them set the score.",
     matrix:{ count:"ds_count", min:"ds_minpass", none:["No downstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
       rows:[["Worst is 0% passable", 0, [0, 0, 0]], ["Worst is 33% passable", 33, [3, 1, 0]], ["Worst is 67% passable", 67, [4, 3, 1]], ["Worst is unknown", "unk", [0, 0, 0]]] } },
-  s_us:{ desc:"Other barriers upstream of this one. Fewer, and more passable, upstream barriers score higher, because the habitat behind this barrier stays open. The count and the worst passability among them set the score.",
+  s_us:{ desc:"Other barriers upstream of this one. Fewer and more passable upstream barriers score higher. The count and the worst passability among them set the score.",
     matrix:{ count:"us_count", min:"us_minpass", none:["No upstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
       rows:[["Worst is 0% passable", 0, [1, 1, 1]], ["Worst is 33% passable", 33, [3, 2, 2]], ["Worst is 67% passable", 67, [3, 2, 2]], ["Worst is unknown", "unk", [1, 1, 1]]] } },
-  s_nods:{ desc:"Five points when no other barrier lies downstream, so fish reach this barrier freely.", bands:bandRows([["No barriers downstream", 5, function(v){ return v === 0; }], ["One or more barriers downstream", 0, function(v){ return isNum(v) && v > 0; }]], function(p){ return p.ds_count; }) },
+  s_nods:{ desc:"Five points when no other barrier lies downstream.", bands:bandRows([["No barriers downstream", 5, function(v){ return v === 0; }], ["One or more barriers downstream", 0, function(v){ return isNum(v) && v > 0; }]], function(p){ return p.ds_count; }) },
   s_road:{ desc:"Road miles per square mile of land draining to the stream. Fewer roads score higher.", bands:bandRows([["Under 3 mi per sq mi", 5, function(v){ return isNum(v) && v < 3; }], ["3 to under 4", 4, function(v){ return isNum(v) && v >= 3 && v < 4; }], ["4 to under 5", 3, function(v){ return isNum(v) && v >= 4 && v < 5; }], ["5 to under 6", 2, function(v){ return isNum(v) && v >= 5 && v < 6; }], ["6 or more", 1, function(v){ return isNum(v) && v >= 6; }], noData(3)], function(p){ return p.road_density; }), note:MIDDLE_NOTE },
-  s_wq:{ desc:"Five points when the stream is not on Ecology's 303(d) list of impaired waters, one point when it is.", extra:function(p){ return p.wq_303d ? "Listed for: " + p.wq_303d : ""; }, bands:bandRows([["Not listed", 5, function(v){ return !v; }], ["Listed", 1, function(v){ return !!v; }]], function(p){ return p.wq_303d; }) },
-  s_canopy:{ desc:"Share of streamside tree canopy cover, from NorWeST modeled stream data. More canopy scores higher.", bands:bandRows([["Under 20%", 1, function(v){ return isNum(v) && v < 20; }], ["20 to under 40%", 2, function(v){ return isNum(v) && v >= 20 && v < 40; }], ["40 to under 60%", 3, function(v){ return isNum(v) && v >= 40 && v < 60; }], ["60 to under 80%", 4, function(v){ return isNum(v) && v >= 60 && v < 80; }], ["80% or more", 5, function(v){ return isNum(v) && v >= 80; }], noData(3)], function(p){ return p.canopy; }), note:"The bands are read from this run's results. " + MIDDLE_NOTE },
-  s_temp:{ desc:"Modeled mean August stream temperature, from NorWeST. Cooler streams score higher.", bands:bandRows([["Under 12 C", 5, function(v){ return isNum(v) && v < 12; }], ["12 to under 14 C", 4, function(v){ return isNum(v) && v >= 12 && v < 14; }], ["14 to under 17 C", 3, function(v){ return isNum(v) && v >= 14 && v < 17; }], ["17 to under 21 C", 2, function(v){ return isNum(v) && v >= 17 && v < 21; }], ["21 to under 26.1 C", 1, function(v){ return isNum(v) && v >= 21 && v < 26.1; }], ["26.1 C or more", 0, function(v){ return isNum(v) && v >= 26.1; }], noData(3)], function(p){ return p.temp; }), note:MIDDLE_NOTE },
+  s_wq:{ desc:"Five points if the stream is not on Ecology's [303(d) list](https://ecology.wa.gov/water-shorelines/water-quality/water-improvement/assessment-of-state-waters-303d) of impaired waters, one point if it is.", extra:function(p){ return p.wq_303d ? "Listed for: " + p.wq_303d : ""; }, bands:bandRows([["Not listed", 5, function(v){ return !v; }], ["Listed", 1, function(v){ return !!v; }]], function(p){ return p.wq_303d; }) },
+  s_canopy:{ desc:"Share of streamside tree canopy cover, from [NorWeST](https://www.fs.usda.gov/rm/boise/AWAE/projects/NorWeST.html) modeled stream data. More canopy scores higher.", bands:bandRows([["Under 20%", 1, function(v){ return isNum(v) && v < 20; }], ["20 to under 40%", 2, function(v){ return isNum(v) && v >= 20 && v < 40; }], ["40 to under 60%", 3, function(v){ return isNum(v) && v >= 40 && v < 60; }], ["60 to under 80%", 4, function(v){ return isNum(v) && v >= 60 && v < 80; }], ["80% or more", 5, function(v){ return isNum(v) && v >= 80; }], noData(3)], function(p){ return p.canopy; }), note:"The bands are read from this run's results. " + MIDDLE_NOTE },
+  s_temp:{ desc:"Modeled mean August stream temperature, from [NorWeST](https://www.fs.usda.gov/rm/boise/AWAE/projects/NorWeST.html). Cooler streams score higher.", bands:bandRows([["Under 12 C", 5, function(v){ return isNum(v) && v < 12; }], ["12 to under 14 C", 4, function(v){ return isNum(v) && v >= 12 && v < 14; }], ["14 to under 17 C", 3, function(v){ return isNum(v) && v >= 14 && v < 17; }], ["17 to under 21 C", 2, function(v){ return isNum(v) && v >= 17 && v < 21; }], ["21 to under 26.1 C", 1, function(v){ return isNum(v) && v >= 21 && v < 26.1; }], ["26.1 C or more", 0, function(v){ return isNum(v) && v >= 26.1; }], noData(3)], function(p){ return p.temp; }), note:MIDDLE_NOTE },
   s_ftemp:{ desc:"Projected mean August stream temperature in 2040. Cooler streams score higher. Same bands as stream temperature.", bands:bandRows([["Under 12 C", 5, function(v){ return isNum(v) && v < 12; }], ["12 to under 14 C", 4, function(v){ return isNum(v) && v >= 12 && v < 14; }], ["14 to under 17 C", 3, function(v){ return isNum(v) && v >= 14 && v < 17; }], ["17 to under 21 C", 2, function(v){ return isNum(v) && v >= 17 && v < 21; }], ["21 to under 26.1 C", 1, function(v){ return isNum(v) && v >= 21 && v < 26.1; }], ["26.1 C or more", 0, function(v){ return isNum(v) && v >= 26.1; }], noData(3)], function(p){ return p.temp_2040; }), note:MIDDLE_NOTE },
   s_flood:{ desc:"Projected percent change in flood events. A smaller increase scores higher.", bands:bandRows([["Under 10% change", 5, function(v){ return isNum(v) && v < 10; }], ["10 to under 25%", 3, function(v){ return isNum(v) && v >= 10 && v < 25; }], ["25% or more", 1, function(v){ return isNum(v) && v >= 25; }], noData(3)], function(p){ return p.flood_pct; }), note:MIDDLE_NOTE },
   s_flow:{ desc:"Projected percent change in summer low flow. A smaller change scores higher.", bands:bandRows([["Under 10% change", 5, function(v){ return isNum(v) && v < 10; }], ["10 to under 25%", 3, function(v){ return isNum(v) && v >= 10 && v < 25; }], ["25% or more", 1, function(v){ return isNum(v) && v >= 25; }], noData(3)], function(p){ return p.flow_pct; }), note:MIDDLE_NOTE }
 };
+// [label](https://...) in the score text becomes a link that opens in a new tab
+function linkText(t){
+  return esc(t).replace(/\[([^\]]+)\]\((https:\/\/[^\s)]+)\)/g, function(m, a, u){ return '<a href="' + u + '" target="_blank" rel="noopener">' + a + "</a>"; });
+}
 function ptsText(n){ return n === 1 ? "1 point" : n + " points"; }
 function ruleCardHtml(m, p){
   var r = RULES[m.key];
   if (!r) return "";
-  var h = "<p>" + esc(r.desc) + "</p>";
+  var h = "<p>" + linkText(r.desc) + "</p>";
   if (r.bands){
     h += '<table class="rtab"><caption class="sr">Points by value for ' + esc(m.name) + '</caption><tbody>' + r.bands.map(function(b){
       var cur = b.hit(p);
-      return "<tr" + (cur ? ' class="cur" aria-current="true"' : "") + '><th scope="row">' + esc(b.label) + "</th><td>" + ptsText(b.pts) + '</td><td class="here">' + (cur ? "This barrier" : "") + "</td></tr>";
+      return "<tr" + (cur ? ' class="cur" aria-current="true"' : "") + '><th scope="row">' + esc(b.label) + "</th><td>" + ptsText(b.pts) + "</td></tr>";
     }).join("") + "</tbody></table>";
   } else if (r.matrix){
     var mx = r.matrix, count = p[mx.count], cat = minCat(p[mx.min]), none = count === 0;
@@ -1814,13 +1877,13 @@ function ruleCardHtml(m, p){
       mx.rows.map(function(row){
         return '<tr><th scope="row">' + esc(row[0]) + "</th>" + row[2].map(function(v, ci){
           var cur = !none && col === ci && cat === row[1];
-          return "<td" + (cur ? ' class="cur" aria-current="true"' : "") + ">" + v + (cur ? ' <span class="here">This barrier</span>' : "") + "</td>";
+          return "<td" + (cur ? ' class="cur" aria-current="true"' : "") + ">" + v + "</td>";
         }).join("") + "</tr>";
       }).join("") + "</tbody></table>" +
-      '<p class="rnone' + (none ? " cur" : "") + '"><b>' + esc(mx.none[0]) + ":</b> " + ptsText(mx.none[1]) + (none ? ' <span class="here">This barrier</span>' : "") + "</p>";
+      '<p class="rnone' + (none ? " cur" : "") + '"><b>' + esc(mx.none[0]) + ":</b> " + ptsText(mx.none[1]) + "</p>";
   }
   if (r.extra){ var xt = r.extra(p); if (xt) h += "<p><b>" + esc(xt) + "</b></p>"; }
-  if (r.note) h += '<p class="rnote">' + esc(r.note) + "</p>";
+  if (r.note) h += '<p class="rnote">' + linkText(r.note) + "</p>";
   return '<div class="rulecard" id="rule-' + m.key + '" hidden>' + h + "</div>";
 }
 function breakdownHtml(p){
@@ -2252,7 +2315,7 @@ function nameMarker(m, text){
 function connMarker(b, up){
   var d = conn ? (up ? conn.upDist[b.id] : conn.dnDist[b.id]) : undefined;
   var pass = passTextP(b.p);
-  var sub = (up ? "Upstream" : "Downstream") + ", " + pass + (d !== undefined ? ", " + distText(d, "").trim() : "");
+  var dw = up ? "Upstream" : "Downstream", sub = (d !== undefined ? distText(d, dw).trim() : dw) + ", " + pass;
   var m = L.marker(b.ll, { icon:triIcon(b.tier.color, up ? "#0088ad" : "#6a1f8f", up), keyboard:true, riseOnHover:true });
   m.bindTooltip(tipHtml(b.id, sub), { direction:"top", offset:[0, -8] });
   nameMarker(m, (up ? "Upstream" : "Downstream") + " barrier " + b.id + ", " + pass + ". Activate to open it.");
@@ -2374,7 +2437,7 @@ function limitMarkers(){
     var lim = x[0];
     if (!lim) return;
     var m = L.marker(lim.b.ll, { icon:limitIcon(lim.b.tier.color, x[2], x[1]), keyboard:true, zIndexOffset:500 });
-    m.bindTooltip(tipHtml(lim.b.id, x[3].charAt(0).toUpperCase() + x[3].slice(1) + ": " + passTextP(lim.b.p) + ", " + distText(lim.d, "").trim()), { direction:"top", offset:[0, -14] });
+    m.bindTooltip(tipHtml(lim.b.id, distText(lim.d, x[3].charAt(0).toUpperCase() + x[3].slice(1)).trim() + ", " + passTextP(lim.b.p)), { direction:"top", offset:[0, -14] });
     nameMarker(m, "Lowest passability barrier " + x[3] + ", " + lim.b.id + ", " + passTextP(lim.b.p) + ", " + distText(lim.d, x[3]) + ". Activate to open it.");
     m.on("click", function(e){ L.DomEvent.stop(e); selectItem(lim.b, { from:"map" }); });
     limitLayer.addLayer(m);
@@ -2470,7 +2533,7 @@ function applyDim(){
 /* selection */
 // WDFW site IDs are letters and digits only. IDs with spaces or dots come from other sources and have no report.
 function reportUrlFor(it){
-  if (it.p.form_url) return it.p.form_url;
+  if (it.p.form_url) return String(it.p.form_url).replace(/^https?:\/\/apps\.wdfw\.wa\.gov\/fishpassagephotos\/Reports\//i, "https://fortress.wa.gov/dfw/public/fishpassagephotos/reports/");
   if (CONFIG.reportUrlTemplate && /^[A-Za-z0-9_]+$/.test(it.id)) return CONFIG.reportUrlTemplate.replace("{id}", encodeURIComponent(it.id));
   return "";
 }
@@ -3233,7 +3296,8 @@ document.addEventListener("keydown", function(e){
 
 /* map bar, layers, legend */
 function buildMoveBox(){
-  var opts = [["smart", "Move only when needed"], ["always", "Always frame its stream network"], ["stay", "Never move the map"]];
+  var opts = [["smart", "Move only when needed"], ["always", "Always frame its network"], ["stay", "Never move the map"]];
+  $("moveBox").className = "lchips one";
   $("moveBox").innerHTML = "";
   opts.forEach(function(o){
     var lab = document.createElement("label"); lab.className = "chk";
@@ -3251,7 +3315,8 @@ function buildMapBar(){
     '<div class="lg"><span class="key dn"></span><span>Downstream path</span></div>' +
     '<div class="lg"><span class="key tri u"></span><span>Upstream barrier</span></div>' +
     '<div class="lg"><span class="key tri d"></span><span>Downstream barrier</span></div>' +
-    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Key barrier (bar across the triangle is 0% passable; larger isolates the most stream)</span></div>';
+    '<div class="lg"><span style="width:28px;display:grid;place-items:center">' + symSvg("lim") + '</span><span>Key barrier</span></div>' +
+    '<p class="lnote wide">A bar across a key barrier means 0% passable. Larger means more stream isolated above it.</p>';
   $("baseBox").innerHTML = "";
   BASEMAPS.forEach(function(b, i){
     var lab = document.createElement("label"); lab.className = "chk";
