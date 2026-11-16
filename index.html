@@ -4393,7 +4393,7 @@ function start(fc, isDemo, streamsUrl){
     $("banner").textContent = "Demo data: locations are placeholders.";
     $("banner").hidden = false;
   } else if (meta.draft){
-    $("banner").textContent = "Draft results: some barrier locations have not been checked.";
+    $("banner").textContent = "Draft results: some barrier locations and the SWIFD-EDH conflation still need to be verified in some areas.";;
     $("banner").hidden = false;
   }
   if (CONFIG.spreadsheetUrl){ $("dl").href = CONFIG.spreadsheetUrl; $("dl").hidden = false; }
