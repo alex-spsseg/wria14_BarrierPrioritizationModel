@@ -1,0 +1,54 @@
+{
+ "115 MC029": {
+  "reason": "Not on the stream network",
+  "detail": "Nearest EDH line is 254 feet away"
+ },
+ "115 MC169": {
+  "reason": "Not on the stream network",
+  "detail": "Nearest EDH line is 282 feet away"
+ },
+ "115 MC179": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "115 MC240": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "115 MC272": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "892909": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "892913": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "892918": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "892920": {
+  "reason": "Not on the stream network",
+  "detail": "Nearest EDH line is 218 feet away"
+ },
+ "997152": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "997227": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "MCD17099": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ },
+ "MCD17174": {
+  "reason": "Not in any layer",
+  "detail": "Not found in Barriers_rawexport or the 0b audit log"
+ }
+}

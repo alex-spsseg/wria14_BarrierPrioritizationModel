@@ -282,8 +282,9 @@ body.has-detail .tierkey{display:none}
 .gone summary{cursor:pointer;font-weight:600;font-size:.86rem;color:var(--brand-ink)}
 .gonelist{list-style:none;margin:0 0 8px;padding:0;max-height:220px;overflow:auto;font-size:.84rem}
 .gonelist li{display:flex;gap:10px;align-items:baseline;padding:3px 0;border-bottom:1px solid var(--line)}
-.gonelist li .linkbtn{font-size:.84rem;flex:none}
+.gonelist li .linkbtn{font-size:.84rem;flex:none;width:6.2em;text-align:left}
 .gonelist li span{color:var(--muted);min-width:0}
+.gonelist li span b{display:block;color:var(--ink);font-weight:600}
 .slnote{margin:0 0 8px;padding:9px 12px;border-radius:12px;background:var(--tint);color:var(--brand-ink);font-size:.84rem;line-height:1.35}
 .slnote[hidden]{display:none}
 .slnote .linkbtn{margin-left:4px;font-size:.84rem}
@@ -324,7 +325,7 @@ body.has-detail .tierkey{display:none}
 .rvstep{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;font-size:.8rem;color:var(--muted)}
 .rvstep[hidden]{display:none}
 .rvstep .linkbtn{padding:2px 10px;font-size:1.05rem;line-height:1}
-#rvPos{min-width:3.6em;text-align:center;font-variant-numeric:tabular-nums}
+#rvPos{min-width:4.6em;text-align:center;font-variant-numeric:tabular-nums}
 details.dd{border-top:1px solid var(--line)}
 details.dd:last-of-type{border-bottom:1px solid var(--line)}
 details.dd > summary{padding:12px 2px;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
@@ -435,6 +436,15 @@ table.net{border-collapse:collapse;width:100%;font-size:.9rem}
 .ptabs button{flex:1;padding:6px 4px;border:0;border-radius:8px;background:none;font-size:.82rem;font-weight:600;color:var(--muted)}
 .ptabs button[aria-selected="true"]{background:#fff;color:var(--brand-ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .pg + .pg{margin-top:12px}
+.pgh.tg{justify-content:flex-start;gap:6px;cursor:pointer;user-select:none}
+.pgh.tg::before{content:"";flex:none;width:6px;height:6px;margin:0 5px 3px 2px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.pgh.tg .mini{margin-left:auto}
+.pgh .pgsum{margin-left:auto;font-weight:600;letter-spacing:0;text-transform:none;font-size:.76rem;color:var(--muted)}
+.pg:not(.closed) .pgsum{display:none}
+.pg.closed > .pgh.tg::before{transform:rotate(-45deg)}
+.pg.closed > :not(.pgh){display:none}
+.pg.closed .pgh .mini{display:none}
+.pg.closed > .pgh{margin-bottom:0}
 .pgh{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .pgh .mini{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
 .lchips.c3{grid-template-columns:repeat(3,1fr)}
@@ -985,8 +995,9 @@ var CONFIG = {
   // Barrier ID question. Leave "" to hide the Report a problem links.
   feedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.1097076810=A+Specific+Barrier&entry.221761731=BARRIERID",
   dataUrl: "barriers.geojson",
+  removedUrl: "removed_barriers.json",       // optional: why each barrier left the model, from explain_removed_barriers.py
   previousUrl: "barriers_previous.geojson",   // optional: the barrier file from the last published run, for the "since last run" badges
-  excludeIds: [],                  // barrier ids to leave out of the app until their location is fixed, e.g. ["937207"]
+  excludeIds: ["937207"],                  // barrier ids to leave out of the app until their location is fixed, e.g. ["937207"]
   changeMin: 10,                   // a rank move of at least this many places gets a badge in the list
   streamsUrl: "streams.geojson",   // split stream lines with topology, from export_webapp_data.py
   basinUrl: "basin.geojson",       // optional
@@ -1016,7 +1027,7 @@ var TIERS = [
 ];
 var CATEGORIES = [
   { name:"Habitat quantity gain", short:"habitat gain", max:20, keys:["s_hab0","s_habtot"], metrics:"Upstream habitat, upstream habitat to 0 percent passable" },
-  { name:"Species benefit", short:"species benefit", max:50, keys:["s_chinook","s_coho","s_steelhead","s_chum","s_cutthroat","s_species"], metrics:"Upstream habitat for Chinook, Coho, Steelhead and Chum, cutthroat presence, number of species" },
+  { name:"Species benefit", short:"species benefit", max:47, keys:["s_chinook","s_coho","s_steelhead","s_chum","s_cutthroat","s_species"], metrics:"Upstream habitat for Chinook, Coho, Steelhead and Chum, cutthroat presence, number of species" },
   { name:"Barrier metrics", short:"barrier metrics", max:30, keys:["s_pass","s_ds","s_us","s_nods"], metrics:"Barrier passability, downstream barriers, upstream barriers, no downstream barriers" },
   { name:"Water quality", short:"water quality", max:20, keys:["s_road","s_wq","s_temp","s_canopy"], metrics:"Road density, 303d listing, stream temperature, canopy cover" },
   { name:"Future conditions", short:"future conditions", max:15, keys:["s_ftemp","s_flood","s_flow"], metrics:"Future stream temperature, future flood events, future summer low flow" }
@@ -1727,8 +1738,8 @@ function gainHtml(conn){
     return '<div class="gb"><span>' + label + "</span><b>" + miles(v) + " (" + pc(v) + '%)</b></div><div class="gain-bar ' + cls + '" role="img" aria-label="' + esc(label) + ", " + pc(v) + ' percent of the upstream stream"><i style="width:' + pc(v) + '%"></i></div>';
   }
   var h = '<div class="gain"><div class="gain-top"><b>Upstream gain</b><span> of ' + miles(tot) + " potential habitat</span></div>";
-  if (Math.abs(stop - next) < 0.05) h += bar(hasFirst ? "To next barrier (total)" : "To upstream end", stop, "b2");
-  else h += bar("To next barrier", next, "b1") + bar(hasFirst ? (g.firsts.length > 1 ? "To first total barriers" : "To first total barrier") : "To upstream end", stop, "b2");
+  if (Math.abs(stop - next) < 0.05) h += bar(hasFirst ? "Habitat to next barrier (total)" : "Habitat to upstream end", stop, "b2");
+  else h += bar("Habitat to next barrier", next, "b1") + bar(hasFirst ? (g.firsts.length > 1 ? "Habitat to first total barriers" : "Habitat to first total barrier") : "Habitat to upstream end", stop, "b2");
   return h + '<p class="gain-note">' + (hasFirst ? miles(g.blockedMi) + " isolated above total barriers" : "No total barriers upstream") + "</p></div>";
 }
 function networkHtml(conn, hasNetwork, o){
@@ -1834,7 +1845,7 @@ function psGain(conn){
   function pc(v){ return Math.max(0, Math.min(100, Math.round(100 * v / tot))); }
   function bar(label, v){ return '<div class="ps-gb"><span>' + label + "</span><b>" + esc(miles(v)) + " (" + pc(v) + '%)</b></div><div class="ps-bar"><i style="width:' + pc(v) + '%"></i></div>'; }
   var h = '<div class="ps-gain"><div class="ps-gt"><b>Upstream gain</b> of ' + esc(miles(tot)) + " potential habitat</div>";
-  h += Math.abs(stop - next) < 0.05 ? bar(hasFirst ? "To next barrier (total)" : "To upstream end", stop) : bar("To next barrier", next) + bar(hasFirst ? (g.firsts.length > 1 ? "To first total barriers" : "To first total barrier") : "To upstream end", stop);
+  h += Math.abs(stop - next) < 0.05 ? bar(hasFirst ? "Habitat to next barrier (total)" : "Habitat to upstream end", stop) : bar("Habitat to next barrier", next) + bar(hasFirst ? (g.firsts.length > 1 ? "Habitat to first total barriers" : "Habitat to first total barrier") : "Habitat to upstream end", stop);
   return h + '<div class="ps-gn">' + (hasFirst ? esc(miles(g.blockedMi)) + " isolated above total barriers" : "No total barriers upstream") + "</div></div>";
 }
 function psStops(conn){
@@ -1897,7 +1908,7 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
        '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + '</div><div class="ps-sm"><div>of ' + CONFIG.maxScore + " points</div><div><b>" + rankOfText(it) +
        '</b></div><div><span class="swatch" style="display:inline-block;vertical-align:-1pt;background:' + it.tier.color + '"></span> ' + esc(it.tier.label) + "</div></div></div></div>";
   h += '<div class="ps-map" id="psMap"></div>';
-  h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Key barrier (bar = 0% passable)</span></div>";
+  h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Key barrier (0% passable)</span></div>";
   h += '<div class="ps-cols">';
   h += '<div class="ps-sec"><h2>Connected network</h2>';
   if (conn){
@@ -1915,11 +1926,11 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
     h += "<li><span>" + esc(c.name) + '</span><span class="bar"><i style="width:' + Math.round(100 * sc / c.max) + '%"></i></span><span class="v">' + sc + " / " + c.max + "</span></li>";
   });
   h += "</ul></div></div>";
+  h += '<div class="ps-sec"><h2>Barrier details</h2>' + psDetails(p) + "</div>";
   if (conn){
     h += '<div class="ps-cols"><div class="ps-sec"><h2>Upstream barriers (' + conn.upBarriers.length + ")</h2>" + psList(conn.upBarriers, conn.upDist) + "</div>" +
          '<div class="ps-sec"><h2>Downstream barriers (' + conn.dnBarriers.length + ")</h2>" + psList(conn.dnBarriers, conn.dnDist) + "</div></div>";
   }
-  h += '<div class="ps-sec"><h2>Barrier details</h2>' + psDetails(p) + "</div>";
   h += '<div class="ps-sec"><h2>Score by criterion</h2>' + psScoreDetail(p) + "</div>";
   var src = [];
   if (meta && meta.run_label) src.push("Model run: " + meta.run_label);
@@ -2018,7 +2029,7 @@ var RULES = {
   s_steelhead:{ desc:"Miles of upstream potential habitat where SWIFD records steelhead use.", bands:habBands(function(p){ return p.hab_steelhead; }), note:SWIFD_NOTE },
   s_chum:{ desc:"Miles of upstream potential habitat where SWIFD records chum use.", bands:habBands(function(p){ return p.hab_chum; }), note:SWIFD_NOTE },
   s_cutthroat:{ desc:"Two points where SWIFD records cutthroat use on the barrier's stream.", bands:bandRows([["Cutthroat use recorded", 2, function(v){ return isNum(v) && v > 0; }], ["No cutthroat use recorded", 0, function(v){ return isNum(v) && v <= 0; }]], function(p){ return p.use_cutthroat; }), note:SWIFD_NOTE },
-  s_species:{ desc:"One point for each species that would benefit from barrier correction, up to five. Species are counted from SWIFD.", bands:bandRows([0, 1, 2, 3, 4, 5].map(function(n){ return [n === 1 ? "1 species" : n + " species", n, function(v){ return isNum(v) && v === n; }]; }), function(p){ return p.n_species; }) },
+  s_species:{ desc:"One point for each species that would benefit from barrier correction, up to five. Species are counted from SWIFD. A species counts when its SWIFD line passes through the barrier location, so a species can have habitat upstream and still show no fish use at the barrier.", bands:bandRows([0, 1, 2, 3, 4, 5].map(function(n){ return [n === 1 ? "1 species" : n + " species", n, function(v){ return isNum(v) && v === n; }]; }), function(p){ return p.n_species; }) },
   s_pass:{ desc:"Barrier determinations are based on the ability of adult salmonids to migrate through, around, or over an instream feature, from the WDFW passability rating. Percent passability is a qualitative indicator of the barrier severity during fish passage flows. It considers water surface drop, velocity, and/or depth, depending on the feature type and barrier criteria. The more severe the barrier status, the higher the need for barrier correction. See the [WDFW Fish Passage Inventory, Assessment, and Prioritization Manual](https://wdfw.wa.gov/publications/02061).",
     bands:[{ label:"0% passable, a total barrier", pts:15, hit:function(p){ return passKeyP(p) === "total"; } },
            { label:"33% passable", pts:10, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct <= 50; } },
@@ -2453,7 +2464,7 @@ function updateRvStep(){
   if (!row) return;
   var n = rvLayers().length, show = !!(cb && cb.checked && reviewLayer && n > 1);
   row.hidden = !show;
-  if (show) $("rvPos").textContent = (rvIdx < 0 ? "-" : rvIdx + 1) + " of " + n;
+  if (show) $("rvPos").textContent = rvIdx < 0 ? n + " areas" : (rvIdx + 1) + " of " + n;
 }
 /* the room left for the area and its popup: not under the list, the open Map options panel or the barrier panel */
 function rvPad(){
@@ -3920,6 +3931,45 @@ function buildMapBar(){
     $("baseBox").appendChild(lab);
   });
 }
+/* collapsible groups in the Layers tab: only the Map group is open at first, so the panel is short */
+var layerGroups = Array.prototype.slice.call(document.querySelectorAll("#ptab-layers > .pg:not(.fbrow)"));
+function setGroup(g, open){
+  g.classList.toggle("closed", !open);
+  var h = g.querySelector(".pgh");
+  if (h) h.setAttribute("aria-expanded", String(open));
+}
+function groupSummary(g){
+  var radio = g.querySelector('input[type="radio"]:checked');
+  if (radio){ var sp = radio.parentNode.querySelector("span"); return sp ? sp.textContent : ""; }
+  var n = g.querySelectorAll('.lchips input[type="checkbox"]:checked').length;
+  return n ? n + " on" : "";
+}
+function refreshGroupSummaries(){
+  layerGroups.forEach(function(g){
+    var el = g.querySelector(".pgsum");
+    if (el) el.textContent = groupSummary(g);
+  });
+}
+layerGroups.forEach(function(g, i){
+  var h = g.querySelector(".pgh");
+  if (!h) return;
+  h.classList.add("tg"); h.setAttribute("role", "button"); h.setAttribute("tabindex", "0");
+  var sum = document.createElement("span"); sum.className = "pgsum"; h.appendChild(sum);
+  function toggle(){ setGroup(g, g.classList.contains("closed")); }
+  h.addEventListener("click", function(e){ if (e.target.closest && e.target.closest(".mini")) return; toggle(); });
+  h.addEventListener("keydown", function(e){
+    if (e.target !== h) return;
+    if (e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
+  });
+  setGroup(g, i === 1 || i === 2);                // Map and Fish distribution open; Basemap and Reference closed
+});
+(function(){
+  var tab = $("ptab-layers"), queued = false;
+  function queue(){ if (queued) return; queued = true; requestAnimationFrame(function(){ queued = false; refreshGroupSummaries(); }); }
+  tab.addEventListener("change", queue);
+  new MutationObserver(queue).observe(tab, { childList:true, subtree:true });
+  refreshGroupSummaries();
+})();
 var habHome = $("habCard").parentNode, habNext = $("habCard").nextSibling;
 function toggleLayers(open){
   var pop = $("layersPop"), card = $("habCard");
@@ -3965,18 +4015,20 @@ function buildAbout(){
     "<li><b>Unknown passability.</b> Where a barrier has no passability rating, the model uses an assumed value. These show as Unknown or Unknown, modeled as 33% passable.</li>" +
     "<li><b>Missing data.</b> A barrier with no value for a water quality or future conditions measure gets the middle score, so it is neither rewarded nor penalized.</li>" +
     "<li><b>Connected barriers.</b> Selecting a barrier highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down. Arrows show the direction of flow.</li></ul>";
-  h += "<h3>Changes from the original model</h3><p>This run differs from the original model in the ways below. The original authors are no longer with SPSSEG, so each change was a decision made by SPSSEG staff.</p><ul>" +
-    "<li><b>Stream network.</b> The original model used the National Hydrography Dataset (NHD), which is deprecated. This run uses the EDH stream lines wherever EDH is available. EDH is not yet available for the Harstine Island and Perry Creek watersheds, so the streams there come from a flow accumulation model of the lidar elevation data, using an accumulation threshold of 500,000 square feet. Those lines were then simplified so they are comparable to EDH (see the next item). Barriers in those watersheds are scored on this derived network, so their upstream and downstream distances are estimates. The results will be updated when the remaining EDH network for Mason and Thurston Counties is released.</li>" +
-    "<li><b>Flow accumulation lines.</b> The derived lines were wigglier than EDH, which would overstate the stream length above a barrier. They were simplified (10 foot tolerance) and lightly smoothed (30 foot) so their curviness is close to EDH. Some were also redrawn by hand to follow road crossings.</li>" +
-    "<li><b>Network repairs.</b> Gaps, T junctions and backward lines in the working copy of the network were fixed by hand so that upstream and downstream traces connect. The published EDH dataset was not changed. Some streams that end at a lake or wetland on the mapped network were left as they are, and the areas for review layer marks them for group discussion.</li>" +
-    "<li><b>Fish distribution (SWIFD).</b> SWIFD was drawn on NHD, so its lines were matched automatically to the nearest EDH lines within 100 feet. Some short breaks and small offsets remain in the matched lines, and stream reaches that exist only in EDH or the flow accumulation lines have no distribution. Habitat above barriers is therefore probably underestimated, most in small headwater streams. The original SWIFD on the NHD lines can be turned on under Layers (Original SWIFD Lines (NHD)) to compare.</li>" +
-    "<li><b>Barrier locations.</b> A fresh WDFW barrier download was used, and the sites were placed on the stream lines with a new snapping and review process. Draft results are marked where a site has not been reviewed.</li>" +
-    "<li><b>Natural barriers.</b> WDFW classes some natural features as barriers without giving a passability. In this version they keep an assumed 33% passability, are scored, and are left out of the ranking. The original model ranked them with the rest. A rule that treats them as 0% passable is built into the pipeline and will be tested before it is used.</li>" +
-    "<li><b>Stream temperature, canopy and future climate matching.</b> A barrier takes its NorWeST and VIC climate values from the nearest modeled line within 150 feet. The original model used 100 feet. The wider distance is needed because those layers were built on NHD and do not line up with the EDH lines. Barriers farther away still get the middle score.</li>" +
-    "<li><b>Water quality 303(d) matching.</b> A barrier is flagged when a 303(d) listing lies within 50 feet of any stream upstream of the barrier. The original model used 5 feet because the listings and the network were both built on NHD.</li>" +
-    "<li><b>Web app.</b> Results are published as a static web page instead of an ArcGIS Online Instant App. It shows every scored barrier, with natural barriers marked as not ranked.</li></ul>";
-  h += "<h3>Age of the input data</h3><p>Some inputs are older than the model run. The water quality list (Ecology 303(d)) is the 2014 list, approved in 2016. Stream temperature (NorWeST) is the 2018 version. The roads and future climate (VIC) layers carry no date in their records. These have not been updated for this run.</p>";
-  if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review. Their upstream and downstream results may be wrong until the locations are checked.</p>";
+  h += "<h3>Background: Elevation Derived Hydrography (EDH)</h3><p>The original model was built on the National Hydrography Dataset (NHD). USGS retired NHD in 2023 and replaced it with the 3D Hydrography Program (3DHP), which derives streams, waterbodies and catchments from lidar elevation data. In Washington, NHD updates were slow (updating the whole state would have taken more than 20 years) and its accuracy was inconsistent, so this model moves to its replacement.</p><p>The Washington State Department of Ecology, the state hydrography steward, is remapping the state with elevation derived hydrography (EDH) that meets the 3DHP specifications. The project runs from 2024 to 2030, and EDH is released for each area as it is finalized. This is a work in progress: EDH is not yet available for all of WRIA 14 (see Stream network below), and this model will be updated as more is released. See the <a href='https://gis.ecology.wa.gov/portal/apps/sites/#/washington-state-hydrography-dataset-program/pages/our-projects' target='_blank' rel='noopener'>Washington State Hydrography Dataset Program</a>.</p><h3>Changes from the original model</h3><p>This run differs from the original model as listed below.</p><ul>" +
+    "<li><b>Stream network.</b> This run uses EDH stream lines where available. EDH is not yet available for the Harstine Island and Perry Creek watersheds, so streams there are derived from a flow accumulation model of lidar elevation data (accumulation threshold of 500,000 square feet). Barriers in those watersheds are scored on the derived network, so their upstream and downstream distances are estimates. Results will be updated when the remaining EDH network for Mason and Thurston Counties is released.</li>" +
+    "<li><b>Derived line processing.</b> Derived lines were simplified (10 foot tolerance) and smoothed (30 foot) to match the sinuosity of EDH, because unsimplified lines overstate stream length above a barrier. Some lines were edited manually to follow road crossings.</li>" +
+    "<li><b>Network repairs.</b> Gaps, T junctions and reversed line directions in the working copy of the network were corrected so that upstream and downstream traces connect. The published EDH dataset was not modified. Streams that terminate at a sink in the elevation model (lake, wetland, etc.) were left as mapped and are marked in the areas for review layer.</li>" +
+    "<li><b>Fish distribution (SWIFD).</b> SWIFD was drawn on NHD. SPSSEG is conflating the SWIFD fish distribution onto EDH, and this work is in progress. In this run, SWIFD lines were matched to the nearest EDH lines within 100 feet. Short gaps and small offsets remain, and reaches that exist only in EDH or the derived lines have no distribution. Habitat above barriers is therefore likely underestimated, most in small headwater streams. The original SWIFD on NHD can be displayed under Layers (Original SWIFD Lines (NHD)) for comparison.</li>" +
+    "<li><b>Barrier locations.</b> A current WDFW barrier download was used. Sites were snapped to the stream lines and reviewed. Results are marked as draft where a site has not been reviewed.</li>" +
+    "<li><b>Natural barriers.</b> WDFW classifies some natural features as barriers without a passability value. These keep an assumed passability of 33%, are scored, and are excluded from the ranking. The original model ranked them. A rule that assigns 0% passability is built into the pipeline and will be tested before use.</li>" +
+    "<li><b>Stream temperature, canopy and future climate.</b> NorWeST and VIC values are assigned from the nearest modeled line within 150 feet (100 feet in the original model). The wider distance accounts for those layers being built on NHD, which does not align with EDH. Barriers beyond that distance receive the middle score.</li>" +
+    "<li><b>Water quality 303(d).</b> A barrier is flagged when a 303(d) listing lies within 50 feet of any stream upstream of it. The original model used 5 feet, where the listings and the network were both on NHD.</li>" +
+    "<li><b>Web app.</b> Results are published as a static web page instead of an ArcGIS Online Instant App. All scored barriers are shown, and natural barriers are marked as not ranked.</li></ul>";
+  h += "<h3>Age of the input data</h3><table><tbody>" +
+    [["Ecology 303(d) list", "2014 list, approved in 2016"], ["NorWeST stream temperature", "2018 version"], ["Roads", "No date in the records"], ["VIC future climate", "No date in the records"]].map(function(r){
+      return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table><p>None of these inputs were updated for this run.</p>";
+  if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review, so their upstream and downstream results may be wrong until the locations are verified.</p>";
   var rows = [];
   if (meta.run_label) rows.push(["Model run", meta.run_label]);
   if (meta.network) rows.push(["Stream network", meta.network]);
@@ -4496,6 +4548,8 @@ function helpShow(key){
       if (r && r.msg){ status(r.msg, 4500); return; }
       var el = typeof r === "string" ? document.querySelector(r) : r;
       if (!el || el.hidden){ status("That is not visible at the moment.", 3500); return; }
+      var grp = el.closest ? el.closest("#ptab-layers > .pg") : null;
+      if (grp && grp.classList.contains("closed")) setGroup(grp, true);
       el.classList.add("tour-hl");
       el.scrollIntoView({ block:"nearest", inline:"nearest" });
       setTimeout(function(){ el.classList.remove("tour-hl"); }, 6500);
@@ -4797,7 +4851,7 @@ $("chgOn").addEventListener("change", function(){
   drawList();
   if (selected) selectItem(selected, { zoom:false });
 });
-var goneList = [], goneMark = null;
+var goneList = [], goneMark = null, goneReasons = {};
 function goneDraw(){
   var box = $("goneBox"); if (!box) return;
   if (!goneList.length){ box.hidden = true; return; }
@@ -4806,7 +4860,8 @@ function goneDraw(){
   $("goneList").innerHTML = goneList.map(function(b, i){
     var p = b.p;
     var info = [p.stream || "Unnamed", b.rank === null ? "not ranked" : "was rank " + b.rank, isNum(p.total) ? "score " + p.total : ""].filter(Boolean).join(", ");
-    return '<li><button type="button" class="linkbtn" data-gone="' + i + '">' + esc(b.id) + "</button><span>" + esc(info) + "</span></li>";
+    var why = goneReasons[b.id] || null;
+    return '<li><button type="button" class="linkbtn" data-gone="' + i + '">' + esc(b.id) + "</button><span>" + (why && why.reason ? "<b>" + esc(why.reason) + "</b>" : "") + esc(info) + "</span></li>";
   }).join("");
 }
 function goneMatch(q){
@@ -4829,11 +4884,12 @@ $("goneList").addEventListener("click", function(ev){
   var b = goneList[Number(btn.dataset.gone)]; if (b) goneShow(b);
 });
 $("goneCsv").addEventListener("click", function(){
-  var head = ["Barrier ID", "Stream", "Tributary to", "Feature type", "Passability (last run)", "Rank (last run)", "Score (last run)", "Latitude", "Longitude"];
+  var head = ["Barrier ID", "Reason", "Detail", "Stream", "Tributary to", "Feature type", "Passability (last run)", "Rank (last run)", "Score (last run)", "Latitude", "Longitude"];
   var lines = [head.map(csvCell).join(",")];
   goneList.forEach(function(b){
     var p = b.p;
-    lines.push([b.id, p.stream || "", p.trib || "", p.ftype || "", isNum(p.pass_pct) ? p.pass_pct : "", b.rank === null ? "" : b.rank, isNum(p.total) ? p.total : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
+    var why = goneReasons[b.id] || {};
+    lines.push([b.id, why.reason || "", why.detail || "", p.stream || "", p.trib || "", p.ftype || "", isNum(p.pass_pct) ? p.pass_pct : "", b.rank === null ? "" : b.rank, isNum(p.total) ? p.total : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
   });
   var d = new Date(), z = function(n){ return (n < 10 ? "0" : "") + n; };
   downloadText(lines.join("\r\n"), "text/csv", "wria14_not_in_current_run_" + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + ".csv");
@@ -4893,6 +4949,7 @@ function start(fc, isDemo, streamsUrl){
   Promise.all([loadHabitat(), loadWatersheds(), loadSubbasins()]).then(function(r){ finishGeo(r[0], r[1]); finishSubbasins(r[2]); });
   loadGeo(CONFIG.swifdUrl).then(finishSwifd);
   slSync(); slImport();
+  if (!isDemo && CONFIG.removedUrl) getJson(CONFIG.removedUrl).then(function(j){ goneReasons = j || {}; goneDraw(); }).catch(function(){});
   if (!isDemo && CONFIG.previousUrl) getJson(CONFIG.previousUrl).then(prevApply).catch(function(){});
   return loadStreams(streamsUrl).then(function(){
     if (init.b){

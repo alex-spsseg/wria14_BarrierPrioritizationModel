@@ -1,0 +1,14 @@
+Barrier ID,Reason,Detail,Stream (last run),Feature type (last run)
+115 MC029,Not on the stream network,Nearest EDH line is 254 feet away,unnamed,Culvert
+115 MC169,Not on the stream network,Nearest EDH line is 282 feet away,unnamed (TEST RECORD),Culvert
+115 MC179,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
+115 MC240,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
+115 MC272,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,Malaney Cr,Dam
+892909,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,Perry Cr,Natural Barrier
+892913,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,Rock Cr,Natural Barrier
+892918,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,,Natural Barrier
+892920,Not on the stream network,Nearest EDH line is 218 feet away,,Natural Barrier
+997152,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
+997227,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
+MCD17099,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
+MCD17174,Not in any layer,Not found in Barriers_rawexport or the 0b audit log,unnamed,Culvert
