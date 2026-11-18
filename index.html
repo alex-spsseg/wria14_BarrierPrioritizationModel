@@ -111,7 +111,14 @@ button{cursor:pointer}
 .lchips .chk[hidden]{display:none}
 .lchips .chk input{position:absolute;opacity:0;width:0;height:0;margin:0}
 .lchips .chk:hover{border-color:var(--faint)}
-.lchips .chk:has(input:checked){background:var(--tint);border-color:var(--accent);color:var(--brand-ink);font-weight:600}
+.lchips .chk.cmp{border-style:dashed}
+.lchips .chk:has(input:checked){background:var(--brand);border-color:var(--brand);color:#fff;font-weight:600}
+.lchips .chk:has(input:checked):hover{border-color:var(--brand-ink);background:var(--brand-ink)}
+.lchips .chk:has(input:checked) .swdot{box-shadow:0 0 0 2px #fff}
+#baseBox{gap:0;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--soft)}
+#baseBox .chk{border:0;border-radius:0;background:transparent;border-right:1px solid var(--line)}
+#baseBox .chk:last-child{border-right:0}
+#baseBox .chk:has(input:checked){background:var(--brand);color:#fff}
 .lchips .chk:has(input:focus-visible){outline:2px solid var(--brand);outline-offset:2px}
 .mini > summary{padding:8px 2px;font-size:.84rem;color:var(--brand);font-weight:600}
 .mini .drow{font-size:.86rem}
@@ -249,6 +256,41 @@ body.has-detail .tierkey{display:none}
 .of{font-size:.82rem;color:var(--muted)}
 .scorecard .meta{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
 .tag{display:inline-flex;align-items:center;gap:7px;padding:3px 12px 3px 9px;background:#fff;border-radius:999px;font-size:.84rem;font-weight:600;box-shadow:0 0 0 1px var(--line)}
+.ctag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:.68rem;font-weight:700;vertical-align:middle;white-space:nowrap}
+.ctag.up{background:#d9efe1;color:#14532d}
+.ctag.dn{background:#f9dcdc;color:#7f1d1d}
+.ctag.nw{background:#e4e9f7;color:var(--brand-ink)}
+.prevline{font-size:.8rem;color:var(--muted);margin-top:3px}
+.list li{display:flex;align-items:center;gap:2px}
+.list li .item{flex:1;min-width:0;width:auto}
+.list li.empty{display:block}
+.star{flex:none;width:34px;height:34px;border:0;background:none;border-radius:50%;cursor:pointer;display:grid;place-items:center;color:var(--faint);padding:0}
+.star[hidden]{display:none}
+.star:hover{background:var(--soft);color:var(--brand)}
+.star svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.star[aria-pressed="true"]{color:#b7791f}
+.star[aria-pressed="true"] svg{fill:currentColor}
+.detail-head .dstar{position:absolute;right:142px;top:14px;width:36px;height:36px;background:#fff;box-shadow:0 0 0 1px var(--line)}
+.detail-head h2{padding-right:190px}
+.fbtn[aria-pressed="true"]{background:var(--brand);color:#fff}
+.hsearch{position:sticky;top:0;z-index:2;background:#fff;padding:2px 0 10px}
+.hsearch input{width:100%;box-sizing:border-box;padding:9px 14px;border:1px solid var(--line);border-radius:999px;font:inherit;font-size:.9rem;background:var(--soft)}
+.hsearch input:focus{outline:2px solid var(--brand);outline-offset:1px;background:#fff}
+.hnone{color:var(--muted);font-size:.9rem;margin:14px 2px}
+.hcard[hidden],.hgrp[hidden]{display:none}
+.gone{margin-top:12px}
+.gone summary{cursor:pointer;font-weight:600;font-size:.86rem;color:var(--brand-ink)}
+.gonelist{list-style:none;margin:0 0 8px;padding:0;max-height:220px;overflow:auto;font-size:.84rem}
+.gonelist li{display:flex;gap:10px;align-items:baseline;padding:3px 0;border-bottom:1px solid var(--line)}
+.gonelist li .linkbtn{font-size:.84rem;flex:none}
+.gonelist li span{color:var(--muted);min-width:0}
+.slnote{margin:0 0 8px;padding:9px 12px;border-radius:12px;background:var(--tint);color:var(--brand-ink);font-size:.84rem;line-height:1.35}
+.slnote[hidden]{display:none}
+.slnote .linkbtn{margin-left:4px;font-size:.84rem}
+.slbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-top:1px solid var(--line);background:var(--tint);font-size:.84rem}
+.slbar[hidden]{display:none}
+.slbar #slMsg{flex:1 1 100%;color:var(--brand-ink);font-weight:600}
+.slbar .btn{padding:4px 12px;font-size:.8rem}
 .ntag{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:#efe2b4;color:#5e4700;font-size:.68rem;font-weight:700;vertical-align:middle;letter-spacing:.01em}
 .infobox{background:#eef3f8;border:1px solid #b9cbe0;border-radius:10px;padding:8px 12px;font-size:.86rem;margin:12px 0 0;color:#1f3558}
 .ps-nat{margin:2pt 0 0;font-size:8.5pt;font-weight:600;color:#5e4700}
@@ -263,6 +305,7 @@ body.has-detail .tierkey{display:none}
 .sw{appearance:none;-webkit-appearance:none;width:40px;height:24px;border-radius:999px;background:#c3cfd6;position:relative;margin:0;cursor:pointer;transition:background .15s;flex:none}
 .sw::before{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .15s}
 .sw:checked{background:var(--brand)}
+.chk input.sw{width:40px;height:24px}   /* the general .chk checkbox size would otherwise squash the switch */
 .sw:checked::before{transform:translateX(16px)}
 .key{display:block;height:0;border-top:4px solid;border-radius:2px}
 .key.up{border-color:var(--up)}
@@ -558,8 +601,9 @@ dialog td.num,dialog th.num{text-align:right}
 .tour-act{display:flex;gap:8px;justify-content:flex-end}
 .tour-act .main{background:var(--brand);color:#fff;border-color:var(--brand)}
 .tour-act .btn:disabled{opacity:.4;cursor:default}
-.tour-hl{outline:3px solid var(--accent);outline-offset:-3px;border-radius:6px;animation:tourpulse 1.4s ease-in-out 3}
-@keyframes tourpulse{50%{outline-color:rgba(1,159,196,.25)}}
+.tour-hl{outline:4px solid #f5a300;outline-offset:1px;border-radius:10px;background-color:rgba(245,163,0,.16);box-shadow:0 0 0 8px rgba(245,163,0,.35),0 0 24px 10px rgba(245,163,0,.5);animation:tourpulse 1s ease-in-out 6}
+@keyframes tourpulse{50%{box-shadow:0 0 0 14px rgba(245,163,0,.15),0 0 34px 16px rgba(245,163,0,.22);outline-color:#ffcf5c}}
+@media (prefers-reduced-motion:reduce){.tour-hl{animation:none}}
 .grab{display:none}
 /* printable one page summary */
 #printRoot{position:fixed;left:-12000px;top:0;width:7.5in;background:#fff;color:#111;font-size:10pt;line-height:1.35}
@@ -695,6 +739,10 @@ dialog td.num,dialog th.num{text-align:right}
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
           <span>Filters</span><span class="n" id="fCount" hidden></span>
         </button>
+        <button type="button" class="fbtn" id="slBtn" aria-pressed="false" title="Show only your saved barriers">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/></svg>
+          <span>Saved</span><span class="n" id="slN" hidden></span>
+        </button>
       </div>
       <div class="chips" id="chips" aria-label="Active filters"></div>
       <div class="sortrow"><label for="sortSel">Sort by</label>
@@ -705,11 +753,18 @@ dialog td.num,dialog th.num{text-align:right}
           <option value="oldest">Longest since surveyed</option>
         </select></div>
     </div>
+    <div class="slbar" id="slBar" hidden>
+      <span id="slMsg" role="status"></span>
+      <button type="button" class="btn" id="slCsv">Download CSV</button>
+      <button type="button" class="btn" id="slLink">Copy link</button>
+      <button type="button" class="btn" id="slClear">Clear saved</button>
+    </div>
     <div class="listwrap"><ul class="list" id="list" aria-label="Barriers"></ul></div>
 
     <div class="sheet" id="filters" role="dialog" aria-label="Filters" hidden>
       <div class="sheet-head"><h2>Filters</h2><button type="button" class="linkbtn" id="sheetReset">Reset all</button></div>
       <div class="sheet-body">
+        <div class="slnote" id="slNote" hidden><span>Showing saved barriers only.</span> <button type="button" class="linkbtn" id="slNoteOff">Show all barriers</button></div>
         <details class="dd fg fg-fixed" open><summary><span class="ft">Priority tier</span><span class="fsum" data-fsum="tier" hidden></span></summary><div class="fgb" id="tierBox"></div></details>
         <details class="dd fg"><summary><span class="ft">Total score</span><span class="fsum" data-fsum="score" hidden></span></summary><div class="fgb">
           <div class="hist" id="scoreHist">
@@ -725,7 +780,7 @@ dialog td.num,dialog th.num{text-align:right}
           </div></div></details>
         <details class="dd fg" id="passGroup"><summary><span class="ft">Passability</span><span class="fsum" data-fsum="pass" hidden></span></summary><div class="fgb">
           <div id="passBox"></div>
-          <div class="note">Unknown has no passability rating. Not applicable (N/A) means the table gives none. Modeled as 33% means the model assumed a value, as it did for natural barriers.</div></div></details>
+          <div class="note">Unknown has no passability rating. Not applicable (N/A) means the table gives none. Modeled as 33% means the model assumed a value because the barrier has no rating.</div></div></details>
         <details class="dd fg" id="netGroup"><summary><span class="ft">Network</span><span class="fsum" data-fsum="net" hidden></span></summary><div class="fgb">
           <div id="dsBlock">
             <div class="fsub">Downstream barriers</div>
@@ -743,7 +798,7 @@ dialog td.num,dialog th.num{text-align:right}
             <div class="note" id="uhNote"></div>
           </div></div></details>
         <details class="dd fg" id="ftGroup"><summary><span class="ft">Feature type</span><span class="fsum" data-fsum="ftype" hidden></span></summary><div class="fgb">
-          <label class="chk" id="natRow" title="Natural features such as waterfalls. They are ranked for the habitat they block but may not be project candidates."><input type="checkbox" id="hideNat"><span>Hide natural barriers</span><span class="n" id="natN"></span></label>
+          <label class="chk" id="natRow" title="Natural features such as waterfalls. They are scored for the habitat they block but not ranked, and may not be project candidates."><input type="checkbox" id="hideNat"><span>Hide natural barriers</span><span class="n" id="natN"></span></label>
           <div class="mcombo" id="ftCombo">
             <div class="mc-chips" id="ftChips"></div>
             <div class="mc-field"><input id="ftInput" type="text" role="combobox" aria-expanded="false" aria-controls="ftList" aria-autocomplete="list" aria-label="Feature types. Type to search and pick one or more." placeholder="All feature types" autocomplete="off"><button type="button" class="mc-toggle" id="ftToggle" tabindex="-1" aria-label="Show or hide the feature type list"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4"/></svg></button></div>
@@ -780,6 +835,15 @@ dialog td.num,dialog th.num{text-align:right}
             <div class="grow"><label class="lbl" for="sFrom">From</label><input id="sFrom" type="date"></div>
             <div class="grow"><label class="lbl" for="sTo">To</label><input id="sTo" type="date"></div>
           </div></div></details>
+        <details class="dd fg" id="chgRow" hidden><summary><span class="ft">Changes since last run</span><span class="fsum" id="chgSum" hidden>On</span></summary><div class="fgb">
+          <label class="chk" style="justify-content:space-between;gap:14px"><span>Show rank changes</span><input type="checkbox" class="sw" id="chgOn" role="switch"></label>
+          <p class="note" style="margin:4px 0 0">Marks barriers that moved up or down the ranking since the last run. Barriers not in the last run are always tagged New. Changes are also shown whenever the list is sorted by biggest change. This setting does not filter the list.</p>
+          <details class="gone" id="goneBox" hidden><summary id="goneSum"></summary>
+            <p class="note" style="margin:6px 0">Barriers that were in the last run but are not in this one. They may have been repaired, removed from the stream network or reclassified. Select an ID to see its last location.</p>
+            <ul class="gonelist" id="goneList"></ul>
+            <button type="button" class="btn" id="goneCsv">Download CSV</button>
+          </details>
+        </div></details>
       </div>
       <div class="sheet-foot"><button type="button" class="primary" id="sheetDone">Show barriers</button></div>
     </div>
@@ -794,6 +858,7 @@ dialog td.num,dialog th.num{text-align:right}
         <button type="button" class="step" id="dPrev" aria-label="Previous barrier in the list" title="Previous barrier"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
         <button type="button" class="step" id="dNext" aria-label="Next barrier in the list" title="Next barrier"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
       </div>
+      <button type="button" class="star dstar" id="dStar" aria-pressed="false" aria-label="Save this barrier" title="Save this barrier"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/></svg></button>
       <button type="button" class="xbtn" id="dClose" aria-label="Close barrier details"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="tabs" role="tablist" aria-label="Barrier sections" id="dTabs">
@@ -827,8 +892,11 @@ dialog td.num,dialog th.num{text-align:right}
         <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
         <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
       </div><div id="habSlot"></div></div>
+      <div class="pg" id="swDet"><div class="pgh"><span>Fish distribution</span><label class="mini" id="swDocLab" hidden><input type="checkbox" id="swDoc"><span>Documented only</span></label></div>
+        <div id="swSpec" hidden><div id="swBox" class="lchips c3"></div></div>
+        <div id="swRefBox" class="lchips one" style="margin-top:6px"></div></div>
       <div class="pg"><div class="pgh">Reference</div><div id="refBox" class="lchips"></div></div>
-      <div class="pg" id="swDet" hidden><div class="pgh"><span>Fish distribution</span><label class="mini"><input type="checkbox" id="swDoc"><span>Documented only</span></label></div><div id="swBox" class="lchips c3"></div></div>
+      <div class="pg" id="netFbBox" hidden><div class="pgh">Feedback</div><a id="netFbLink" class="rptprob" href="#" target="_blank" rel="noopener" title="Opens a form in a new tab with the center of the map filled in">Report a stream or fish distribution problem</a></div>
     </div>
     <div class="ptab" id="ptab-legend" role="tabpanel" hidden><div id="legBox"></div></div>
     <div class="ptab" id="ptab-settings" role="tabpanel" hidden>
@@ -899,16 +967,25 @@ dialog td.num,dialog th.num{text-align:right}
 /* ------------------------------------------------------------------ config */
 var CONFIG = {
   spreadsheetUrl: "",              // link to the scoring spreadsheet; blank hides the button
+  // General comments and suggestions that are not about one barrier. Leave "" to reuse the barrier feedback form without the
+  // barrier ID filled in. Set it to a different form's link to keep general feedback separate.
+  generalFeedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.1097076810=The+app+or+model+in+general",
+  // Stream or fish distribution problems. LATLONG is replaced with the center of the map when the link is clicked.
+  networkFeedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.1097076810=A+Stream+network+or+Fish+Distribution+problem&entry.864460874=LATLONG",
   contactEmail: "",                // shown in the About dialog when set
   // Link to the "Report a barrier problem" Google Form, copied from Get pre-filled link with BARRIERID typed into the
   // Barrier ID question. Leave "" to hide the Report a problem links.
-  feedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.221761731=BARRIERID",
+  feedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.1097076810=A+Specific+Barrier&entry.221761731=BARRIERID",
   dataUrl: "barriers.geojson",
+  previousUrl: "barriers_previous.geojson",   // optional: the barrier file from the last published run, for the "since last run" badges
+  excludeIds: [],                  // barrier ids to leave out of the app until their location is fixed, e.g. ["937207"]
+  changeMin: 10,                   // a rank move of at least this many places gets a badge in the list
   streamsUrl: "streams.geojson",   // split stream lines with topology, from export_webapp_data.py
   basinUrl: "basin.geojson",       // optional
   habitatUrl: "habitat.geojson",   // optional: reach polygons with restoration and conservation priority
   watershedsUrl: "watersheds.geojson", // optional: watershed polygons
   subbasinsUrl: "subbasins.geojson",   // optional: HUC12 subbasin polygons (properties name and huc12)
+  reviewUrl: "review_areas.geojson",   // optional: areas the group is asked to review (properties title, question, details, barriers, status)
   edhUrl: "edh_connectors.geojson",    // optional: EDH connector lines (property c is 1 for culverts and 2 for other kinds). Loaded only when the chip is turned on
   swifdUrl: "swifd.geojson",           // optional: SWIFD fish distribution lines on the model's streams (properties sp, run, dist, use, life)
   // the Habitat Prioritization app (Mason Conservation District); a barrier's location is added to the address so it opens there
@@ -963,19 +1040,19 @@ var BASEMAPS = [
 // Reference layers drawn live from each agency's public ArcGIS map service. To add one, copy a row and change the address.
 // layers is the sublayer to show ("show:4"). Leave it out to use the service's own defaults.
 var REF_LAYERS = [
-  { id:"swifd",   label:"Fish distribution (SWIFD)",     url:"https://geodataservices.wdfw.wa.gov/arcgis/rest/services/MapServices/SWIFD/MapServer",                         attr:"Fish distribution, WDFW and NWIFC" },
-  { id:"fpdsi",   label:"WDFW sites",                 url:"https://geodataservices.wdfw.wa.gov/arcgis/rest/services/ApplicationServices/FP_Sites/MapServer",              attr:"Fish passage sites, WDFW FPDSI" },
-  { id:"d303",    label:"303(d) waters",              url:"https://gis.ecology.wa.gov/serverext/rest/services/Authoritative/WQ/MapServer", layers:"show:4",                  attr:"303(d) listings, Washington Ecology" },
-  { id:"nw_hist", label:"Temp, 1993 to 2011",         url:"https://apps.fs.usda.gov/ArcX/rest/services/EDW/EDW_NorWeST_StreamTemperatures_01/MapServer", layers:"show:2", attr:"Stream temperature, NorWeST, USFS" },
+  { id:"swifd",   label:"Fish distribution, original SWIFD lines (NHD)", chip:"Original SWIFD Lines (NHD)",     url:"https://geodataservices.wdfw.wa.gov/arcgis/rest/services/MapServices/SWIFD/MapServer",                         attr:"Fish distribution, WDFW and NWIFC" },
+  { id:"fpdsi",   label:"WDFW fish passage sites", chip:"WDFW sites",                 url:"https://geodataservices.wdfw.wa.gov/arcgis/rest/services/ApplicationServices/FP_Sites/MapServer",              attr:"Fish passage sites, WDFW FPDSI" },
+  { id:"d303",    label:"303(d) impaired waters", chip:"303(d) waters",              url:"https://gis.ecology.wa.gov/serverext/rest/services/Authoritative/WQ/MapServer", layers:"show:4",                  attr:"303(d) listings, Washington Ecology" },
+  { id:"nw_hist", label:"Stream temperature, 1993 to 2011", chip:"Stream temp, 1993 to 2011",         url:"https://apps.fs.usda.gov/ArcX/rest/services/EDW/EDW_NorWeST_StreamTemperatures_01/MapServer", layers:"show:2", attr:"Stream temperature, NorWeST, USFS" },
   { id:"nhd",     label:"NHD flowlines",             url:"https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer", layers:"show:6",                       attr:"NHD flowlines, USGS" },
-  { id:"nw_2040", label:"Temp, 2040s",               url:"https://apps.fs.usda.gov/ArcX/rest/services/EDW/EDW_NorWeST_StreamTemperatures_01/MapServer", layers:"show:1", attr:"Stream temperature, NorWeST, USFS" }
+  { id:"nw_2040", label:"Stream temperature, 2040s projected", chip:"Stream temp, 2040s",               url:"https://apps.fs.usda.gov/ArcX/rest/services/EDW/EDW_NorWeST_StreamTemperatures_01/MapServer", layers:"show:1", attr:"Stream temperature, NorWeST, USFS" }
   // Add the VIC climate change layer and the Wild Fish Conservancy layer here once you have their service addresses.
 ];
 var HILLSHADE = { url:"https://server.arcgisonline.com/ArcGIS/rest/services/Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}", attr:"Hillshade &copy; Esri", nat:16 };
 var SNAP_LABELS = { auto:"Placed by the snapping rules", manual:"Checked by hand", poc_nearest:"Nearest stream line, not checked", unchecked:"Not placed on the network" };
 // Plain words for passability: 0 is a total barrier, 100 is not a barrier, anything in between is a partial barrier.
 var PASS_LABELS = { 0:"Total Barrier", 100:"Not a Barrier" };
-var SORTS = { rank:1, id:1, newest:1, oldest:1 };
+var SORTS = { rank:1, id:1, newest:1, oldest:1, change:1 };
 
 /* ------------------------------------------------------------ pure helpers */
 function isNum(v){ return typeof v === "number" && isFinite(v); }
@@ -988,6 +1065,8 @@ function clean(v){
   }
   return v;
 }
+function rankShort(it){ return it.ranked ? "Rank " + it.rank : "Not ranked"; }
+function rankOfText(it){ return it.ranked ? "Rank " + it.rank + " of " + it.n : "Not ranked (natural barrier)"; }
 function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function fmt(v, d){
   v = clean(v);
@@ -1025,6 +1104,7 @@ function buildModel(fc){
     var p = {};
     Object.keys(f.properties || {}).forEach(function(k){ p[k] = (k === "su" || k === "sd") ? asArray(f.properties[k]) : clean(f.properties[k]); });
     if (p.id === null || p.id === undefined) return;
+    if ((CONFIG.excludeIds || []).indexOf(String(p.id)) !== -1) return;
     if (!p.su) p.su = [];
     if (!p.sd) p.sd = [];
     var pp = parsePass(p.pass_pct, p.pass_note); p.pass_pct = pp.pct; p.pass_note = pp.note;
@@ -1041,10 +1121,18 @@ function buildModel(fc){
     var ta = isNum(a.p.total) ? a.p.total : -1, tb = isNum(b.p.total) ? b.p.total : -1;
     return (tb - ta) || a.id.localeCompare(b.id);
   });
-  var n = items.length;
+  // Natural barriers (ranked false in the data) are scored but not ranked. They get no rank and are not counted in "of N".
+  // ord is the order among all barriers by score, used only to sort lists.
+  var rankedTotals = items.filter(function(it){ return it.p.ranked !== false; }).map(function(it){ return isNum(it.p.total) ? it.p.total : -1; });
+  var n = rankedTotals.length, rk = 0;
   items.forEach(function(it, i){
-    it.rank = i + 1; it.n = n;
-    it.pct = isNum(it.p.pct) ? it.p.pct : (n > 1 ? (n - 1 - i) / (n - 1) : 1);
+    it.ord = i + 1; it.n = n; it.ranked = it.p.ranked !== false;
+    if (it.ranked){ rk += 1; it.rank = rk; } else it.rank = null;
+    if (it.ranked) it.pct = isNum(it.p.pct) ? it.p.pct : (n > 1 ? (n - rk) / (n - 1) : 1);
+    else {
+      var tt = isNum(it.p.total) ? it.p.total : -1, lower = rankedTotals.filter(function(x){ return x < tt; }).length;
+      it.pct = n > 1 ? Math.max(0, Math.min(1, lower / (n - 1))) : 1;
+    }
     it.tier = tierOf(it.pct);
   });
   return items;
@@ -1142,7 +1230,7 @@ function connected(net, it){
   function list(o, dm){
     return Object.keys(o).map(function(k){ return o[k]; }).sort(function(a, b){
       var da = dm[a.id] === undefined ? 1e9 : dm[a.id], dbb = dm[b.id] === undefined ? 1e9 : dm[b.id];
-      return (da - dbb) || (a.rank - b.rank);
+      return (da - dbb) || (a.ord - b.ord);
     });
   }
   var upB = list(ub, upDist), dnB = list(db, dnDist);
@@ -1314,12 +1402,17 @@ function orderItems(list, mode){
   if (mode === "id") out.sort(function(a, b){ return a.id.localeCompare(b.id, undefined, { numeric:true }); });
   else if (mode === "newest" || mode === "oldest"){
     out.sort(function(a, b){
-      if (a.survey === null && b.survey === null) return a.rank - b.rank;
+      if (a.survey === null && b.survey === null) return a.ord - b.ord;
       if (a.survey === null) return 1;
       if (b.survey === null) return -1;
-      return (mode === "newest" ? b.survey - a.survey : a.survey - b.survey) || (a.rank - b.rank);
+      return (mode === "newest" ? b.survey - a.survey : a.survey - b.survey) || (a.ord - b.ord);
     });
-  } else out.sort(function(a, b){ return a.rank - b.rank; });
+  } else if (mode === "change"){
+    out.sort(function(a, b){
+      var da = a.delta === null || a.delta === undefined ? -1 : Math.abs(a.delta), db = b.delta === null || b.delta === undefined ? -1 : Math.abs(b.delta);
+      return (db - da) || (a.ord - b.ord);
+    });
+  } else out.sort(function(a, b){ return a.ord - b.ord; });
   return out;
 }
 
@@ -1478,7 +1571,7 @@ function distText(d, dir){ return d === undefined ? "" : (d < 0.1 ? Math.round(d
 function connRow(b, d, dir){
   var pass = passTextP(b.p);
   return '<li><button type="button" data-id="' + esc(b.id) + '" data-hov="' + esc(b.id) + '" data-hd="' + (dir === "upstream" ? "up" : "dn") + '"><span><b>' + esc(b.id) + '</b><br><span class="s">' +
-    esc(b.p.ftype || "Barrier") + ", " + esc(pass) + '</span></span><span class="s" style="text-align:right">' + esc(distText(d, dir)) + "<br>Rank " + b.rank + "</span></button></li>";
+    esc(b.p.ftype || "Barrier") + ", " + esc(pass) + '</span></span><span class="s" style="text-align:right">' + esc(distText(d, dir)) + "<br>" + rankShort(b) + "</span></button></li>";
 }
 function symSvg(kind){
   var m = {
@@ -1518,7 +1611,7 @@ function shortName(c){ return c.short.charAt(0).toUpperCase() + c.short.slice(1)
 function scoreCardHtml(it){
   var p = it.p, total = isNum(p.total) ? p.total : null;
   var h = '<div class="scorecard"><div class="sc-top"><div><div class="big">' + (total === null ? "No score" : total) + '</div><div class="of">of ' + CONFIG.maxScore +
-          ' points</div></div><div class="meta"><div>Rank ' + it.rank + ' of ' + it.n + '</div><span class="tag"><span class="swatch" style="background:' + it.tier.color + '"></span>' + esc(it.tier.label) + '</span></div></div><ul class="mini" aria-label="Score by group">';
+          ' points</div></div><div class="meta"><div>' + rankOfText(it) + '</div>' + prevLineHtml(it) + '<span class="tag"><span class="swatch" style="background:' + it.tier.color + '"></span>' + esc(it.tier.label) + '</span></div></div><ul class="mini" aria-label="Score by group">';
   CATEGORIES.forEach(function(c){
     var sc = catScore(p, c);
     h += "<li><span>" + esc(shortName(c)) + '</span><span class="bar"><i style="width:' + Math.round(100 * sc / c.max) + '%"></i></span><span class="v">' + sc + " / " + c.max + "</span></li>";
@@ -1552,7 +1645,7 @@ function overviewHtml(it, conn){
   var p = it.p, h = scoreCardHtml(it), missing = [];
   var why = whySentence(p);
   h += '<p class="why">' + (why ? esc(why) + " " : "") + '<button type="button" class="linkbtn" data-go="score">View Score Breakdown</button></p>';
-  if (it.natural) h += '<p class="infobox"><b>Natural barrier.</b> Not human made, so it may not be a feasible project candidate.' + (it.p.pass_note === "assumed" ? " Unknown passabilities are modeled as 33%." : "") + "</p>";
+  if (it.natural) h += '<p class="infobox"><b>Natural barrier.</b> Not human made, so it may not be a feasible project candidate. It is scored for reference but not ranked.' + (it.p.pass_note === "assumed" ? " Unknown passabilities are modeled as 33%." : "") + "</p>";
   if (it.snap === "poc_nearest") h += '<p class="warnbox"><b>Location not checked.</b> This barrier was placed on the nearest stream line without review. Its upstream and downstream results may be wrong.</p>';
   if (conn) h += '<div class="glance2"><button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("ups") + ' Upstream</span><b>' + miles(conn.upMi) + '</b><span class="s">' + plural(conn.upBarriers.length, "other barrier", "other barriers") + "</span></button>" +
     '<button type="button" class="gtile" data-go="network"><span class="gt">' + symSvg("dns") + ' Downstream</span><b>' + miles(conn.dnMi) + '</b><span class="s">' + plural(conn.dnBarriers.length, "barrier", "barriers") + "</span></button></div>";
@@ -1692,6 +1785,10 @@ function scoreTabHtml(it){
   if (extra.length) h += '<section class="dsec"><h4>Other model values</h4>' + extra.map(function(x){ return '<div class="drow"><span class="k">' + esc(x[0]) + '</span><span class="v">' + esc(x[1]) + "</span></div>"; }).join("") + "</section>";
   return h;
 }
+function generalFeedbackUrl(){
+  if (CONFIG.generalFeedbackUrl) return CONFIG.generalFeedbackUrl;
+  return CONFIG.feedbackUrl ? CONFIG.feedbackUrl.split("?")[0] : "";   // the same form, opened with no barrier ID filled in
+}
 function feedbackUrlFor(it){
   var u = CONFIG.feedbackUrl;
   return u && u.indexOf("BARRIERID") >= 0 ? u.replace("BARRIERID", encodeURIComponent(it.id)) : "";
@@ -1789,7 +1886,7 @@ function printHtml(it, conn, meta, url, demo, reportUrl){
   h += '<div class="ps-head"><div><img class="ps-logo" src="img/spsseg_logo_horizontal.png" alt="South Puget Sound Salmon Enhancement Group" onerror="this.style.display=\'none\'">' +
        "<h1>Barrier " + esc(it.id) + "</h1><p>" + esc(sub) + "</p>" +
        (it.natural ? '<p class="ps-nat">Natural barrier. It may not be a project candidate.</p>' : "") + "</div>" +
-       '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + '</div><div class="ps-sm"><div>of ' + CONFIG.maxScore + " points</div><div><b>Rank " + it.rank + " of " + it.n +
+       '<div class="ps-score"><div class="big">' + (total === null ? "No score" : total) + '</div><div class="ps-sm"><div>of ' + CONFIG.maxScore + " points</div><div><b>" + rankOfText(it) +
        '</b></div><div><span class="swatch" style="display:inline-block;vertical-align:-1pt;background:' + it.tier.color + '"></span> ' + esc(it.tier.label) + "</div></div></div></div>";
   h += '<div class="ps-map" id="psMap"></div>';
   h += '<div class="ps-legend"><span>' + symSvg("up") + " Upstream stream</span><span>" + symSvg("dn") + " Downstream path</span><span>" + symSvg("ub") + " Upstream barrier</span><span>" + symSvg("db") + " Downstream barrier</span><span>" + symSvg("lim") + " Key barrier (bar = 0% passable)</span></div>";
@@ -1921,7 +2018,7 @@ var RULES = {
            { label:"67% passable", pts:5, hit:function(p){ return passKeyP(p) === "partial" && p.pass_pct > 50; } },
            { label:"Unknown passability", pts:5, hit:function(p){ return passKeyP(p) === "unknown"; } },
            { label:"Not applicable (N/A)", pts:0, hit:function(p){ return passKeyP(p) === "na"; } }],
-    note:"Natural barriers were modeled as 33% passable and scored 10 points." },
+    note:"Natural barriers with no WDFW passability rating keep the assumed 33% passability in this version. They are scored but not ranked." },
   s_ds:{ desc:"Barriers between this barrier and Puget Sound. Fewer and more passable downstream barriers score higher. The count and the worst passability among them set the score.",
     matrix:{ count:"ds_count", min:"ds_minpass", none:["No downstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
       rows:[["Worst is 0% passable", 0, [0, 0, 0]], ["Worst is 33% passable", 33, [3, 1, 0]], ["Worst is 67% passable", 67, [4, 3, 1]], ["Worst is unknown", "unk", [0, 0, 0]]] } },
@@ -1993,12 +2090,12 @@ function simulateFix(X, xc){
   });
   function ranks(m){
     var o = {};
-    rest.slice().sort(function(a, b){ return (m[b.id] - m[a.id]) || a.id.localeCompare(b.id); }).forEach(function(it, i){ o[it.id] = i + 1; });
+    rest.filter(function(it){ return it.ranked; }).sort(function(a, b){ return (m[b.id] - m[a.id]) || a.id.localeCompare(b.id); }).forEach(function(it, i){ o[it.id] = i + 1; });
     return o;
   }
   var rb = ranks(before), ra = ranks(after), changed = [];
   rest.forEach(function(it){
-    if (over[it.id] && after[it.id] !== before[it.id]) changed.push({ b:it, dir:dirOf[it.id], before:before[it.id], after:after[it.id], delta:after[it.id] - before[it.id], rankBefore:rb[it.id], rankAfter:ra[it.id] });
+    if (over[it.id] && after[it.id] !== before[it.id]) changed.push({ b:it, dir:dirOf[it.id], before:before[it.id], after:after[it.id], delta:after[it.id] - before[it.id], rankBefore:it.ranked ? rb[it.id] : null, rankAfter:it.ranked ? ra[it.id] : null });
   });
   changed.sort(function(a, b){ return (b.delta - a.delta) || (a.rankAfter - b.rankAfter); });
   return { changed:changed, touched:Object.keys(over).length, rankedOut:rest.length };
@@ -2024,7 +2121,7 @@ function ifFixHtml(X, xc){
     h += '<table class="net iff-t"><thead><tr><th scope="col">Barrier</th><th scope="col">Score</th><th scope="col">Rank</th></tr></thead><tbody>' +
       r.changed.slice(0, 8).map(function(c){
         return '<tr data-hov="' + esc(c.b.id) + '" data-hd="' + c.dir + '"><td><b>' + esc(c.b.id) + '</b><span class="s">' + (c.dir === "up" ? "upstream" : "downstream") + "</span></td><td>" + c.before + " \u2192 " + c.after +
-          ' <span class="wi-d' + (c.delta < 0 ? " neg" : "") + '">' + sgn(c.delta) + "</span></td><td>" + c.rankBefore + " \u2192 " + c.rankAfter + rankMove(c.rankBefore - c.rankAfter) + "</td></tr>";
+          ' <span class="wi-d' + (c.delta < 0 ? " neg" : "") + '">' + sgn(c.delta) + "</span></td><td>" + (c.rankBefore === null ? "not ranked" : c.rankBefore + " \u2192 " + c.rankAfter + rankMove(c.rankBefore - c.rankAfter)) + "</td></tr>";
       }).join("") + "</tbody></table>" + (n > 8 ? '<p class="note">' + (n - 8) + " more change.</p>" : "");
   } else {
     h += '<p class="note">No other barrier changes score.</p>';
@@ -2130,6 +2227,18 @@ var markerById = {};
 API.liveItems = function(){ return items; };     // for the tests
 
 var map = L.map("map", { zoomControl:false, preferCanvas:true, minZoom:6, zoomSnap:0.5, keyboard:true }).setView(CONFIG.center, CONFIG.zoom);
+(function(){
+  var a = $("netFbLink"), box = $("netFbBox");
+  if (!a || !box || !CONFIG.networkFeedbackUrl) return;
+  box.hidden = false;
+  function setHref(){
+    var c = map.getCenter();
+    var txt = c.lat.toFixed(5) + ", " + c.lng.toFixed(5);
+    a.href = CONFIG.networkFeedbackUrl.replace("LATLONG", encodeURIComponent(txt).replace(/%20/g, "+"));
+  }
+  ["mousedown", "focus", "touchstart", "click"].forEach(function(ev){ a.addEventListener(ev, setHref); });
+  setHref();
+})();
 API.map = map;
 var baseLayer = null, hillLayer = null;
 var currentBase = "topo";
@@ -2144,6 +2253,7 @@ setBase("topo");
 L.control.scale({ position:"bottomleft", maxWidth:110, imperial:true, metric:true }).addTo(map);
 
 map.createPane("ref").style.zIndex = 398;
+map.createPane("review").style.zIndex = 399;
 // An ArcGIS map service drawn as image tiles. Each tile asks the service to export just its own square.
 // Live reference layers only ask the server for squares that touch the WRIA outline, so panning outside it costs nothing.
 var wriaPolys = null;
@@ -2222,6 +2332,48 @@ function toggleEdh(on, box){
     if (box.checked) edhLayer.addTo(map);
   });
 }
+/* areas for review: polygons the group is asked to decide on. Shown on by default when the file is published. */
+var reviewLayer = null, reviewCount = 0;
+function reviewPopup(p){
+  var ids = String(p.barriers || "").split(",").map(function(s){ return s.trim(); }).filter(Boolean);
+  var h = '<div class="rv"><b>' + esc(p.title || "Area for review") + "</b>" + (String(p.status || "").toLowerCase() === "decided" ? ' <span class="ntag">Decided</span>' : "");
+  if (p.question) h += "<p>" + esc(p.question) + "</p>";
+  if (p.details) h += '<p class="lnote">' + esc(p.details) + "</p>";
+  if (ids.length) h += '<p class="lnote">Barriers affected</p><p>' + ids.map(function(id){ return '<button type="button" class="linkbtn" data-bid="' + esc(id) + '">' + esc(id) + "</button>"; }).join(" ") + "</p>";
+  return h + "</div>";
+}
+function toggleReview(on){
+  if (!reviewLayer) return;
+  if (on) reviewLayer.addTo(map); else map.removeLayer(reviewLayer);
+}
+function initReview(box, lab){
+  if (reviewLayer){ lab.style.display = ""; box.checked = map.hasLayer(reviewLayer); return; }
+  getJson(CONFIG.reviewUrl).catch(function(){ return null; }).then(function(g){
+    if (!g || !g.features || !g.features.length) return;
+    reviewLayer = L.geoJSON(g, {
+      pane:"review", renderer:L.svg({ pane:"review" }),
+      style:function(f){
+        var done = String((f.properties || {}).status || "").toLowerCase() === "decided", c = done ? "#6b7280" : "#e8590c";
+        return { color:c, weight:2, dashArray:"6 4", fillColor:c, fillOpacity:0.18 };
+      },
+      onEachFeature:function(f, l){
+        l.bindPopup(reviewPopup(f.properties || {}), { maxWidth:320 });
+        l.on("popupopen", function(e){
+          var el = e.popup.getElement();
+          if (!el) return;
+          Array.prototype.forEach.call(el.querySelectorAll("[data-bid]"), function(b){
+            b.addEventListener("click", function(){
+              var id = b.getAttribute("data-bid"), it = items.filter(function(x){ return x.id === id; })[0];
+              if (it) selectItem(it, { from:"map" });
+            });
+          });
+        });
+      }
+    });
+    reviewCount = g.features.length;
+    lab.style.display = ""; box.checked = true; reviewLayer.addTo(map); renderLegend();
+  });
+}
 function symbolsHtml(){
   return '<div class="pg"><div class="pgh">Selected barrier</div><div class="legsym">' +
     '<div class="lg"><span class="key up"></span><span>Upstream stream</span></div>' +
@@ -2270,6 +2422,10 @@ function renderLegend(){
     h += '<div class="pg"><div class="pgh">EDH connectors</div>' + (edhTypes.length ? edhTypes : [{ name:"Culvert", color:"#e8590c" }]).map(function(t){
       return '<div class="lg"><span class="key" style="border-color:' + t.color + '"></span><span>' + esc(t.name) + (t.n ? " (" + t.n + ")" : "") + "</span></div>";
     }).join("") + "</div>";
+  }
+  var rv = $("ref_review");
+  if (rv && rv.checked && reviewCount){
+    h += '<div class="pg"><div class="pgh">Areas for review</div><div class="lg"><span class="key" style="border-top:4px dashed #e8590c"></span><span>Area the group is asked to review (' + reviewCount + ')</span></div><p class="lnote">Click an area to read the question and select the barriers it affects.</p></div>';
   }
   if (selected) h += symbolsHtml();
   box.innerHTML = h || '<p class="lnote">Turn on a layer, or click a barrier, to see its legend here.</p>';
@@ -3126,6 +3282,7 @@ function selectItem(it, opt){
   var rUrl = reportUrlFor(it);
   $("dBody").innerHTML = detailHtml(it, conn, net ? (hasNet(it) ? true : null) : false, rUrl, { tab:detailTab, ov:ov, dir:listDir, fb:feedbackUrlFor(it) });
   $("dFoot").innerHTML = footHtml(rUrl, feedbackUrlFor(it));
+  slSync();
   renderLegend();
   setTab(detailTab);
   syncFly();
@@ -3148,7 +3305,7 @@ function selectItem(it, opt){
   });
   writeHash();
   hintShown = true; $("status").hidden = true;
-  var msg = "Barrier " + it.id + ", score " + (isNum(it.p.total) ? it.p.total : "not available") + ", rank " + it.rank + ", " + it.tier.label + ".";
+  var msg = "Barrier " + it.id + ", score " + (isNum(it.p.total) ? it.p.total : "not available") + (it.ranked ? ", rank " + it.rank : ", not ranked") + ", " + it.tier.label + ".";
   if (conn){
     msg += " " + miles(conn.upMi) + " upstream, " + plural(conn.upBarriers.length, "barrier", "barriers") + " upstream, " + plural(conn.dnBarriers.length, "barrier", "barriers") + " downstream.";
     if (conn.dnLimit) msg += " Lowest passability downstream: barrier " + conn.dnLimit.b.id + ", " + passTextP(conn.dnLimit.b.p) + ", " + distText(conn.dnLimit.d, "along the stream") + ".";
@@ -3251,7 +3408,7 @@ function drawMarkers(){
   order.forEach(function(it){
     var m = L.circleMarker(it.ll, { renderer:canvas, radius:it.tier.radius, fillColor:it.tier.color, fillOpacity:0.95, color:"#16212b", weight:outlineW() });
     m.on("click", function(e){ if (measuring) return; L.DomEvent.stop(e); selectItem(it, { from:"map" }); });
-    m.bindTooltip(tipHtml(it.id, "Rank " + it.rank + ", score " + (isNum(it.p.total) ? it.p.total : "n/a")), { direction:"top" });
+    m.bindTooltip(tipHtml(it.id, rankShort(it) + ", score " + (isNum(it.p.total) ? it.p.total : "n/a")), { direction:"top" });
     barrierLayer.addLayer(m);
     markerById[it.id] = m;
   });
@@ -3263,16 +3420,25 @@ function scoreBg(it){
 }
 function drawList(){
   var ul = $("list"); ul.innerHTML = "";
-  if (!filtered.length){ ul.innerHTML = '<li class="empty">No barriers match these filters.</li>'; return; }
+  if (!filtered.length){
+    var gm = slOnly ? null : goneMatch(st.q);
+    if (gm){
+      ul.innerHTML = '<li class="empty"><b>' + esc(gm.id) + "</b> was in the last run (" + (gm.rank === null ? "not ranked" : "rank " + gm.rank) + (isNum(gm.p.total) ? ", score " + gm.p.total : "") +
+        ") but is not in this run. It may have been repaired, removed from the stream network or reclassified. " +
+        '<button type="button" class="linkbtn" data-golast="1">Show its last location</button></li>';
+      return;
+    }
+    ul.innerHTML = '<li class="empty">No barriers match these filters.</li>'; return;
+  }
   var frag = document.createDocumentFragment();
   orderItems(filtered, listMode).forEach(function(it){
     var li = document.createElement("li");
     var sub = [it.p.stream || "Unnamed", it.p.trib ? "tributary to " + it.p.trib : ""].filter(Boolean).join(", ");
     if (listMode === "newest" || listMode === "oldest") sub = (it.p.survey_date ? "Surveyed " + it.p.survey_date : "No survey date") + ". " + sub;
     li.innerHTML = '<button type="button" class="item" data-id="' + esc(it.id) + '"' + (selected && selected.id === it.id ? ' aria-current="true"' : "") + ">" +
-      '<span class="rk"><span class="sr">Rank </span>' + it.rank + '</span><span class="nm">' + esc(it.id) + (it.natural ? ' <span class="ntag">Natural<span class="sr"> barrier</span></span>' : "") + "</span>" +
+      '<span class="rk"><span class="sr">Rank </span>' + (it.ranked ? it.rank : '<span title="Not ranked">\u2013</span>') + '</span><span class="nm">' + esc(it.id) + (it.natural ? ' <span class="ntag">Natural<span class="sr"> barrier</span></span>' : "") + changeTag(it) + "</span>" +
       '<span class="sc" style="background:' + scoreBg(it) + '"><span class="swatch" style="background:' + it.tier.color + '" title="' + esc(it.tier.label) + '"></span><span class="sr">' + esc(it.tier.label) + ", score </span>" + (isNum(it.p.total) ? it.p.total : "n/a") + "</span>" +
-      '<span class="sub">' + esc(sub) + "</span></button>";
+      '<span class="sub">' + esc(sub) + "</span></button>" + starBtnHtml(it);
     frag.appendChild(li);
   });
   ul.appendChild(frag);
@@ -3292,7 +3458,11 @@ $("list").addEventListener("keydown", function(ev){
   var n = btns[i + (ev.key === "ArrowDown" ? 1 : -1)];
   if (n) n.focus();
 });
-$("sortSel").addEventListener("change", function(){ listMode = this.value; drawList(); updateStepper(); writeHash(); });
+$("sortSel").addEventListener("change", function(){
+  var was = listMode; listMode = this.value;
+  drawList(); updateStepper(); writeHash();
+  if (selected && prevLoaded && (was === "change" || listMode === "change")) selectItem(selected, { zoom:false });   // the rank change line follows the sort
+});
 
 /* table */
 function drawTable(){
@@ -3349,12 +3519,13 @@ $("csvBtn").addEventListener("click", function(){
 var refreshTimer = null;
 function refresh(){
   filtered = applyFilters(items, st);
+  if (slOnly) filtered = filtered.filter(function(it){ return shortlist[it.id]; });
   var n = filtered.length;
   $("count").textContent = n + " of " + items.length + " barriers";
   var nf = activeFilterCount(st);
   $("fCount").hidden = !nf; $("fCount").textContent = nf;
   $("sheetDone").textContent = n === 1 ? "Show 1 barrier" : "Show " + n + " barriers";
-  drawChips(); updateGroupSummaries(); drawMarkers(); drawList(); updateStepper();
+  drawChips(); updateGroupSummaries(); drawMarkers(); drawList(); updateStepper(); slSync();
   if (!$("drawer").hidden) drawTable();
   writeHash();
 }
@@ -3369,6 +3540,11 @@ function updateGroupSummaries(){
 function drawChips(){
   var box = $("chips"), chips = activeChips(st);
   box.innerHTML = "";
+  if (slOnly){
+    var sc = document.createElement("span"); sc.className = "fchip";
+    sc.innerHTML = "<span>Saved only</span>" + '<button type="button" data-chip="shortlist" aria-label="Remove filter: Saved only"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10"/></svg></button>';
+    box.appendChild(sc);
+  }
   chips.forEach(function(c){
     var el = document.createElement("span"); el.className = "fchip";
     el.innerHTML = "<span>" + esc(c.label) + '</span><button type="button" data-chip="' + c.key + '" aria-label="Remove filter: ' + esc(c.label) + '"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2L2 10"/></svg></button>';
@@ -3381,7 +3557,9 @@ function drawChips(){
 }
 function clearFilter(key){
   var d = defaultFilters();
+  if (key === "shortlist" || key === "all") slOnly = false;
   if (key === "all") st = d;
+  else if (key === "shortlist") {}
   else if (key === "tier") st.tiers = d.tiers;
   else if (key === "score"){ st.min = null; st.max = null; }
   else if (key === "own") st.ownersOff = {};
@@ -3656,17 +3834,29 @@ function buildMapBar(){
   $("tierkey").innerHTML = TIERS.map(function(t){
     return '<span><i class="swatch" style="background:' + t.color + '"></i>' + esc(t.label) + "</span>";
   }).join("");
-  $("refBox").innerHTML = "";
+  var chips = {};
   REF_LAYERS.forEach(function(d){
     var lab = document.createElement("label"); lab.className = "chk";
-    lab.innerHTML = '<input type="checkbox" id="ref_' + d.id + '"><span>' + esc(d.label) + "</span>";
+    lab.innerHTML = '<input type="checkbox" id="ref_' + d.id + '"><span>' + esc(d.chip || d.label) + "</span>";
     lab.firstChild.addEventListener("change", function(){ toggleRef(d, this.checked); updateCounts(); });
-    $("refBox").appendChild(lab);
+    chips[d.id] = lab;
   });
   var edhLab = document.createElement("label"); edhLab.className = "chk";
-  edhLab.innerHTML = '<input type="checkbox" id="ref_edh"><span><i class="swdot" style="background:#e8590c"></i>EDH connectors</span>';
+  edhLab.innerHTML = '<input type="checkbox" id="ref_edh"><span><i class="swdot" style="background:#6b7280"></i>EDH connectors</span>';
   edhLab.firstChild.addEventListener("change", function(){ toggleEdh(this.checked, this); updateCounts(); });
-  $("refBox").appendChild(edhLab);
+  chips.edh = edhLab;
+  var rvLab = document.createElement("label"); rvLab.className = "chk"; rvLab.style.display = "none";
+  rvLab.innerHTML = '<input type="checkbox" id="ref_review"><span><i class="swdot" style="background:#e8590c"></i>Areas for review</span>';
+  rvLab.firstChild.addEventListener("change", function(){ toggleReview(this.checked); updateCounts(); });
+  chips.review = rvLab;
+  // the original SWIFD sits with the fish distribution species so the two can be compared
+  $("swRefBox").innerHTML = "";
+  if (chips.swifd){ chips.swifd.classList.add("cmp"); $("swRefBox").appendChild(chips.swifd); delete chips.swifd; }
+  $("refBox").innerHTML = "";
+  ["fpdsi", "review", "d303", "nw_hist", "nw_2040", "nhd", "edh"].concat(Object.keys(chips)).forEach(function(id){
+    if (chips[id]){ $("refBox").appendChild(chips[id]); delete chips[id]; }
+  });
+  initReview(rvLab.firstChild, rvLab);
   $("baseBox").innerHTML = "";
   BASEMAPS.forEach(function(b, i){
     var lab = document.createElement("label"); lab.className = "chk";
@@ -3716,10 +3906,21 @@ function buildAbout(){
   h += "<h3>Priority tiers</h3><p>Tiers show where a barrier\u2019s score falls among all barriers on the map.</p>";
   h += '<table><tbody>' + TIERS.map(function(t){ return '<tr><th scope="row"><i class="swatch" style="background:' + t.color + '"></i> ' + esc(t.label) + "</th><td>" + esc(t.rule) + "</td></tr>"; }).join("") + "</tbody></table>";
   h += "<h3>Things to know</h3><ul>" +
-    "<li><b>Natural barriers</b> are natural features, such as waterfalls. They are ranked for the habitat they block but may not be project candidates.</li>" +
+    "<li><b>Natural barriers</b> are natural features, such as waterfalls. They are scored for the habitat they block, but they are not ranked, and they are not counted when the other barriers are ranked. They may not be project candidates. A natural barrier with no passability rating keeps the assumed 33% passability in this version.</li>" +
     "<li><b>Unknown passability.</b> Where a barrier has no passability rating, the model uses an assumed value. These show as Unknown or Unknown, modeled as 33% passable.</li>" +
     "<li><b>Missing data.</b> A barrier with no value for a water quality or future conditions measure gets the middle score, so it is neither rewarded nor penalized.</li>" +
     "<li><b>Connected barriers.</b> Selecting a barrier highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down. Arrows show the direction of flow.</li></ul>";
+  h += "<h3>Changes from the original model</h3><p>This run differs from the original model in the ways below. The original authors are no longer with SPSSEG, so each change was a decision made by SPSSEG staff.</p><ul>" +
+    "<li><b>Stream network.</b> The original model used the National Hydrography Dataset (NHD), which is deprecated. This run uses the EDH stream lines. In the parts of WRIA 14 that EDH does not cover, lines derived from flow accumulation on the 2024 Thurston County lidar elevation model fill the gap.</li>" +
+    "<li><b>Flow accumulation lines.</b> The derived lines were wigglier than EDH, which would overstate the stream length above a barrier. They were simplified (10 foot tolerance) and lightly smoothed (30 foot) so their curviness is close to EDH. Some were also redrawn by hand to follow road crossings.</li>" +
+    "<li><b>Network repairs.</b> Gaps, T junctions and backward lines in the working copy of the network were fixed by hand so that upstream and downstream traces connect. The published EDH dataset was not changed. Some streams that end at a lake or wetland on the mapped network were left as they are, and the areas for review layer marks them for group discussion.</li>" +
+    "<li><b>Fish distribution (SWIFD).</b> SWIFD was drawn on NHD, so its lines were matched automatically to the nearest EDH lines within 100 feet. Some short breaks and small offsets remain in the matched lines, and stream reaches that exist only in EDH or the flow accumulation lines have no distribution. Habitat above barriers is therefore probably underestimated, most in small headwater streams. The original SWIFD on the NHD lines can be turned on under Layers (Original SWIFD Lines (NHD)) to compare.</li>" +
+    "<li><b>Barrier locations.</b> A fresh WDFW barrier download was used, and the sites were placed on the stream lines with a new snapping and review process. Draft results are marked where a site has not been reviewed.</li>" +
+    "<li><b>Natural barriers.</b> WDFW classes some natural features as barriers without giving a passability. In this version they keep an assumed 33% passability, are scored, and are left out of the ranking. The original model ranked them with the rest. A rule that treats them as 0% passable is built into the pipeline and will be tested before it is used.</li>" +
+    "<li><b>Stream temperature, canopy and future climate matching.</b> A barrier takes its NorWeST and VIC climate values from the nearest modeled line within 150 feet. The original model used 100 feet. The wider distance is needed because those layers were built on NHD and do not line up with the EDH lines. Barriers farther away still get the middle score.</li>" +
+    "<li><b>Water quality 303(d) matching.</b> A barrier is flagged when a 303(d) listing lies within 50 feet of any stream upstream of the barrier. The original model used 5 feet because the listings and the network were both built on NHD.</li>" +
+    "<li><b>Web app.</b> Results are published as a static web page instead of an ArcGIS Online Instant App. It shows every scored barrier, with natural barriers marked as not ranked.</li></ul>";
+  h += "<h3>Age of the input data</h3><p>Some inputs are older than the model run. The water quality list (Ecology 303(d)) is the 2014 list, approved in 2016. Stream temperature (NorWeST) is the 2018 version. The roads and future climate (VIC) layers carry no date in their records. These have not been updated for this run.</p>";
   if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review. Their upstream and downstream results may be wrong until the locations are checked.</p>";
   var rows = [];
   if (meta.run_label) rows.push(["Model run", meta.run_label]);
@@ -3729,6 +3930,8 @@ function buildAbout(){
   rows.push(["Barriers shown", String(items.length)]);
   h += "<h3>Data</h3><table><tbody>" + rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
   h += "<p>Map published by South Puget Sound Salmon Enhancement Group.</p>";
+  var gfu = generalFeedbackUrl();
+  if (gfu) h += '<p>General feedback: <a href="' + esc(gfu) + '" target="_blank" rel="noopener">Share comments or suggestions about the app</a></p>';
   if (CONFIG.contactEmail) h += '<p>Questions or corrections: <a href="mailto:' + esc(CONFIG.contactEmail) + '">' + esc(CONFIG.contactEmail) + "</a></p>";
   h += '<p><button type="button" class="btn" id="aboutTour">Take the quick tour</button></p>';
   $("aboutBody").innerHTML = h;
@@ -4005,8 +4208,8 @@ function loadSubbasins(){ return loadGeo(CONFIG.subbasinsUrl); }
 /* SWIFD fish distribution by species, from swifd.geojson (lines already on the model's streams) */
 var SW_NAME = { "Chinook Salmon":"Chinook", "Coho Salmon":"Coho", "Steelhead Trout":"Steelhead", "Chum Salmon":"Chum", "Cutthroat Trout":"Cutthroat",
                 "Pink Salmon":"Pink", "Sockeye Salmon":"Sockeye", "Kokanee Salmon":"Kokanee", "Bull Trout":"Bull trout", "Rainbow Trout":"Rainbow", "Largemouth Bass":"Bass" };
-var SW_COLOR = { "Chinook Salmon":"#7570b3", "Coho Salmon":"#d95f02", "Steelhead Trout":"#1b9e77", "Chum Salmon":"#e7298a", "Cutthroat Trout":"#a6761d",
-                 "Pink Salmon":"#f781bf", "Sockeye Salmon":"#e41a1c", "Kokanee Salmon":"#e6ab02", "Bull Trout":"#444444", "Rainbow Trout":"#66a61e", "Largemouth Bass":"#999999" };
+var SW_COLOR = { "Chinook Salmon":"#7570b3", "Coho Salmon":"#d95f02", "Steelhead Trout":"#1b9e77", "Chum Salmon":"#e7298a", "Cutthroat Trout":"#7b4a1e",
+                 "Pink Salmon":"#f781bf", "Sockeye Salmon":"#e41a1c", "Kokanee Salmon":"#e6ab02", "Bull Trout":"#444444", "Rainbow Trout":"#9ec62f", "Largemouth Bass":"#999999" };
 var SW_SCORED = ["Chinook Salmon", "Coho Salmon", "Steelhead Trout", "Chum Salmon", "Cutthroat Trout"];
 var swBy = {}, swOrder = [], swSel = {}, swGroup = L.layerGroup();
 function swPrepare(g){
@@ -4042,9 +4245,7 @@ function finishSwifd(g){
   var r = swPrepare(g);
   if (!r.order.length) return;
   swBy = r.by; swOrder = r.order;
-  // the live WDFW SWIFD layer sits on the old NHD lines, so it is replaced by this one
-  var live = $("ref_swifd");
-  if (live){ live.checked = false; toggleRef(REF_LAYERS.filter(function(d){ return d.id === "swifd"; })[0], false); live.parentNode.hidden = true; }
+  // the WDFW SWIFD layer on the original NHD lines stays in the Layers list as a reference, so the matched lines can be compared with it
   $("swBox").innerHTML = "";
   swOrder.forEach(function(k){
     var lab = document.createElement("label"); lab.className = "chk";
@@ -4053,7 +4254,8 @@ function finishSwifd(g){
     $("swBox").appendChild(lab);
   });
   $("swDoc").addEventListener("change", swRebuild);
-  $("swDet").hidden = false;
+  $("swSpec").hidden = false;
+  $("swDocLab").hidden = false;
 }
 function finishSubbasins(g){
   sbPolys = parsePolys(g);
@@ -4161,28 +4363,33 @@ function buildGeoUi(habG, wsG, haveWs){
 
 /* the Help dialog: one card per feature, where it is, and a Show me button that takes you there */
 var HELP_CARDS = [
-  { g:"Map", k:"mapopts", t:"Map options", x:"Turn layers on and off, switch the basemap, read the legend and choose how the map moves when you click a barrier.", w:"Button at the bottom left of the map. It has three tabs: Layers, Legend and Settings." },
-  { g:"Map", k:"base", t:"Basemap", x:"Topographic is the default. Switch to light gray, imagery or OpenStreetMap.", w:"Map options, Layers tab, top row." },
-  { g:"Map", k:"maplayers", t:"Streams, watersheds and habitat reaches", x:"Streams and the WRIA 14 boundary are on by default. Watersheds shade the area by watershed. Habitat reaches color the strategy reaches by restoration or conservation priority, with buttons to switch between the two.", w:"Map options, Layers tab, Map group. The reach priority buttons appear under it while Habitat reaches is on." },
-  { g:"Map", k:"ref", t:"Reference layers", x:"Live context layers: WDFW fish passage sites, 303(d) waters, NHD flowlines and stream temperature for 1993 to 2011 and the 2040s. Only WRIA 14 is requested. They load from each agency, so they can be slower than the basemap.", w:"Map options, Layers tab, Reference group." },
-  { g:"Map", k:"edh", t:"EDH connectors", x:"Lines the lidar derived EDH network uses to carry a stream through a gap, such as under a road. Orange lines are culverts. Other colors are other kinds, such as terrain breaches. Use them to check where a culvert was snapped.", w:"Map options, Layers tab, Reference group, EDH connectors chip." },
-  { g:"Map", k:"fish", t:"Fish distribution by species", x:"SWIFD fish distribution on the same streams the model scored. Pick one or more species, then click a line for its run, type and use. Documented only hides presumed and modeled lines. Species that share a stream draw as nested bands.", w:"Map options, Layers tab, bottom group." },
-  { g:"Map", k:"legend", t:"Legend", x:"Shows only what is on: species colors, each reference layer's own legend, the EDH connector types, and the symbols for the selected barrier.", w:"Map options, Legend tab." },
-  { g:"Map", k:"zoom", t:"Zoom when you click a barrier", x:"Choose whether the map moves only when needed, always frames the barrier's whole network, or never moves.", w:"Map options, Settings tab." },
-  { g:"Map", k:"banner", t:"Draft results notice", x:"Appears while some barrier locations have not been checked against the streams. Treat ranks as provisional.", w:"Top left of the map." },
-  { g:"Finding barriers", k:"finder", t:"Search and list", x:"Search by barrier ID, stream, tributary or place. The list is ranked by score and can be sorted from the menu above it.", w:"Left panel." },
-  { g:"Finding barriers", k:"filters", t:"Filters", x:"Narrow the list by priority tier, ownership, watershed, subbasin, species, survey date and more. Chips under the search box show what is on.", w:"Left panel, Filters button." },
-  { g:"Finding barriers", k:"table", t:"Table", x:"Every barrier in one sortable table, with a spreadsheet download.", w:"Top right, Table button." },
-  { g:"Barrier panel", k:"overview", t:"Overview tab", x:"Score, rank and tier, the score by group, stream and barrier totals upstream and downstream, and the site facts.", w:"Right panel, Overview tab. It opens when you click a barrier on the map or in the list." },
-  { g:"Barrier panel", k:"score", t:"Score tab and View Score Breakdown", x:"Every measure with its value and points. The i button beside a measure explains how it is scored.", w:"Right panel, Score tab, or the View Score Breakdown link on Overview." },
-  { g:"Barrier panel", k:"network", t:"Network tab", x:"Upstream gain shows the stream that opens up to the next barrier and to the first total barrier. Below it are the next barrier, the lowest passability barrier, the total barriers that end the gain, and the full list of connected barriers. Hover a row to ring that barrier on the map.", w:"Right panel, Network tab." },
-  { g:"Barrier panel", k:"impact", t:"Impact tab", x:"Treats the barrier as fully passable and shows the stream reconnected, the habitat opened and how other barriers' scores and ranks would change. It is an estimate for planning, not a new model run.", w:"Right panel, Impact tab." },
-  { g:"Barrier panel", k:"habitat", t:"Habitat tab", x:"Restoration and conservation priority for the reach the barrier sits in and the reaches upstream.", w:"Right panel, Habitat tab, when habitat data is loaded." },
-  { g:"Barrier panel", k:"print", t:"Print summary", x:"A one page sheet with the map and a locator inset, the connected network, the score by group and by criterion, and the site details.", w:"Bottom of the right panel." },
+  { g:"Map", k:"mapopts", t:"Map options", x:"Controls the basemap, the map layers, the legend and how the map moves when a barrier is selected.", w:"Map options button, bottom left of the map. It has three tabs: Layers, Legend and Settings." },
+  { g:"Map", k:"base", t:"Basemap", x:"Choose Topo (the default), Light gray, Imagery or OpenStreetMap.", w:"Map options, Layers tab, Basemap." },
+  { g:"Map", k:"maplayers", t:"Streams, watersheds and habitat reaches", x:"Streams and the WRIA 14 boundary are on by default. Watersheds are shaded by watershed. Habitat reaches are colored by restoration or conservation priority, and the buttons beneath the chip switch between the two.", w:"Map options, Layers tab, Map group." },
+  { g:"Map", k:"netfb", t:"Report a stream or fish distribution problem", x:"Opens the feedback form with the center of the map filled in as the location. Use it for a stream that is missing or drawn in the wrong place, or fish use that is shown incorrectly.", w:"Map options, Layers tab, Feedback group." },
+  { g:"Map", k:"ref", t:"Reference layers", x:"Context layers loaded directly from the source agencies: WDFW fish passage sites, 303(d) waters, NHD flowlines, and stream temperature for 1993 to 2011 and the 2040s. Only the WRIA 14 area is requested. These layers may load more slowly than the basemap.", w:"Map options, Layers tab, Reference group." },
+  { g:"Map", k:"edh", t:"EDH connectors", x:"Connector lines that the lidar derived EDH network uses to carry a stream across a gap, such as a road crossing. Orange lines are culverts. Other colors indicate other connector types, such as terrain breaches. Use them to verify where a culvert was placed on the network.", w:"Map options, Layers tab, Reference group, EDH connectors." },
+  { g:"Map", k:"review", t:"Areas for review", x:"Locations where the mapped stream network ends, for example at a lake or wetland, and reviewers are asked how the model should treat them. Select an area to read the question and see the barriers it affects.", w:"Map options, Layers tab, Reference group, Areas for review. Available only when review areas have been published." },
+  { g:"Map", k:"fish", t:"Fish distribution by species", x:"SWIFD fish distribution matched to the streams the model scores. Select one or more species, then click a line to see its run, distribution type and use. Documented only hides presumed and modeled lines. Where several species share a stream, they are drawn as nested bands. Original SWIFD Lines (NHD) shows the unmodified WDFW distribution for comparison.", w:"Map options, Layers tab, Fish distribution group." },
+  { g:"Map", k:"legend", t:"Legend", x:"Lists only what is currently displayed: species colors, reference layer legends, EDH connector types and the symbols for the selected barrier.", w:"Map options, Legend tab." },
+  { g:"Map", k:"zoom", t:"Map movement when selecting a barrier", x:"Sets how the map responds when a barrier is selected: move only when needed, always frame the barrier's full network, or never move.", w:"Map options, Settings tab." },
+  { g:"Map", k:"banner", t:"Draft results notice", x:"Shown while some barrier locations have not been verified against the stream network. Treat ranks as provisional until it is removed.", w:"Top left of the map." },
+  { g:"Finding barriers", k:"finder", t:"Search and list", x:"Search by barrier ID, stream, tributary or place. The list is ordered by score and can be re-sorted with the menu above it.", w:"Left panel." },
+  { g:"Finding barriers", k:"filters", t:"Filters", x:"Narrow the list by priority tier, score, passability, network, feature type, watershed, species, ownership and survey date. Active filters appear as chips below the search box.", w:"Left panel, Filters button." },
+  { g:"Finding barriers", k:"shortlist", t:"Saved barriers", x:"Select the star on a barrier to save it, then choose Saved to view only those barriers in the list and on the map. Saved barriers can be downloaded as a CSV or shared by link, and they are kept in this browser.", w:"Star on each list row and in the barrier panel, and the Saved button beside Filters." },
+  { g:"Finding barriers", k:"lastrun", t:"Changes since the last run", x:"When the previous run is available, barriers that were not part of it are tagged New. Turning on Show rank changes in Filters also marks barriers that moved up or down the ranking, and the Score tab compares rank and score with the last run. Sorting by biggest change lists the largest moves first. Barriers from the last run that are no longer in the model are listed under Changes since last run, with a CSV download.", w:"Sort by menu, and Filters, Changes since last run." },
+  { g:"Finding barriers", k:"table", t:"Table", x:"All barriers in one sortable table, with a spreadsheet download.", w:"Top right, Table button." },
+  { g:"Barrier panel", k:"overview", t:"Overview tab", x:"Score, rank and priority tier, the score by group, stream length and barrier counts upstream and downstream, and the site details.", w:"Right panel, Overview tab. It opens when a barrier is selected on the map or in the list." },
+  { g:"Barrier panel", k:"score", t:"Score tab and View Score Breakdown", x:"Each scoring measure with its value and points. The i button beside a measure explains how it is scored.", w:"Right panel, Score tab, or the View Score Breakdown link on Overview." },
+  { g:"Barrier panel", k:"network", t:"Network tab", x:"Upstream gain shows the stream length opened up to the next barrier and to the first total barrier. The tab also lists the next barrier, the barrier with the lowest passability, the total barriers that end the gain, and all connected barriers. Hover a row to ring that barrier on the map.", w:"Right panel, Network tab." },
+  { g:"Barrier panel", k:"impact", t:"Impact tab", x:"Treats the barrier as fully passable and shows the reconnected stream, the habitat opened, and how the scores and ranks of other barriers would change. This is a planning estimate, not a new model run.", w:"Right panel, Impact tab." },
+  { g:"Barrier panel", k:"habitat", t:"Habitat tab", x:"Restoration and conservation priority for the reach that contains the barrier and for the reaches upstream.", w:"Right panel, Habitat tab, when habitat data is loaded." },
+  { g:"Barrier panel", k:"print", t:"Print summary", x:"A one page summary with the map and a locator inset, the connected network, the score by group and by criterion, and the site details.", w:"Bottom of the right panel." },
   { g:"Barrier panel", k:"wdfw", t:"WDFW report", x:"Opens the WDFW fish passage report for the site as a PDF, when one exists.", w:"Bottom of the right panel." },
-  { g:"Barrier panel", k:"report", t:"Report a problem", x:"Tell SPSSEG about a snapping or data problem. It opens a short form with the barrier ID already filled in.", w:"Link under the buttons at the bottom of the right panel, and in the Network tab for barriers that are not connected to the stream network." },
-  { g:"Top bar", k:"share", t:"Share link", x:"Copies a link that reopens the same barrier, filters and map view.", w:"Top right." },
-  { g:"Top bar", k:"method", t:"Scoring methodology", x:"How the points are built: each measure, its bands and where its data comes from.", w:"Top right." }
+  { g:"Barrier panel", k:"report", t:"Report a problem", x:"Report a location or data issue to SPSSEG. The form opens with the barrier ID already filled in.", w:"Link below the buttons at the bottom of the right panel, and in the Network tab for barriers that are not connected to the stream network." },
+  { g:"Top bar", k:"feedback", t:"General feedback", x:"Send comments, questions or suggestions about the app that are not tied to one barrier. For a problem with a specific barrier, use Report a problem in that barrier's panel.", w:"Help dialog, top, and the Scoring methodology dialog." },
+  { g:"Top bar", k:"share", t:"Share link", x:"Copies a link that reopens the current barrier, filters and map view.", w:"Top right." },
+  { g:"Top bar", k:"method", t:"Scoring methodology", x:"Explains how points are assigned: each measure, its scoring bands and its data source.", w:"Top right." }
 ];
 function mapTab(name){
   toggleLayers(true);
@@ -4199,12 +4406,15 @@ var HELP_GO = {
   maplayers:function(){ mapTab("layers"); return "#ptab-layers > .pg:nth-child(2)"; },
   ref:function(){ mapTab("layers"); return "#refBox"; },
   edh:function(){ mapTab("layers"); var c = $("ref_edh"); return c ? c.parentNode : "#refBox"; },
-  fish:function(){ mapTab("layers"); return $("swDet").hidden ? { msg:"Fish distribution is not published in this version yet." } : "#swDet"; },
+  review:function(){ mapTab("layers"); var c = $("ref_review"); return c && c.parentNode.style.display !== "none" ? c.parentNode : "#refBox"; },
+  fish:function(){ mapTab("layers"); return $("swSpec").hidden ? { msg:"Fish distribution is not published in this version yet." } : "#swDet"; },
   legend:function(){ mapTab("legend"); return "#legBox"; },
   zoom:function(){ mapTab("settings"); return "#moveBox"; },
   banner:function(){ return $("banner").hidden ? { msg:"No draft notice is showing for this run." } : "#banner"; },
   finder:function(){ return ".finder"; },
   filters:function(){ return "#fToggle"; },
+  shortlist:function(){ return "#slBtn"; },
+  lastrun:function(){ return $("chgRow").hidden ? { msg:"No previous run is loaded in this version." } : "#sortSel"; },
   table:function(){ return "#btnTable"; },
   overview:function(){ needBarrier("overview"); return "#tabbtn-overview"; },
   score:function(){ needBarrier("score"); return "#tabbtn-score"; },
@@ -4215,6 +4425,7 @@ var HELP_GO = {
   wdfw:function(){ needBarrier(); return $("rptLink") ? "#rptLink" : { msg:"This barrier has no WDFW report." }; },
   report:function(){ needBarrier(); return document.querySelector(".rptprob") ? ".rptprob" : { msg:"The report link is not set up in this version." }; },
   share:function(){ return "#btnCopy"; },
+  feedback:function(){ return "#btnAbout"; },
   method:function(){ return "#btnAbout"; }
 };
 function helpShow(key){
@@ -4228,20 +4439,60 @@ function helpShow(key){
       tourClearHl();
       if (r && r.msg){ status(r.msg, 4500); return; }
       var el = typeof r === "string" ? document.querySelector(r) : r;
-      if (!el || el.hidden){ status("That is not showing right now.", 3500); return; }
+      if (!el || el.hidden){ status("That is not visible at the moment.", 3500); return; }
       el.classList.add("tour-hl");
       el.scrollIntoView({ block:"nearest", inline:"nearest" });
-      setTimeout(function(){ el.classList.remove("tour-hl"); }, 5000);
+      setTimeout(function(){ el.classList.remove("tour-hl"); }, 6500);
     }, 160);
   }, 60);
 }
 function buildHelp(){
-  var h = '<p class="hintro">Each card names a feature and says where it is. Show me takes you there and outlines it. <button type="button" class="linkbtn" id="helpTour">Take the quick tour</button></p>', last = "";
+  var h = '<div class="hsearch"><input type="search" id="helpQ" placeholder="Search help" aria-label="Search help topics" autocomplete="off"></div><p class="hintro">Each card describes a feature and where to find it. Select Show me to go to it. <button type="button" class="linkbtn" id="helpTour">Take the quick tour</button>' + (generalFeedbackUrl() ? ' <a href="' + esc(generalFeedbackUrl()) + '" target="_blank" rel="noopener">Send general feedback</a>' : "") + "</p>", last = "";
   HELP_CARDS.forEach(function(c){
     if (c.g !== last){ h += '<div class="hgrp">' + esc(c.g) + "</div>"; last = c.g; }
-    h += '<div class="hcard"><h4>' + esc(c.t) + "</h4><p>" + esc(c.x) + '</p><p class="hw"><b>Where:</b> ' + esc(c.w) + '</p><button type="button" class="btn" data-show="' + c.k + '">Show me</button></div>';
+    h += '<div class="hcard" data-q="' + esc([c.g, c.t, c.x, c.w, HELP_KW[c.k] || ""].join(" ").toLowerCase()) + '"><h4>' + esc(c.t) + "</h4><p>" + esc(c.x) + '</p><p class="hw"><b>Where:</b> ' + esc(c.w) + '</p><button type="button" class="btn" data-show="' + c.k + '">Show me</button></div>';
   });
-  $("helpBody").innerHTML = h;
+  $("helpBody").innerHTML = h + '<p class="hnone" id="helpNone" hidden></p>';
+  $("helpQ").addEventListener("input", helpFilter);
+}
+var HELP_KW = {
+  shortlist:"star favorite favourite bookmark save saved list csv share link",
+  lastrun:"changes new moved rank previous compare arrow badge removed repaired",
+  table:"export csv download spreadsheet excel",
+  filters:"filter narrow refine tier score owner species survey",
+  share:"link url copy send",
+  print:"pdf page summary report",
+  wdfw:"pdf report fpdsi photos",
+  report:"problem error wrong snap feedback form",
+  feedback:"comments suggestion suggestions contact question idea survey form",
+  fish:"swifd species salmon trout chinook coho chum steelhead cutthroat",
+  netfb:"report stream fish distribution problem missing form feedback",
+  ref:"temperature 303d nhd wdfw layers",
+  banner:"draft provisional warning",
+  method:"scoring points criteria methodology",
+  impact:"what if fix repair reconnect estimate",
+  network:"upstream downstream connected gain",
+  finder:"search find sort list"
+};
+function helpFilter(){
+  var q = $("helpQ").value.trim().toLowerCase(), words = q ? q.split(/\s+/) : [];
+  var body = $("helpBody"), anyShown = false, grpHead = null, grpHas = false;
+  Array.prototype.forEach.call(body.children, function(el){
+    if (el.classList.contains("hgrp")){
+      if (grpHead) grpHead.hidden = !grpHas;
+      grpHead = el; grpHas = false; return;
+    }
+    if (el.classList.contains("hcard")){
+      var ok = words.every(function(w){ return el.dataset.q.indexOf(w) !== -1; });
+      el.hidden = !ok;
+      if (ok){ grpHas = true; anyShown = true; }
+    }
+  });
+  if (grpHead) grpHead.hidden = !grpHas;
+  var none = $("helpNone");
+  none.hidden = anyShown || !q;
+  none.textContent = 'No help topics match "' + $("helpQ").value.trim() + '". Try a shorter or different word.';
+  var intro = body.querySelector(".hintro"); if (intro) intro.hidden = !!q;
 }
 $("btnHelp").addEventListener("click", function(){
   var dlg = $("helpDlg");
@@ -4374,6 +4625,182 @@ document.addEventListener("click", function(ev){
   if (it){ map.closePopup(); selectItem(it, { from:"map" }); }
 });
 
+/* saved barriers (internally the shortlist): barriers a person stars. Kept in this browser, and shared by a link that carries the barrier IDs. */
+var SL_KEY = "wria14_shortlist", shortlist = {}, slOnly = false;
+try { JSON.parse(localStorage.getItem(SL_KEY) || "[]").forEach(function(id){ shortlist[String(id)] = true; }); } catch (e) {}
+var STAR_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.2 1.1 6-5.3-2.9-5.3 2.9 1.1-6L3.4 9.8l6-.8z"/></svg>';
+function slIds(){ return Object.keys(shortlist); }
+function slSave(){ try { localStorage.setItem(SL_KEY, JSON.stringify(slIds())); } catch (e) {} }
+function starBtnHtml(it){
+  return '<button type="button" class="star" data-star="' + esc(it.id) + '" aria-pressed="' + (shortlist[it.id] ? "true" : "false") + '" aria-label="Save barrier ' + esc(it.id) + '" title="Save or unsave this barrier">' + STAR_SVG + "</button>";
+}
+function slToggle(id){
+  if (shortlist[id]){
+    if (!window.confirm("Remove barrier " + id + " from your saved barriers?")) return;
+    delete shortlist[id];
+  } else shortlist[id] = true;
+  slSave();
+  if (slOnly) refresh(); else slSync();
+  status(shortlist[id] ? "Saved " + id + "." : "Removed " + id + " from your saved barriers.", 2200);
+}
+function slSync(){
+  var n = slIds().length;
+  var btn = $("slBtn"); if (!btn) return;
+  btn.setAttribute("aria-pressed", slOnly ? "true" : "false");
+  $("slN").hidden = !n; $("slN").textContent = n;
+  document.querySelectorAll("#list .star").forEach(function(b){ b.setAttribute("aria-pressed", shortlist[b.dataset.star] ? "true" : "false"); });
+  var ds = $("dStar");
+  if (ds){
+    var on = !!(selected && shortlist[selected.id]);
+    ds.hidden = !selected;
+    ds.setAttribute("aria-pressed", on ? "true" : "false");
+    ds.setAttribute("aria-label", on ? "Remove this barrier from your saved barriers" : "Save this barrier");
+  }
+  $("slBar").hidden = !slOnly;
+  $("slNote").hidden = !slOnly;
+  if (slOnly){
+    var shown = filtered.length, hid = n - shown;
+    $("slMsg").textContent = n === 0 ? "You have no saved barriers. Select the star on a barrier to save it." :
+      "Saved: " + shown + " of " + n + " barrier" + (n === 1 ? "" : "s") + " shown" + (hid > 0 ? ". " + hid + " hidden by the current filters." : ".");
+  }
+}
+$("list").addEventListener("click", function(ev){
+  var b = ev.target.closest("button[data-star]");
+  if (b) slToggle(b.dataset.star);
+  var g = ev.target.closest("button[data-golast]");
+  if (g){ var gb = goneMatch(st.q); if (gb) goneShow(gb); }
+});
+$("dStar").addEventListener("click", function(){ if (selected) slToggle(selected.id); });
+$("slBtn").addEventListener("click", function(){
+  if (!slOnly && !slIds().length){ status("You have no saved barriers. Select the star on a barrier to save it, then choose Saved to view only those barriers.", 6000); return; }
+  slOnly = !slOnly; refresh();
+});
+$("slNoteOff").addEventListener("click", function(){ slOnly = false; refresh(); });
+$("slClear").addEventListener("click", function(){
+  if (!slIds().length) return;
+  if (!window.confirm("Clear all " + slIds().length + " saved barriers?")) return;
+  shortlist = {}; slSave(); slOnly = false; refresh();
+});
+$("slCsv").addEventListener("click", function(){
+  var list = orderItems(items.filter(function(it){ return shortlist[it.id]; }), "rank");
+  if (!list.length){ status("Nothing to download yet."); return; }
+  var d = new Date(), z = function(n){ return (n < 10 ? "0" : "") + n; };
+  downloadText(csvOf(list, null), "text/csv", "wria14_saved_" + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + ".csv");
+  status("Downloaded " + list.length + " saved barrier" + (list.length === 1 ? "" : "s") + ".");
+});
+$("slLink").addEventListener("click", function(){
+  var ids = slIds(); if (!ids.length){ status("Nothing to share yet."); return; }
+  var url = location.href.split("#")[0].split("?")[0] + "?sl=" + ids.map(encodeURIComponent).join(",");
+  var done = function(){ status("Link copied. Opening it adds these " + ids.length + " barriers to the recipient's saved barriers.", 6000); };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function(){ window.prompt("Copy this link", url); });
+  else window.prompt("Copy this link", url);
+});
+function slImport(){
+  var raw = null;
+  try { raw = new URLSearchParams(location.search).get("sl"); } catch (e) {}
+  if (!raw) return;
+  var have = {}; items.forEach(function(it){ have[it.id] = true; });
+  var added = 0;
+  raw.split(",").forEach(function(id){ id = id.trim(); if (id && have[id] && !shortlist[id]){ shortlist[id] = true; added += 1; } });
+  slSave();
+  try { history.replaceState(null, "", location.pathname + location.hash); } catch (e) {}
+  if (slIds().length){ slOnly = true; refresh(); }
+  status(added ? "Saved " + added + " barrier" + (added === 1 ? "" : "s") + " from the link." : "Those barriers were already saved.", 6000);
+}
+
+/* since the last run: the previous barrier file, ranked the same way, gives each barrier a rank change */
+var prevLoaded = false, showChg = false, CHG_KEY = "wria14_changes";   // off until a person turns it on
+try { if (localStorage.getItem(CHG_KEY) === "1") showChg = true; } catch (e) {}
+function prevApply(fc){
+  var pm = {}, prevItems = buildModel(fc);
+  prevItems.forEach(function(b){ pm[b.id] = { rank:b.rank, total:isNum(b.p.total) ? b.p.total : null }; });
+  var cur = {}; items.forEach(function(it){ cur[it.id] = true; });
+  goneList = prevItems.filter(function(b){ return !cur[b.id]; }).sort(function(a, b){ return (a.rank === null ? 1e9 : a.rank) - (b.rank === null ? 1e9 : b.rank) || a.id.localeCompare(b.id); });
+  goneDraw();
+  var moved = 0, fresh = 0;
+  items.forEach(function(it){
+    var o = pm[it.id] || null;
+    it.prev = o;
+    it.delta = (o && o.rank !== null && it.rank !== null) ? o.rank - it.rank : null;   // positive means it moved up the ranking
+    if (!o) fresh += 1; else if (it.delta !== null && Math.abs(it.delta) >= CONFIG.changeMin) moved += 1;
+  });
+  prevLoaded = true;
+  $("chgRow").hidden = false; $("chgOn").checked = showChg; $("chgSum").hidden = !showChg;
+  var sel = $("sortSel");
+  if (!sel.querySelector('option[value="change"]')){
+    var op = document.createElement("option"); op.value = "change"; op.textContent = "Biggest change since last run"; sel.appendChild(op);
+  }
+  sel.value = listMode;
+  try { console.log("Since the last run: " + moved + " barriers moved " + CONFIG.changeMin + " or more places, " + fresh + " are new."); } catch (e) {}
+  drawList();
+  if (selected) selectItem(selected, { zoom:false });
+}
+$("chgOn").addEventListener("change", function(){
+  showChg = this.checked; $("chgSum").hidden = !showChg;
+  try { localStorage.setItem(CHG_KEY, showChg ? "1" : "0"); } catch (e) {}
+  drawList();
+  if (selected) selectItem(selected, { zoom:false });
+});
+var goneList = [], goneMark = null;
+function goneDraw(){
+  var box = $("goneBox"); if (!box) return;
+  if (!goneList.length){ box.hidden = true; return; }
+  box.hidden = false;
+  $("goneSum").textContent = "No longer in the model (" + goneList.length + ")";
+  $("goneList").innerHTML = goneList.map(function(b, i){
+    var p = b.p;
+    var info = [p.stream || "Unnamed", b.rank === null ? "not ranked" : "was rank " + b.rank, isNum(p.total) ? "score " + p.total : ""].filter(Boolean).join(", ");
+    return '<li><button type="button" class="linkbtn" data-gone="' + i + '">' + esc(b.id) + "</button><span>" + esc(info) + "</span></li>";
+  }).join("");
+}
+function goneMatch(q){
+  var norm = function(x){ return String(x || "").toLowerCase().replace(/\s+/g, ""); };
+  var n = norm(q); if (!n || !goneList.length) return null;
+  for (var i = 0; i < goneList.length; i++) if (norm(goneList[i].id) === n) return goneList[i];
+  return null;
+}
+function goneShow(b){
+  if (goneMark){ map.removeLayer(goneMark); goneMark = null; }
+  map.flyTo(b.ll, 15);
+  goneMark = L.circleMarker(b.ll, { radius:11, color:"#f5a300", weight:4, fillColor:"#f5a300", fillOpacity:0.25 }).addTo(map)
+    .bindTooltip(b.id + " (last run)", { permanent:true, direction:"top" });
+  var mk = goneMark;
+  setTimeout(function(){ if (goneMark === mk){ map.removeLayer(mk); goneMark = null; } }, 12000);
+  status("Showing the last location of " + b.id + ". It is not in this run.", 5000);
+}
+$("goneList").addEventListener("click", function(ev){
+  var btn = ev.target.closest("button[data-gone]"); if (!btn) return;
+  var b = goneList[Number(btn.dataset.gone)]; if (b) goneShow(b);
+});
+$("goneCsv").addEventListener("click", function(){
+  var head = ["Barrier ID", "Stream", "Tributary to", "Feature type", "Passability (last run)", "Rank (last run)", "Score (last run)", "Latitude", "Longitude"];
+  var lines = [head.map(csvCell).join(",")];
+  goneList.forEach(function(b){
+    var p = b.p;
+    lines.push([b.id, p.stream || "", p.trib || "", p.ftype || "", isNum(p.pass_pct) ? p.pass_pct : "", b.rank === null ? "" : b.rank, isNum(p.total) ? p.total : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
+  });
+  var d = new Date(), z = function(n){ return (n < 10 ? "0" : "") + n; };
+  downloadText(lines.join("\r\n"), "text/csv", "wria14_not_in_current_run_" + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + ".csv");
+});
+function changeTag(it){
+  if (!prevLoaded) return "";
+  if (!it.prev) return ' <span class="ctag nw" title="This barrier was not in the last run">New<span class="sr"> since the last run</span></span>';
+  if (!(showChg || listMode === "change") || it.delta === null || Math.abs(it.delta) < CONFIG.changeMin) return "";
+  var up = it.delta > 0, n = Math.abs(it.delta);
+  return ' <span class="ctag ' + (up ? "up" : "dn") + '" title="' + (up ? "Moved up " : "Moved down ") + n + ' places since the last run"><span aria-hidden="true">' + (up ? "▲" : "▼") + n +
+         '</span><span class="sr">' + (up ? "Moved up " : "Moved down ") + n + " places since the last run</span></span>";
+}
+function prevLineHtml(it){
+  if (!prevLoaded) return "";
+  if (!it.prev) return '<div class="prevline">New since the last run</div>';
+  if (!(showChg || listMode === "change")) return "";
+  var t = "Last run: " + (it.prev.rank === null ? "not ranked" : "rank " + it.prev.rank);
+  if (it.delta !== null) t += it.delta === 0 ? ", unchanged" : ", now " + it.rank + " (" + (it.delta > 0 ? "up " : "down ") + Math.abs(it.delta) + ")";
+  var p = it.p;
+  if (isNum(it.prev.total) && isNum(p.total) && it.prev.total !== p.total) t += ". Score " + it.prev.total + " then, " + p.total + " now";
+  return '<div class="prevline">' + esc(t) + "</div>";
+}
+
 /* loading */
 function getJson(url){
   return fetch(url, { cache:"no-cache" }).then(function(r){ if (!r.ok) throw new Error(url + " " + r.status); return r.json(); });
@@ -4393,7 +4820,7 @@ function start(fc, isDemo, streamsUrl){
     $("banner").textContent = "Demo data: locations are placeholders.";
     $("banner").hidden = false;
   } else if (meta.draft){
-    $("banner").textContent = "Draft results: some barrier locations and the SWIFD-EDH conflation still need to be verified in some areas.";;
+    $("banner").textContent = "Draft results: some barrier locations have not been checked.";
     $("banner").hidden = false;
   }
   if (CONFIG.spreadsheetUrl){ $("dl").href = CONFIG.spreadsheetUrl; $("dl").hidden = false; }
@@ -4409,6 +4836,8 @@ function start(fc, isDemo, streamsUrl){
   }).catch(function(){});
   Promise.all([loadHabitat(), loadWatersheds(), loadSubbasins()]).then(function(r){ finishGeo(r[0], r[1]); finishSubbasins(r[2]); });
   loadGeo(CONFIG.swifdUrl).then(finishSwifd);
+  slSync(); slImport();
+  if (!isDemo && CONFIG.previousUrl) getJson(CONFIG.previousUrl).then(prevApply).catch(function(){});
   return loadStreams(streamsUrl).then(function(){
     if (init.b){
       var it = items.filter(function(x){ return x.id === init.b; })[0];
