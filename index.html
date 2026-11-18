@@ -443,7 +443,11 @@ table.net{border-collapse:collapse;width:100%;font-size:.9rem}
 .pg:not(.closed) .pgsum{display:none}
 .pg.closed > .pgh.tg::before{transform:rotate(-45deg)}
 .pg.closed > :not(.pgh){display:none}
-.pg.closed .pgh .mini{display:none}
+.pg.closed .pgh .mini,.pg.closed .pgh .pgclr{display:none}
+.pgh .pgclr{margin-left:auto;font-size:.78rem;font-weight:600;letter-spacing:0;text-transform:none}
+.pgh .pgclr{white-space:nowrap}
+.pgh.tg > span:first-of-type{white-space:nowrap}
+.swdoc{display:flex;align-items:center;gap:6px;margin:0 0 6px;font-size:.84rem;color:var(--ink);cursor:pointer}
 .pg.closed > .pgh{margin-bottom:0}
 .pgh{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .pgh .mini{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink);cursor:pointer}
@@ -909,10 +913,10 @@ dialog td.num,dialog th.num{text-align:right}
         <label class="chk"><input type="checkbox" id="lyrBasin" checked><span>WRIA 14 boundary</span></label>
         <label class="chk"><input type="checkbox" id="lyrHill"><span>Hillshade</span></label>
       </div><div id="habSlot"></div></div>
-      <div class="pg" id="swDet"><div class="pgh"><span>Fish distribution</span><label class="mini" id="swDocLab" hidden><input type="checkbox" id="swDoc"><span>Documented only</span></label></div>
-        <div id="swSpec" hidden><div id="swBox" class="lchips c3"></div></div>
+      <div class="pg" id="swDet"><div class="pgh"><span>Fish distribution</span><button type="button" class="linkbtn pgclr" hidden>Clear all</button></div>
+        <div id="swSpec" hidden><label class="swdoc" id="swDocLab" hidden><input type="checkbox" id="swDoc"><span>Documented only</span></label><div id="swBox" class="lchips c3"></div></div>
         <div id="swRefBox" class="lchips one" style="margin-top:6px"></div></div>
-      <div class="pg"><div class="pgh">Reference</div><div id="refBox" class="lchips"></div>
+      <div class="pg"><div class="pgh"><span>Reference</span><button type="button" class="linkbtn pgclr" hidden>Clear all</button></div><div id="refBox" class="lchips"></div>
         <div class="rvstep" id="rvStep" hidden><span>Areas for review</span><button type="button" class="linkbtn" id="rvPrev" aria-label="Previous area for review">&lsaquo;</button><span id="rvPos" aria-live="polite"></span><button type="button" class="linkbtn" id="rvNext" aria-label="Next area for review">&rsaquo;</button></div></div>
       <div class="pg fbrow" id="netFbBox" hidden><a id="netFbLink" class="fblink" href="#" target="_blank" rel="noopener" title="Opens a form in a new tab with the center of the map filled in">Report a stream or fish problem</a></div>
     </div>
@@ -3948,6 +3952,8 @@ function refreshGroupSummaries(){
   layerGroups.forEach(function(g){
     var el = g.querySelector(".pgsum");
     if (el) el.textContent = groupSummary(g);
+    var cb = g.querySelector(".pgclr");
+    if (cb) cb.hidden = !g.querySelector('.lchips input[type="checkbox"]:checked');
   });
 }
 layerGroups.forEach(function(g, i){
@@ -3956,12 +3962,23 @@ layerGroups.forEach(function(g, i){
   h.classList.add("tg"); h.setAttribute("role", "button"); h.setAttribute("tabindex", "0");
   var sum = document.createElement("span"); sum.className = "pgsum"; h.appendChild(sum);
   function toggle(){ setGroup(g, g.classList.contains("closed")); }
-  h.addEventListener("click", function(e){ if (e.target.closest && e.target.closest(".mini")) return; toggle(); });
+  h.addEventListener("click", function(e){ if (e.target.closest && e.target.closest(".mini,.pgclr")) return; toggle(); });
   h.addEventListener("keydown", function(e){
     if (e.target !== h) return;
     if (e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
   });
   setGroup(g, i === 1 || i === 2);                // Map and Fish distribution open; Basemap and Reference closed
+});
+layerGroups.forEach(function(g){
+  var cb = g.querySelector(".pgclr");
+  if (!cb) return;
+  cb.addEventListener("click", function(){
+    g.querySelectorAll('.lchips input[type="checkbox"]:checked').forEach(function(i){
+      i.checked = false;
+      i.dispatchEvent(new Event("change", { bubbles:true }));
+    });
+    refreshGroupSummaries();
+  });
 });
 (function(){
   var tab = $("ptab-layers"), queued = false;
