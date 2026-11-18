@@ -236,7 +236,7 @@ body.has-detail .tierkey{display:none}
 .tabpanel:focus-visible{outline-offset:-3px}
 .detail-foot{display:flex;flex-wrap:wrap;gap:8px;padding:10px 16px 12px;border-top:1px solid var(--line);background:#fff}
 .detail-foot .btn{flex:1;text-align:center;text-decoration:none;color:var(--ink);padding:7px 8px;font-size:.84rem;display:inline-block}
-.detail-foot .rptprob{flex-basis:100%;text-align:center;font-size:.8rem;color:var(--brand);text-decoration:underline;padding:2px 0}
+.detail-foot .rptprob{flex-basis:100%;text-align:center;padding:2px 0}
 .detail-foot .btn.main{background:var(--brand);color:#fff;border-color:var(--brand)}
 .detail-foot .btn.main:hover{background:var(--brand-ink)}
 .glance2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0 4px}
@@ -318,6 +318,13 @@ body.has-detail .tierkey{display:none}
 .note{color:var(--muted);font-size:.9rem;margin:8px 0}
 .btn{border:1px solid #c4d0d8;background:#fff;border-radius:999px;padding:6px 16px;font-weight:600;font-size:.86rem}
 .btn:hover{background:var(--soft)}
+.fblink{font-size:.8rem;color:var(--brand);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+.fblink::after{content:" \2197";display:inline-block;text-decoration:none}
+.fbrow{margin-top:2px;text-align:center}
+.rvstep{display:flex;align-items:center;justify-content:center;gap:4px;margin-top:8px;font-size:.8rem;color:var(--muted)}
+.rvstep[hidden]{display:none}
+.rvstep .linkbtn{padding:2px 10px;font-size:1.05rem;line-height:1}
+#rvPos{min-width:3.6em;text-align:center;font-variant-numeric:tabular-nums}
 details.dd{border-top:1px solid var(--line)}
 details.dd:last-of-type{border-bottom:1px solid var(--line)}
 details.dd > summary{padding:12px 2px;font-weight:600;cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
@@ -895,8 +902,9 @@ dialog td.num,dialog th.num{text-align:right}
       <div class="pg" id="swDet"><div class="pgh"><span>Fish distribution</span><label class="mini" id="swDocLab" hidden><input type="checkbox" id="swDoc"><span>Documented only</span></label></div>
         <div id="swSpec" hidden><div id="swBox" class="lchips c3"></div></div>
         <div id="swRefBox" class="lchips one" style="margin-top:6px"></div></div>
-      <div class="pg"><div class="pgh">Reference</div><div id="refBox" class="lchips"></div></div>
-      <div class="pg" id="netFbBox" hidden><div class="pgh">Feedback</div><a id="netFbLink" class="rptprob" href="#" target="_blank" rel="noopener" title="Opens a form in a new tab with the center of the map filled in">Report a stream or fish distribution problem</a></div>
+      <div class="pg"><div class="pgh">Reference</div><div id="refBox" class="lchips"></div>
+        <div class="rvstep" id="rvStep" hidden><span>Areas for review</span><button type="button" class="linkbtn" id="rvPrev" aria-label="Previous area for review">&lsaquo;</button><span id="rvPos" aria-live="polite"></span><button type="button" class="linkbtn" id="rvNext" aria-label="Next area for review">&rsaquo;</button></div></div>
+      <div class="pg fbrow" id="netFbBox" hidden><a id="netFbLink" class="fblink" href="#" target="_blank" rel="noopener" title="Opens a form in a new tab with the center of the map filled in">Report a stream or fish problem</a></div>
     </div>
     <div class="ptab" id="ptab-legend" role="tabpanel" hidden><div id="legBox"></div></div>
     <div class="ptab" id="ptab-settings" role="tabpanel" hidden>
@@ -1796,7 +1804,7 @@ function feedbackUrlFor(it){
 function footHtml(reportUrl, feedbackUrl){
   return '<button type="button" class="btn main" id="printBtn">Print summary</button>' +
     (reportUrl ? '<a class="btn" id="rptLink" href="' + esc(reportUrl) + '" target="_blank" rel="noopener" title="Open the WDFW fish passage report for this site (PDF, new tab)" aria-label="WDFW report for this site, opens a PDF in a new tab">WDFW report</a>' : "") +
-    (feedbackUrl ? '<a class="rptprob" href="' + esc(feedbackUrl) + '" target="_blank" rel="noopener" title="Tell SPSSEG about a problem with this barrier (opens a form in a new tab)">Report a problem with this barrier</a>' : "");
+    (feedbackUrl ? '<a class="rptprob fblink" href="' + esc(feedbackUrl) + '" target="_blank" rel="noopener" title="Tell SPSSEG about a problem with this barrier (opens a form in a new tab)">Report a problem with this barrier</a>' : "");
 }
 function tabPanel(id, hidden, inner){
   return '<div class="tabpanel" role="tabpanel" id="tab-' + id + '" aria-labelledby="tabbtn-' + id + '" tabindex="0"' + (hidden ? " hidden" : "") + ">" + inner + "</div>";
@@ -2371,7 +2379,7 @@ function initReview(box, lab){
       }
     });
     reviewCount = g.features.length;
-    lab.style.display = ""; box.checked = true; reviewLayer.addTo(map); renderLegend();
+    lab.style.display = ""; box.checked = true; reviewLayer.addTo(map); renderLegend(); rvList = null; updateRvStep();
   });
 }
 function symbolsHtml(){
@@ -2430,7 +2438,54 @@ function renderLegend(){
   if (selected) h += symbolsHtml();
   box.innerHTML = h || '<p class="lnote">Turn on a layer, or click a barrier, to see its legend here.</p>';
 }
-function updateCounts(){ renderLegend(); }
+var rvList = null, rvIdx = -1;
+function rvLayers(){
+  if (rvList) return rvList;
+  rvList = [];
+  if (reviewLayer) reviewLayer.eachLayer(function(l){ rvList.push(l); });
+  function done(l){ return String(((l.feature || {}).properties || {}).status || "").toLowerCase() === "decided" ? 1 : 0; }
+  function title(l){ return String(((l.feature || {}).properties || {}).title || ""); }
+  rvList.sort(function(a, b){ return (done(a) - done(b)) || title(a).localeCompare(title(b), undefined, { numeric:true }); });
+  return rvList;
+}
+function updateRvStep(){
+  var row = $("rvStep"), cb = $("ref_review");
+  if (!row) return;
+  var n = rvLayers().length, show = !!(cb && cb.checked && reviewLayer && n > 1);
+  row.hidden = !show;
+  if (show) $("rvPos").textContent = (rvIdx < 0 ? "-" : rvIdx + 1) + " of " + n;
+}
+/* the room left for the area and its popup: not under the list, the open Map options panel or the barrier panel */
+function rvPad(){
+  var o = panelPad(), tl = o.paddingTopLeft.slice(), br = o.paddingBottomRight.slice();
+  if (window.innerWidth > 900){
+    var pop = $("layersPop");
+    if (pop && !pop.hidden){
+      var r = pop.getBoundingClientRect(), m = map.getContainer().getBoundingClientRect();
+      tl[0] = Math.max(tl[0], r.right - m.left + 24);
+    }
+    if ($("detail").hidden) br[0] = 30;
+    tl[1] = Math.max(tl[1], 150);                 // the popup opens above the area
+  }
+  return { tl:tl, br:br };
+}
+function rvStep(dir){
+  var list = rvLayers();
+  if (!list.length) return;
+  rvIdx = rvIdx < 0 ? (dir > 0 ? 0 : list.length - 1) : (rvIdx + dir + list.length) % list.length;
+  var l = list[rvIdx];
+  var pad = rvPad();
+  map.fitBounds(l.getBounds(), { paddingTopLeft:pad.tl, paddingBottomRight:pad.br, maxZoom:17 });
+  setTimeout(function(){
+    var pp = l.getPopup();
+    if (pp){ pp.options.autoPanPaddingTopLeft = L.point(pad.tl); pp.options.autoPanPaddingBottomRight = L.point(pad.br); }
+    l.openPopup();
+  }, 250);
+  updateRvStep();
+}
+$("rvPrev").addEventListener("click", function(){ rvStep(-1); });
+$("rvNext").addEventListener("click", function(){ rvStep(1); });
+function updateCounts(){ renderLegend(); updateRvStep(); }
 function toggleRef(def, on){
   if (on){
     if (!refLayers[def.id]) refLayers[def.id] = new L.TileLayer.ArcExport(def.url, { pane:"ref", layers:def.layers, opacity:0.85, tileSize:512, zoomOffset:-1, maxZoom:19, updateWhenIdle:true, keepBuffer:3, attribution:def.attr });
@@ -3853,7 +3908,7 @@ function buildMapBar(){
   $("swRefBox").innerHTML = "";
   if (chips.swifd){ chips.swifd.classList.add("cmp"); $("swRefBox").appendChild(chips.swifd); delete chips.swifd; }
   $("refBox").innerHTML = "";
-  ["fpdsi", "review", "d303", "nw_hist", "nw_2040", "nhd", "edh"].concat(Object.keys(chips)).forEach(function(id){
+  ["fpdsi", "d303", "nw_hist", "nw_2040", "nhd", "edh"].concat(Object.keys(chips).filter(function(k){ return k !== "review"; }), ["review"]).forEach(function(id){
     if (chips[id]){ $("refBox").appendChild(chips[id]); delete chips[id]; }
   });
   initReview(rvLab.firstChild, rvLab);
@@ -3911,7 +3966,7 @@ function buildAbout(){
     "<li><b>Missing data.</b> A barrier with no value for a water quality or future conditions measure gets the middle score, so it is neither rewarded nor penalized.</li>" +
     "<li><b>Connected barriers.</b> Selecting a barrier highlights the stream above it, the path below it to the outlet, and the other barriers on those stretches. Upstream marks point up and downstream marks point down. Arrows show the direction of flow.</li></ul>";
   h += "<h3>Changes from the original model</h3><p>This run differs from the original model in the ways below. The original authors are no longer with SPSSEG, so each change was a decision made by SPSSEG staff.</p><ul>" +
-    "<li><b>Stream network.</b> The original model used the National Hydrography Dataset (NHD), which is deprecated. This run uses the EDH stream lines. In the parts of WRIA 14 that EDH does not cover, lines derived from flow accumulation on the 2024 Thurston County lidar elevation model fill the gap.</li>" +
+    "<li><b>Stream network.</b> The original model used the National Hydrography Dataset (NHD), which is deprecated. This run uses the EDH stream lines wherever EDH is available. EDH is not yet available for the Harstine Island and Perry Creek watersheds, so the streams there come from a flow accumulation model of the lidar elevation data, using an accumulation threshold of 500,000 square feet. Those lines were then simplified so they are comparable to EDH (see the next item). Barriers in those watersheds are scored on this derived network, so their upstream and downstream distances are estimates. The results will be updated when the remaining EDH network for Mason and Thurston Counties is released.</li>" +
     "<li><b>Flow accumulation lines.</b> The derived lines were wigglier than EDH, which would overstate the stream length above a barrier. They were simplified (10 foot tolerance) and lightly smoothed (30 foot) so their curviness is close to EDH. Some were also redrawn by hand to follow road crossings.</li>" +
     "<li><b>Network repairs.</b> Gaps, T junctions and backward lines in the working copy of the network were fixed by hand so that upstream and downstream traces connect. The published EDH dataset was not changed. Some streams that end at a lake or wetland on the mapped network were left as they are, and the areas for review layer marks them for group discussion.</li>" +
     "<li><b>Fish distribution (SWIFD).</b> SWIFD was drawn on NHD, so its lines were matched automatically to the nearest EDH lines within 100 feet. Some short breaks and small offsets remain in the matched lines, and stream reaches that exist only in EDH or the flow accumulation lines have no distribution. Habitat above barriers is therefore probably underestimated, most in small headwater streams. The original SWIFD on the NHD lines can be turned on under Layers (Original SWIFD Lines (NHD)) to compare.</li>" +
@@ -3931,7 +3986,7 @@ function buildAbout(){
   h += "<h3>Data</h3><table><tbody>" + rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table>";
   h += "<p>Map published by South Puget Sound Salmon Enhancement Group.</p>";
   var gfu = generalFeedbackUrl();
-  if (gfu) h += '<p>General feedback: <a href="' + esc(gfu) + '" target="_blank" rel="noopener">Share comments or suggestions about the app</a></p>';
+  if (gfu) h += '<p><a class="fblink" href="' + esc(gfu) + '" target="_blank" rel="noopener">Share general feedback</a></p>';
   if (CONFIG.contactEmail) h += '<p>Questions or corrections: <a href="mailto:' + esc(CONFIG.contactEmail) + '">' + esc(CONFIG.contactEmail) + "</a></p>";
   h += '<p><button type="button" class="btn" id="aboutTour">Take the quick tour</button></p>';
   $("aboutBody").innerHTML = h;
@@ -4366,10 +4421,10 @@ var HELP_CARDS = [
   { g:"Map", k:"mapopts", t:"Map options", x:"Controls the basemap, the map layers, the legend and how the map moves when a barrier is selected.", w:"Map options button, bottom left of the map. It has three tabs: Layers, Legend and Settings." },
   { g:"Map", k:"base", t:"Basemap", x:"Choose Topo (the default), Light gray, Imagery or OpenStreetMap.", w:"Map options, Layers tab, Basemap." },
   { g:"Map", k:"maplayers", t:"Streams, watersheds and habitat reaches", x:"Streams and the WRIA 14 boundary are on by default. Watersheds are shaded by watershed. Habitat reaches are colored by restoration or conservation priority, and the buttons beneath the chip switch between the two.", w:"Map options, Layers tab, Map group." },
-  { g:"Map", k:"netfb", t:"Report a stream or fish distribution problem", x:"Opens the feedback form with the center of the map filled in as the location. Use it for a stream that is missing or drawn in the wrong place, or fish use that is shown incorrectly.", w:"Map options, Layers tab, Feedback group." },
+  { g:"Map", k:"netfb", t:"Report a stream or fish problem", x:"Opens the feedback form with the center of the map filled in as the location. Use it for a stream that is missing or drawn in the wrong place, or fish use that is shown incorrectly.", w:"Map options, Layers tab, at the bottom." },
   { g:"Map", k:"ref", t:"Reference layers", x:"Context layers loaded directly from the source agencies: WDFW fish passage sites, 303(d) waters, NHD flowlines, and stream temperature for 1993 to 2011 and the 2040s. Only the WRIA 14 area is requested. These layers may load more slowly than the basemap.", w:"Map options, Layers tab, Reference group." },
   { g:"Map", k:"edh", t:"EDH connectors", x:"Connector lines that the lidar derived EDH network uses to carry a stream across a gap, such as a road crossing. Orange lines are culverts. Other colors indicate other connector types, such as terrain breaches. Use them to verify where a culvert was placed on the network.", w:"Map options, Layers tab, Reference group, EDH connectors." },
-  { g:"Map", k:"review", t:"Areas for review", x:"Locations where the mapped stream network ends, for example at a lake or wetland, and reviewers are asked how the model should treat them. Select an area to read the question and see the barriers it affects.", w:"Map options, Layers tab, Reference group, Areas for review. Available only when review areas have been published." },
+  { g:"Map", k:"review", t:"Areas for review", x:"Locations where the elevation model reaches a sink, for example at a lake or wetland, so the flow path does not connect to Puget Sound. Reviewers are asked how the model should treat them. Select an area to read the question and see the barriers it affects. The arrows under the Reference chips zoom to each area in turn.", w:"Map options, Layers tab, Reference group, Areas for review. Available only when review areas have been published." },
   { g:"Map", k:"fish", t:"Fish distribution by species", x:"SWIFD fish distribution matched to the streams the model scores. Select one or more species, then click a line to see its run, distribution type and use. Documented only hides presumed and modeled lines. Where several species share a stream, they are drawn as nested bands. Original SWIFD Lines (NHD) shows the unmodified WDFW distribution for comparison.", w:"Map options, Layers tab, Fish distribution group." },
   { g:"Map", k:"legend", t:"Legend", x:"Lists only what is currently displayed: species colors, reference layer legends, EDH connector types and the symbols for the selected barrier.", w:"Map options, Legend tab." },
   { g:"Map", k:"zoom", t:"Map movement when selecting a barrier", x:"Sets how the map responds when a barrier is selected: move only when needed, always frame the barrier's full network, or never move.", w:"Map options, Settings tab." },
@@ -4404,6 +4459,7 @@ var HELP_GO = {
   mapopts:function(){ mapTab("layers"); return "#layersPop"; },
   base:function(){ mapTab("layers"); return "#baseBox"; },
   maplayers:function(){ mapTab("layers"); return "#ptab-layers > .pg:nth-child(2)"; },
+  netfb:function(){ mapTab("layers"); return "#netFbBox"; },
   ref:function(){ mapTab("layers"); return "#refBox"; },
   edh:function(){ mapTab("layers"); var c = $("ref_edh"); return c ? c.parentNode : "#refBox"; },
   review:function(){ mapTab("layers"); var c = $("ref_review"); return c && c.parentNode.style.display !== "none" ? c.parentNode : "#refBox"; },
@@ -4447,7 +4503,7 @@ function helpShow(key){
   }, 60);
 }
 function buildHelp(){
-  var h = '<div class="hsearch"><input type="search" id="helpQ" placeholder="Search help" aria-label="Search help topics" autocomplete="off"></div><p class="hintro">Each card describes a feature and where to find it. Select Show me to go to it. <button type="button" class="linkbtn" id="helpTour">Take the quick tour</button>' + (generalFeedbackUrl() ? ' <a href="' + esc(generalFeedbackUrl()) + '" target="_blank" rel="noopener">Send general feedback</a>' : "") + "</p>", last = "";
+  var h = '<div class="hsearch"><input type="search" id="helpQ" placeholder="Search help" aria-label="Search help topics" autocomplete="off"></div><p class="hintro">Each card describes a feature and where to find it. Select Show me to go to it. <button type="button" class="linkbtn" id="helpTour">Take the quick tour</button>' + (generalFeedbackUrl() ? ' <a class="fblink" href="' + esc(generalFeedbackUrl()) + '" target="_blank" rel="noopener">Share general feedback</a>' : "") + "</p>", last = "";
   HELP_CARDS.forEach(function(c){
     if (c.g !== last){ h += '<div class="hgrp">' + esc(c.g) + "</div>"; last = c.g; }
     h += '<div class="hcard" data-q="' + esc([c.g, c.t, c.x, c.w, HELP_KW[c.k] || ""].join(" ").toLowerCase()) + '"><h4>' + esc(c.t) + "</h4><p>" + esc(c.x) + '</p><p class="hw"><b>Where:</b> ' + esc(c.w) + '</p><button type="button" class="btn" data-show="' + c.k + '">Show me</button></div>';
@@ -4845,14 +4901,15 @@ function start(fc, isDemo, streamsUrl){
     } else if (!tourSeen()) startTour();
   });
 }
-function fail(msg){
+function fail(msg, withForm){
   $("count").textContent = "No data loaded";
-  $("list").innerHTML = '<li class="empty">' + esc(msg) + "</li>";
+  var gfu = withForm ? generalFeedbackUrl() : "";
+  $("list").innerHTML = '<li class="empty">' + esc(msg) + (gfu ? ' You can also <a class="fblink" href="' + esc(gfu) + '" target="_blank" rel="noopener">submit a feedback form</a>.' : "") + "</li>";
 }
 $("list").innerHTML = '<li class="empty"><span class="spin" aria-hidden="true"></span>Loading barriers</li>';
 getJson(CONFIG.dataUrl).then(function(fc){ return start(fc, false, CONFIG.streamsUrl); }).catch(function(){
   getJson(CONFIG.demoUrl).then(function(fc){ return start(fc, true, CONFIG.demoStreamsUrl); }).catch(function(){
-    fail("The barrier data could not be loaded. Try refreshing the page. If it still does not load, contact SPSSEG at gis@spsseg.org.");
+    fail("The barrier data could not be loaded. Try refreshing the page. If it still does not load, contact SPSSEG at gis@spsseg.org.", true);
   });
 });
 })();
