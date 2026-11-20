@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WRIA 14 Fish Passage Prioritization, 2026 Model Update</title>
+<title>WRIA 14 Fish Passage Prioritization</title>
 <meta name="description" content="Ranked fish passage barriers in WRIA 14, with the upstream habitat and connected barriers for each one.">
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -163,7 +163,16 @@ button{cursor:pointer}
 .collapse svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
 .finder.compact{bottom:auto}
 .finder.compact .collapse svg{transform:rotate(180deg)}
-.finder.compact .listwrap,.finder.compact .sortrow{display:none}
+.finder.compact .listwrap,.finder.compact .sortrow,.finder.compact #goneBox{display:none}
+.chgsw{margin-left:auto;display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--ink);font-weight:600;font-size:.82rem}
+.gonesum{display:flex;align-items:center;gap:6px;list-style:none}
+.gonesum::-webkit-details-marker{display:none}
+.gonesum::before{content:"\25B8";font-size:.8rem}
+.gone[open] > .gonesum::before{content:"\25BE"}
+.chgsw[hidden]{display:none}
+.sortrow{flex-wrap:wrap;row-gap:6px}
+#goneBox{margin-top:8px}
+#goneBox .gonelist{max-height:150px}
 .finder.compact .finder-head{padding-bottom:14px}
 body.has-detail .tierkey{display:none}
 .sortrow{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.82rem;color:var(--muted)}
@@ -729,10 +738,10 @@ dialog td.num,dialog th.num{text-align:right}
 <div class="stage">
   <div class="pills">
     <button type="button" class="pbtn" id="btnTable" aria-pressed="false">Table</button>
-    <button type="button" class="pbtn" id="btnAbout">Scoring methodology</button>
+    <button type="button" class="pbtn" id="btnAbout">Methodology</button>
     <button type="button" class="pbtn" id="btnHelp">Help</button>
     <button type="button" class="pbtn" id="btnCopy">Share link</button>
-    <a class="pbtn opt" id="dl" href="#" hidden>Download spreadsheet</a>
+    <a class="pbtn opt" id="dl" href="#" hidden>Download Excel</a>
   </div>
   <div id="map" aria-label="Map of fish passage barriers. All barriers are also available in the list and table." role="region"></div>
 
@@ -773,6 +782,11 @@ dialog td.num,dialog th.num{text-align:right}
           <option value="newest">Most recently surveyed</option>
           <option value="oldest">Longest since surveyed</option>
         </select></div>
+      <details class="gone" id="goneBox" hidden><summary class="gonesum"><span id="goneSum"></span><label class="chgsw" id="chgRow" hidden title="Marks barriers that moved up or down the ranking since the last run. Barriers not in the last run are always tagged New."><input type="checkbox" class="sw" id="chgOn" role="switch"><span>Rank changes</span></label><span id="chgSum" hidden></span></summary>
+        <p class="note" style="margin:6px 0">A running list of barriers that have left the model, newest first. They may have been repaired, removed from the stream network or reclassified. Select an ID to see its last location. The CSV has the full reason for each.</p>
+        <ul class="gonelist" id="goneList"></ul>
+        <button type="button" class="btn" id="goneCsv">Download CSV with details</button>
+      </details>
     </div>
     <div class="slbar" id="slBar" hidden>
       <span id="slMsg" role="status"></span>
@@ -856,15 +870,6 @@ dialog td.num,dialog th.num{text-align:right}
             <div class="grow"><label class="lbl" for="sFrom">From</label><input id="sFrom" type="date"></div>
             <div class="grow"><label class="lbl" for="sTo">To</label><input id="sTo" type="date"></div>
           </div></div></details>
-        <details class="dd fg" id="chgRow" hidden><summary><span class="ft">Changes since last run</span><span class="fsum" id="chgSum" hidden>On</span></summary><div class="fgb">
-          <label class="chk" style="justify-content:space-between;gap:14px"><span>Show rank changes</span><input type="checkbox" class="sw" id="chgOn" role="switch"></label>
-          <p class="note" style="margin:4px 0 0">Marks barriers that moved up or down the ranking since the last run. Barriers not in the last run are always tagged New. Changes are also shown whenever the list is sorted by biggest change. This setting does not filter the list.</p>
-          <details class="gone" id="goneBox" hidden><summary id="goneSum"></summary>
-            <p class="note" style="margin:6px 0">Barriers that were in the last run but are not in this one. They may have been repaired, removed from the stream network or reclassified. Select an ID to see its last location.</p>
-            <ul class="gonelist" id="goneList"></ul>
-            <button type="button" class="btn" id="goneCsv">Download CSV</button>
-          </details>
-        </div></details>
       </div>
       <div class="sheet-foot"><button type="button" class="primary" id="sheetDone">Show barriers</button></div>
     </div>
@@ -988,7 +993,7 @@ dialog td.num,dialog th.num{text-align:right}
 
 /* ------------------------------------------------------------------ config */
 var CONFIG = {
-  spreadsheetUrl: "",              // link to the scoring spreadsheet; blank hides the button
+  spreadsheetUrl: "",   // normally blank: the dated workbook name comes from barriers.geojson (meta.spreadsheet). Set a file name here only as a fallback
   // General comments and suggestions that are not about one barrier. Leave "" to reuse the barrier feedback form without the
   // barrier ID filled in. Set it to a different form's link to keep general feedback separate.
   generalFeedbackUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdSEB84OXsFy_lyo20TPZuZLtrjZeOPFJdIzct7Ds6Yp2Q15w/viewform?usp=pp_url&entry.1097076810=The+app+or+model+in+general",
@@ -1001,7 +1006,7 @@ var CONFIG = {
   dataUrl: "barriers.geojson",
   removedUrl: "removed_barriers.json",       // optional: why each barrier left the model, from explain_removed_barriers.py
   previousUrl: "barriers_previous.geojson",   // optional: the barrier file from the last published run, for the "since last run" badges
-  excludeIds: ["937207"],                  // barrier ids to leave out of the app until their location is fixed, e.g. ["937207"]
+  excludeIds: [],                          // barrier ids to leave out of the app until their location is fixed, e.g. ["937207"]
   changeMin: 10,                   // a rank move of at least this many places gets a badge in the list
   streamsUrl: "streams.geojson",   // split stream lines with topology, from export_webapp_data.py
   basinUrl: "basin.geojson",       // optional
@@ -1015,7 +1020,7 @@ var CONFIG = {
   habitatAppUrl: "https://masoncd.maps.arcgis.com/apps/webappviewer/index.html?id=8dc1e29d09334b199fa69fb8a54c1098",
   demoUrl: "demo_barriers.geojson",
   demoStreamsUrl: "demo_streams.geojson",
-  center: [47.2, -123.0], zoom: 10, maxScore: 135,
+  center: [47.2, -123.0], zoom: 10, maxScore: 132,
   // Used when a barrier has no FormLinkURL of its own. {id} is the barrier (site) ID.
   reportUrlTemplate: "https://fortress.wa.gov/dfw/public/fishpassagephotos/reports/{id}_Report.pdf",
   roadFillUnit: "ft",
@@ -2044,10 +2049,10 @@ var RULES = {
     note:"Natural barriers with no WDFW passability rating keep the assumed 33% passability in this version. They are scored but not ranked." },
   s_ds:{ desc:"Barriers between this barrier and Puget Sound. Fewer and more passable downstream barriers score higher. The count and the worst passability among them set the score.",
     matrix:{ count:"ds_count", min:"ds_minpass", none:["No downstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
-      rows:[["Worst is 0% passable", 0, [0, 0, 0]], ["Worst is 33% passable", 33, [3, 1, 0]], ["Worst is 67% passable", 67, [4, 3, 1]], ["Worst is unknown", "unk", [0, 0, 0]]] } },
+      rows:[["Worst is 0% passable", 0, [0, 0, 0]], ["Worst is 33% passable", 33, [3, 1, 0]], ["Worst is 67% passable", 67, [4, 3, 1]], ["Worst is unknown, scored as 33%", "unk", [3, 1, 0]]] }, note:"Unknown passability is scored as 33%, the value the model assumes for any barrier with no rating." },
   s_us:{ desc:"Other barriers upstream of this one. Fewer and more passable upstream barriers score higher. The count and the worst passability among them set the score.",
     matrix:{ count:"us_count", min:"us_minpass", none:["No upstream barriers", 5], cols:["1 barrier", "2 barriers", "3 or more"],
-      rows:[["Worst is 0% passable", 0, [1, 1, 1]], ["Worst is 33% passable", 33, [3, 2, 2]], ["Worst is 67% passable", 67, [3, 2, 2]], ["Worst is unknown", "unk", [1, 1, 1]]] } },
+      rows:[["Worst is 0% passable", 0, [1, 1, 1]], ["Worst is 33% passable", 33, [3, 2, 2]], ["Worst is 67% passable", 67, [3, 2, 2]], ["Worst is unknown, scored as 33%", "unk", [3, 2, 2]]] }, note:"Unknown passability is scored as 33%, the value the model assumes for any barrier with no rating." },
   s_nods:{ desc:"Five points when no other barrier lies downstream.", bands:bandRows([["No barriers downstream", 5, function(v){ return v === 0; }], ["One or more barriers downstream", 0, function(v){ return isNum(v) && v > 0; }]], function(p){ return p.ds_count; }) },
   s_road:{ desc:"Road miles per square mile of land draining to the stream. Fewer roads score higher.", bands:bandRows([["Under 3 mi per sq mi", 5, function(v){ return isNum(v) && v < 3; }], ["3 to under 4", 4, function(v){ return isNum(v) && v >= 3 && v < 4; }], ["4 to under 5", 3, function(v){ return isNum(v) && v >= 4 && v < 5; }], ["5 to under 6", 2, function(v){ return isNum(v) && v >= 5 && v < 6; }], ["6 or more", 1, function(v){ return isNum(v) && v >= 6; }], noData(3)], function(p){ return p.road_density; }), note:MIDDLE_NOTE },
   s_wq:{ desc:"Five points if the stream is not on Ecology's [303(d) list](https://ecology.wa.gov/water-shorelines/water-quality/water-improvement/assessment-of-state-waters-303d) of impaired waters, one point if it is.", extra:function(p){ return p.wq_303d ? "Listed for: " + p.wq_303d : ""; }, bands:bandRows([["Not listed", 5, function(v){ return !v; }], ["Listed", 1, function(v){ return !!v; }]], function(p){ return p.wq_303d; }) },
@@ -4036,15 +4041,15 @@ function buildAbout(){
     "<li><b>Stream network.</b> This run uses EDH stream lines where available. EDH is not yet available for the Harstine Island and Perry Creek watersheds, so streams there are derived from a flow accumulation model of lidar elevation data (accumulation threshold of 500,000 square feet). Barriers in those watersheds are scored on the derived network, so their upstream and downstream distances are estimates. Results will be updated when the remaining EDH network for Mason and Thurston Counties is released.</li>" +
     "<li><b>Derived line processing.</b> Derived lines were simplified (10 foot tolerance) and smoothed (30 foot) to match the sinuosity of EDH, because unsimplified lines overstate stream length above a barrier. Some lines were edited manually to follow road crossings.</li>" +
     "<li><b>Network repairs.</b> Gaps, T junctions and reversed line directions in the working copy of the network were corrected so that upstream and downstream traces connect. The published EDH dataset was not modified. Streams that terminate at a sink in the elevation model (lake, wetland, etc.) were left as mapped and are marked in the areas for review layer.</li>" +
-    "<li><b>Fish distribution (SWIFD).</b> SWIFD was drawn on NHD. SPSSEG is conflating the SWIFD fish distribution onto EDH, and this work is in progress. In this run, SWIFD lines were matched to the nearest EDH lines within 100 feet. Short gaps and small offsets remain, and reaches that exist only in EDH or the derived lines have no distribution. Habitat above barriers is therefore likely underestimated, most in small headwater streams. The original SWIFD on NHD can be displayed under Layers (Original SWIFD Lines (NHD)) for comparison.</li>" +
+    "<li><b>Fish distribution (SWIFD).</b> SWIFD is digitized on NHD, so its lines do not coincide with EDH geometry. SPSSEG conflated SWIFD onto EDH by copying the EDH segments that lie within a set tolerance of each SWIFD line and carrying over the original attributes (species, run, distribution type, use, life history). Slivers, short stubs at confluences and dangling spurs were removed, and gaps and wrong forks were corrected by hand. For habitat miles, each species is built into a single set of unique lines using only valid distribution types, so a reach that carries several overlapping SWIFD records is counted once. Habitat above a barrier is summed from these lines along the upstream trace. Fish use at a barrier is read from the conflated lines at its location. Reaches that exist only in EDH or the derived lines have no recorded distribution, so habitat may still be underestimated in some small headwater streams. The original SWIFD on NHD can be displayed under Layers (Original SWIFD Lines (NHD)) for comparison.</li>" +
     "<li><b>Barrier locations.</b> A current WDFW barrier download was used. Sites were snapped to the stream lines and reviewed. Results are marked as draft where a site has not been reviewed.</li>" +
     "<li><b>Natural barriers.</b> WDFW classifies some natural features as barriers without a passability value. These keep an assumed passability of 33%, are scored, and are excluded from the ranking. The original model ranked them. A rule that assigns 0% passability is built into the pipeline and will be tested before use.</li>" +
     "<li><b>Stream temperature, canopy and future climate.</b> NorWeST and VIC values are assigned from the nearest modeled line within 150 feet (100 feet in the original model). The wider distance accounts for those layers being built on NHD, which does not align with EDH. Barriers beyond that distance receive the middle score.</li>" +
     "<li><b>Water quality 303(d).</b> A barrier is flagged when a 303(d) listing lies within 50 feet of any stream upstream of it. The original model used 5 feet, where the listings and the network were both on NHD.</li>" +
     "<li><b>Web app.</b> Results are published as a static web page instead of an ArcGIS Online Instant App. All scored barriers are shown, and natural barriers are marked as not ranked.</li></ul>";
   h += "<h3>Age of the input data</h3><table><tbody>" +
-    [["Ecology 303(d) list", "2014 list, approved in 2016"], ["NorWeST stream temperature", "2018 version"], ["Roads", "No date in the records"], ["VIC future climate", "No date in the records"]].map(function(r){
-      return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table><p>None of these inputs were updated for this run.</p>";
+    [["Ecology 303(d) list", "Water quality assessment, updated May 2026"], ["NorWeST stream temperature", "2018 version"], ["Roads", "About 2021 (estimated, no date in the records)"], ["VIC future climate", "Latest published version, 2022 (estimated, no date in the records)"]].map(function(r){
+      return '<tr><th scope="row">' + esc(r[0]) + "</th><td>" + esc(r[1]) + "</td></tr>"; }).join("") + "</tbody></table><p>The 303(d) list was updated for this run. The other inputs were not. Dates marked estimated are our best estimate because the records do not give one.</p>";
   if (meta.draft) h += "<p><b>Draft results.</b> Some barriers were placed on the nearest stream line without review, so their upstream and downstream results may be wrong until the locations are verified.</p>";
   var rows = [];
   if (meta.run_label) rows.push(["Model run", meta.run_label]);
@@ -4353,9 +4358,9 @@ function swPopup(p){
 }
 function swRebuild(){
   swGroup.clearLayers();
-  var docOnly = $("swDoc").checked, sel = swOrder.filter(function(k){ return swSel[k]; });
+  var docOnly = $("swDoc").checked, sel = swOrder.filter(function(k){ return swSel[k]; }).sort(function(x, y){ return swBy[x].length - swBy[y].length; });
   sel.forEach(function(k, i){
-    // the first species chosen is drawn widest, so species that share a stream show as bands
+    // the species with the fewest features is drawn widest and first, so rare species stay visible as bands around common ones like cutthroat
     var w = 2.5 + (sel.length - 1 - i) * 2;
     var feats = swBy[k].filter(function(f){ return !docOnly || /^Documented/.test(f.properties.dist || ""); });
     swGroup.addLayer(L.geoJSON({ type:"FeatureCollection", features:feats }, {
@@ -4501,7 +4506,7 @@ var HELP_CARDS = [
   { g:"Finding barriers", k:"finder", t:"Search and list", x:"Search by barrier ID, stream, tributary or place. The list is ordered by score and can be re-sorted with the menu above it.", w:"Left panel." },
   { g:"Finding barriers", k:"filters", t:"Filters", x:"Narrow the list by priority tier, score, passability, network, feature type, watershed, species, ownership and survey date. Active filters appear as chips below the search box.", w:"Left panel, Filters button." },
   { g:"Finding barriers", k:"shortlist", t:"Saved barriers", x:"Select the star on a barrier to save it, then choose Saved to view only those barriers in the list and on the map. Saved barriers can be downloaded as a CSV or shared by link, and they are kept in this browser.", w:"Star on each list row and in the barrier panel, and the Saved button beside Filters." },
-  { g:"Finding barriers", k:"lastrun", t:"Changes since the last run", x:"When the previous run is available, barriers that were not part of it are tagged New. Turning on Show rank changes in Filters also marks barriers that moved up or down the ranking, and the Score tab compares rank and score with the last run. Sorting by biggest change lists the largest moves first. Barriers from the last run that are no longer in the model are listed under Changes since last run, with a CSV download.", w:"Sort by menu, and Filters, Changes since last run." },
+  { g:"Finding barriers", k:"lastrun", t:"Changes since the last run", x:"When the previous run is available, barriers that were not part of it are tagged New. Turning on Show rank changes beside Sort by also marks barriers that moved up or down the ranking, and the Score tab compares rank and score with the last run. Sorting by biggest change lists the largest moves first. Barriers from the last run that are no longer in the model are listed in a running No longer in the model list under the Sort by row, with a CSV download.", w:"Sort by row." },
   { g:"Finding barriers", k:"table", t:"Table", x:"All barriers in one sortable table, with a spreadsheet download.", w:"Top right, Table button." },
   { g:"Barrier panel", k:"overview", t:"Overview tab", x:"Score, rank and priority tier, the score by group, stream length and barrier counts upstream and downstream, and the site details.", w:"Right panel, Overview tab. It opens when a barrier is selected on the map or in the list." },
   { g:"Barrier panel", k:"score", t:"Score tab and View Score Breakdown", x:"Each scoring measure with its value and points. The i button beside a measure explains how it is scored.", w:"Right panel, Score tab, or the View Score Breakdown link on Overview." },
@@ -4842,8 +4847,8 @@ function prevApply(fc){
   var pm = {}, prevItems = buildModel(fc);
   prevItems.forEach(function(b){ pm[b.id] = { rank:b.rank, total:isNum(b.p.total) ? b.p.total : null }; });
   var cur = {}; items.forEach(function(it){ cur[it.id] = true; });
-  goneList = prevItems.filter(function(b){ return !cur[b.id]; }).sort(function(a, b){ return (a.rank === null ? 1e9 : a.rank) - (b.rank === null ? 1e9 : b.rank) || a.id.localeCompare(b.id); });
-  goneDraw();
+  gonePrev = prevItems;
+  goneRebuild();
   var moved = 0, fresh = 0;
   items.forEach(function(it){
     var o = pm[it.id] || null;
@@ -4853,6 +4858,7 @@ function prevApply(fc){
   });
   prevLoaded = true;
   $("chgRow").hidden = false; $("chgOn").checked = showChg; $("chgSum").hidden = !showChg;
+  goneDraw();
   var sel = $("sortSel");
   if (!sel.querySelector('option[value="change"]')){
     var op = document.createElement("option"); op.value = "change"; op.textContent = "Biggest change since last run"; sel.appendChild(op);
@@ -4862,22 +4868,45 @@ function prevApply(fc){
   drawList();
   if (selected) selectItem(selected, { zoom:false });
 }
+$("chgRow").addEventListener("click", function(){   // the switch sits in the summary line, so a click on it must not open or close the list
+  var box = $("goneBox"), was = box.open;
+  setTimeout(function(){ box.open = was; }, 0);
+});
 $("chgOn").addEventListener("change", function(){
   showChg = this.checked; $("chgSum").hidden = !showChg;
   try { localStorage.setItem(CHG_KEY, showChg ? "1" : "0"); } catch (e) {}
   drawList();
   if (selected) selectItem(selected, { zoom:false });
 });
-var goneList = [], goneMark = null, goneReasons = {};
+var goneList = [], goneMark = null, goneReasons = {}, gonePrev = [];
+/* the list keeps growing: barriers missing from the previous run file, plus every earlier removal kept in removed_barriers.json */
+function goneRebuild(){
+  var cur = {}; items.forEach(function(it){ cur[it.id] = true; });
+  var seen = {}, list = [];
+  gonePrev.forEach(function(b){ if (!cur[b.id]){ seen[b.id] = true; list.push(b); } });
+  Object.keys(goneReasons).forEach(function(id){
+    var w = goneReasons[id];
+    if (cur[id] || seen[id] || !w || !isNum(w.lat) || !isNum(w.lon)) return;
+    if ((CONFIG.excludeIds || []).indexOf(String(id)) !== -1) return;
+    list.push({ id:String(id), rank:isNum(w.rank) ? w.rank : null, ll:[w.lat, w.lon],
+      p:{ stream:w.stream || null, trib:w.trib || null, ftype:w.ftype || null, pass_pct:isNum(w.pass_pct) ? w.pass_pct : null, total:isNum(w.total) ? w.total : null } });
+  });
+  list.sort(function(a, b){
+    var ra = goneReasons[a.id] && goneReasons[a.id].removed_on || "", rb = goneReasons[b.id] && goneReasons[b.id].removed_on || "";
+    return rb.localeCompare(ra) || (a.rank === null ? 1e9 : a.rank) - (b.rank === null ? 1e9 : b.rank) || a.id.localeCompare(b.id);
+  });
+  goneList = list;
+  goneDraw();
+}
 function goneDraw(){
   var box = $("goneBox"); if (!box) return;
-  if (!goneList.length){ box.hidden = true; return; }
+  if (!goneList.length && $("chgRow").hidden){ box.hidden = true; return; }
   box.hidden = false;
   $("goneSum").textContent = "No longer in the model (" + goneList.length + ")";
   $("goneList").innerHTML = goneList.map(function(b, i){
     var p = b.p;
-    var info = [p.stream || "Unnamed", b.rank === null ? "not ranked" : "was rank " + b.rank, isNum(p.total) ? "score " + p.total : ""].filter(Boolean).join(", ");
     var why = goneReasons[b.id] || null;
+    var info = [p.stream || "Unnamed", b.rank === null ? "not ranked" : "was rank " + b.rank, isNum(p.total) ? "score " + p.total : "", why && why.removed_on ? "left " + why.removed_on : ""].filter(Boolean).join(", ");
     return '<li><button type="button" class="linkbtn" data-gone="' + i + '">' + esc(b.id) + "</button><span>" + (why && why.reason ? "<b>" + esc(why.reason) + "</b>" : "") + esc(info) + "</span></li>";
   }).join("");
 }
@@ -4891,7 +4920,7 @@ function goneShow(b){
   if (goneMark){ map.removeLayer(goneMark); goneMark = null; }
   map.flyTo(b.ll, 15);
   goneMark = L.circleMarker(b.ll, { radius:11, color:"#f5a300", weight:4, fillColor:"#f5a300", fillOpacity:0.25 }).addTo(map)
-    .bindTooltip(b.id + " (last run)", { permanent:true, direction:"top" });
+    .bindTooltip(b.id + " (last location)", { permanent:true, direction:"top" });
   var mk = goneMark;
   setTimeout(function(){ if (goneMark === mk){ map.removeLayer(mk); goneMark = null; } }, 12000);
   status("Showing the last location of " + b.id + ". It is not in this run.", 5000);
@@ -4901,15 +4930,15 @@ $("goneList").addEventListener("click", function(ev){
   var b = goneList[Number(btn.dataset.gone)]; if (b) goneShow(b);
 });
 $("goneCsv").addEventListener("click", function(){
-  var head = ["Barrier ID", "Reason", "Detail", "Stream", "Tributary to", "Feature type", "Passability (last run)", "Rank (last run)", "Score (last run)", "Latitude", "Longitude"];
+  var head = ["Barrier ID", "Reason", "Detail", "Stream", "Tributary to", "Feature type", "Passability (last run)", "Rank (last run)", "Score (last run)", "Latitude", "Longitude", "Left the model"];
   var lines = [head.map(csvCell).join(",")];
   goneList.forEach(function(b){
     var p = b.p;
     var why = goneReasons[b.id] || {};
-    lines.push([b.id, why.reason || "", why.detail || "", p.stream || "", p.trib || "", p.ftype || "", isNum(p.pass_pct) ? p.pass_pct : "", b.rank === null ? "" : b.rank, isNum(p.total) ? p.total : "", b.ll[0], b.ll[1]].map(csvCell).join(","));
+    lines.push([b.id, why.reason || "", why.detail || "", p.stream || "", p.trib || "", p.ftype || "", isNum(p.pass_pct) ? p.pass_pct : "", b.rank === null ? "" : b.rank, isNum(p.total) ? p.total : "", b.ll[0], b.ll[1], why.removed_on || ""].map(csvCell).join(","));
   });
   var d = new Date(), z = function(n){ return (n < 10 ? "0" : "") + n; };
-  downloadText(lines.join("\r\n"), "text/csv", "wria14_not_in_current_run_" + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + ".csv");
+  downloadText(lines.join("\r\n"), "text/csv", "wria14_removed_barriers_" + d.getFullYear() + z(d.getMonth() + 1) + z(d.getDate()) + ".csv");
 });
 function changeTag(it){
   if (!prevLoaded) return "";
@@ -4952,7 +4981,9 @@ function start(fc, isDemo, streamsUrl){
     $("banner").textContent = "Draft results: some barrier locations have not been checked.";
     $("banner").hidden = false;
   }
-  if (CONFIG.spreadsheetUrl){ $("dl").href = CONFIG.spreadsheetUrl; $("dl").hidden = false; }
+  // step 03 names the workbook copy with the run date and records the name in meta.spreadsheet
+  var xlsxUrl = (meta && meta.spreadsheet) || CONFIG.spreadsheetUrl;
+  if (xlsxUrl){ $("dl").href = xlsxUrl; $("dl").setAttribute("download", xlsxUrl.split("/").pop()); $("dl").hidden = false; }
   buildFilterUi(); buildMapBar(); buildMoveBox(); buildAbout();
   var init = decodeState(location.hash);
   st = init.st; listMode = init.sort;
@@ -4966,7 +4997,7 @@ function start(fc, isDemo, streamsUrl){
   Promise.all([loadHabitat(), loadWatersheds(), loadSubbasins()]).then(function(r){ finishGeo(r[0], r[1]); finishSubbasins(r[2]); });
   loadGeo(CONFIG.swifdUrl).then(finishSwifd);
   slSync(); slImport();
-  if (!isDemo && CONFIG.removedUrl) getJson(CONFIG.removedUrl).then(function(j){ goneReasons = j || {}; goneDraw(); }).catch(function(){});
+  if (!isDemo && CONFIG.removedUrl) getJson(CONFIG.removedUrl).then(function(j){ goneReasons = j || {}; goneRebuild(); }).catch(function(){});
   if (!isDemo && CONFIG.previousUrl) getJson(CONFIG.previousUrl).then(prevApply).catch(function(){});
   return loadStreams(streamsUrl).then(function(){
     if (init.b){
